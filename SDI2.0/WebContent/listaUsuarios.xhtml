@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<title>#{msgs.cabeceraAdministrador}</title> 
+</h:head>
+<h:body>
+
+	<h:form>
+		<h:dataTable var="user" value="#{controller.users}" border="1">
+			<h:column>
+				<f:facet name="header">#{usuarioId}</f:facet>#{user.id}</h:column>
+			<h:column>
+				<f:facet name="header">#{usuarioLogin}</f:facet>#{user.login}</h:column>
+			<h:column>
+				<f:facet name="header">#{usuarioEmail}</f:facet>#{user.email}</h:column>
+			<h:column>
+				<f:facet name="header">#{usuarioStatus}</f:facet>#{user.status}</h:column>
+		</h:dataTable>
+	</h:form>
+</h:body>
+</html>

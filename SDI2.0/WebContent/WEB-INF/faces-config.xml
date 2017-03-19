@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+    
+    <application>
+		<resource-bundle>
+			<base-name>messages</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+	</application>
+    
+    <managed-bean>
+ 		<managed-bean-name>controller</managed-bean-name>
+ 		<managed-bean-class>com.sdi.presentation.BeanUser</managed-bean-class>
+ 		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	<navigation-rule>
+ 		<from-view-id>*</from-view-id>
+ 		<navigation-case>
+ 			<from-outcome>error</from-outcome>
+ 			<to-view-id>/error.xhtml</to-view-id>
+ 		</navigation-case>
+ 	</navigation-rule>
+ 	
+ 	<navigation-rule>
+ 		<from-view-id>/registroUsuario.xhtml</from-view-id>
+ 		<navigation-case>
+ 			<from-action>#{controller.registrar}</from-action>
+ 			<from-outcome>true</from-outcome>
+ 			<to-view-id>/index.xhtml</to-view-id>
+ 		</navigation-case>
+ 	</navigation-rule>
+ 	
+	<navigation-rule>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{controller.validar}</from-action>
+			<from-outcome>admin</from-outcome>
+			<to-view-id>/listaUsuarios.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{controller.validar}</from-action>
+			<from-outcome>user</from-outcome>
+			<to-view-id>/listaTareas.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{controller.registro}</from-action>
+			<from-outcome>true</from-outcome>
+			<to-view-id>/registroUsuario.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/listaUsuarios.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{controller.cambiarEstado(vuser)}</from-action>
+			<from-outcome>exito</from-outcome>
+			<to-view-id>/listaUsuarios.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{controller.eliminar(vuser)}</from-action>
+			<from-outcome>exito</from-outcome>
+			<to-view-id>/listaUsuarios.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/listaTareas.xhtml</from-view-id>
+	</navigation-rule>
+
+</faces-config>

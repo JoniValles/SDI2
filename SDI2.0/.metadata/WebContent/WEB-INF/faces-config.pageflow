@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14881860222760" configfile="/SDI2.0/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="178" id="pf14884505255530" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14884505255531" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="error.xhtml" x="338" y="178" id="pf14884505255532" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14884505255531" path="/error.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="122" y="754" id="pf14884505255533" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14884505255534 pf14884795331220 pf14888027781760" inlinks="pf14888031775783" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="exito.xhtml" x="338" y="562" id="pf14884505255535" referenceLink="//@navigationRule.3/@navigationCase.1/@toViewId|" outlinks="pf14885602656282 pf14888027781761" inlinks="pf14884505255534 pf14885602656282 pf14888027781761" path="/listaUsuarios.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="listaTareas.xhtml" x="338" y="946" id="pf14884795331221" referenceLink="//@navigationRule.2/@navigationCase.1/@toViewId|" inlinks="pf14884795331220" path="/listaTareas.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="registroUsuario.xhtml" id="pf14888027781762" referenceLink="//@navigationRule.2/@navigationCase.2/@toViewId|" outlinks="pf14888031775783" inlinks="pf14888027781760" path="/registroUsuario.xhtml"/>
+  <links id="pf14884505255531" target="pf14884505255532" source="pf14884505255530" outcome="error"/>
+  <links id="pf14884505255534" target="pf14884505255535" source="pf14884505255533" outcome="admin" fromaction="#{controller.validar}"/>
+  <links id="pf14884795331220" target="pf14884795331221" source="pf14884505255533" outcome="user" fromaction="#{controller.validar}"/>
+  <links id="pf14885602656282" target="pf14884505255535" source="pf14884505255535" outcome="exito" fromaction="#{controller.cambiarEstado(vuser)}">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+  <links id="pf14888027781761" target="pf14884505255535" source="pf14884505255535" outcome="exito" fromaction="#{controller.eliminar(vuser)}">
+    <bendPoints d1Height="-66" d2Height="-66"/>
+    <bendPoints d1Width="-94" d1Height="-66" d2Width="-94" d2Height="-66"/>
+    <bendPoints d1Width="-94" d2Width="-94"/>
+  </links>
+  <links id="pf14888027781760" target="pf14888027781762" source="pf14884505255533" outcome="true" fromaction="#{controller.registro}"/>
+  <links id="pf14888031775783" target="pf14884505255533" source="pf14888027781762" outcome="true" fromaction="#{controller.registrar}"/>
+</pageflow:Pageflow>

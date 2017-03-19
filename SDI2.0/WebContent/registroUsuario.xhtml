@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	>
+<h:head>
+	<title>Cabecera</title>
+</h:head>
+<h:body>
+
+	<h:form>
+			<table>
+				<tr>
+					<td><h:inputText id="login" value="#{controller.user.login}">
+						</h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:inputText id="email" value="#{controller.user.email}">
+						</h:inputText></td>
+				</tr>
+					<tr>
+					<td><h:inputText id="pass" value="#{controller.user.password}">
+						</h:inputText></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><h:commandButton value="#{msgs.botonRegistrar}"
+							action="#{controller.registrar}" /></td>
+				</tr>
+			</table>
+	</h:form>
+
+</h:body>
+</html>
+
