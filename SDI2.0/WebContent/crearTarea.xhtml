@@ -20,22 +20,22 @@
 		</p:submenu>
 	</p:menubar>
  
-	
-		#{msg.rellenaUsuario}
-		<h:inputText value ="#{controller.user.login}"></h:inputText>
-		<br></br>
-		#{msg.rellenaContraseña}
-		<h:inputSecret value="#{controller.user.password}"></h:inputSecret>
- 			
- 				<tr>
-					<td></td>
-					<td><h:commandButton value="#{msg.botonRegistro}"
-							action="#{controller.registro}" /> <h:commandButton
-							id="validation-button" value="#{msg.botonValidar}"
-							action="#{controller.validar}" style="margin-left: 15px;" /></td>
-				</tr>
-	</h:form>
+		<p:panelGrid id="Grid" columns="2" cellpadding="5">
+  #{msg.tareaTitulo} 
+  <h:panelGroup>
+			<p:inputText value="#{tarea.nombre}" required="true"
+				requiredMessage="#{msg.formAlta_nombre_requiredMessage}"
+				validatorMessage="#{msg.formAlta_nombre_validatorMessage}"
+				id="nombre">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+			<p:message for="nombre" />
+		</h:panelGroup>
 
+		<p:commandButton id="boton" value="#{msg.botonCrearTarea}"
+			action="#{tarea.crear}" update="Grid" process="@form">
+		</p:commandButton>
+	</p:panelGrid>
 </h:body>
 </f:view>
 </html>
