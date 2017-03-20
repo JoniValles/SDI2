@@ -7,15 +7,22 @@
 	<title>Cabecera</title>
 </h:head>
 <h:body>
-
+ 
+ 
 	<h:form>
-		#{msgs.rellenaUsuario}
+		#{msg.rellenaUsuario}
 		<h:inputText value ="#{controller.user.login}"></h:inputText>
 		<br></br>
-		#{msgs.rellenaContraseña}
+		#{msg.rellenaContraseña}
 		<h:inputSecret value="#{controller.user.password}"></h:inputSecret>
-		<h:commandButton value="#{msgs.botonValidar}"
- 			action="#{controller.validar}"/>
+ 			
+ 				<tr>
+					<td></td>
+					<td><h:commandButton value="#{msg.botonRegistro}"
+							action="#{controller.registro}" /> <h:commandButton
+							id="validation-button" value="#{msg.botonValidar}"
+							action="#{controller.validar}" style="margin-left: 15px;" /></td>
+				</tr>
 	</h:form>
 
 </h:body>

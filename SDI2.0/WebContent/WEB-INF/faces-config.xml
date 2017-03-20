@@ -8,7 +8,7 @@
     <application>
 		<resource-bundle>
 			<base-name>messages</base-name>
-			<var>msgs</var>
+			<var>msg</var>
 		</resource-bundle>
 	</application>
     
@@ -29,9 +29,19 @@
  	<navigation-rule>
  		<from-view-id>/registroUsuario.xhtml</from-view-id>
  		<navigation-case>
+ 			<from-action>#{controller.atras}</from-action>
+ 			<from-outcome>true</from-outcome>
+ 			<to-view-id>/index.html</to-view-id>
+ 		</navigation-case>
+ 		<navigation-case>
  			<from-action>#{controller.registrar}</from-action>
  			<from-outcome>true</from-outcome>
  			<to-view-id>/index.xhtml</to-view-id>
+ 		</navigation-case>
+ 		<navigation-case>
+ 			<from-action>#{controller.registrar}</from-action>
+ 			<from-outcome>false</from-outcome>
+ 			<to-view-id>/registroUsuario.xhtml</to-view-id>
  		</navigation-case>
  	</navigation-rule>
  	
@@ -57,6 +67,11 @@
 	<navigation-rule>
 		<from-view-id>/listaUsuarios.xhtml</from-view-id>
 		<navigation-case>
+ 			<from-action>#{controller.atras}</from-action>
+ 			<from-outcome>true</from-outcome>
+ 			<to-view-id>/index.html</to-view-id>
+ 		</navigation-case>
+ 		<navigation-case>
 			<from-action>#{controller.cambiarEstado(vuser)}</from-action>
 			<from-outcome>exito</from-outcome>
 			<to-view-id>/listaUsuarios.xhtml</to-view-id>
@@ -70,6 +85,11 @@
 	
 	<navigation-rule>
 		<from-view-id>/listaTareas.xhtml</from-view-id>
+		<navigation-case>
+ 			<from-action>#{controller.atras}</from-action>
+ 			<from-outcome>true</from-outcome>
+ 			<to-view-id>/index.html</to-view-id>
+ 		</navigation-case>
 	</navigation-rule>
 
 </faces-config>

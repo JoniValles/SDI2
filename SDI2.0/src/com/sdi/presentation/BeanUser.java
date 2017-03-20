@@ -134,4 +134,14 @@ public class BeanUser {
 		}
 		return "true"; 
 	}
+
+
+	/**Boton atrás
+	 * 
+	 * @return
+	 */
+	public String atras() {
+		System.out.println("Atrás.");
+		return "true";
+	}
 }
