@@ -1,41 +1,55 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-       xmlns:f="http://java.sun.com/jsf/core"
-       xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <f:view locale="#{settings.locale}">
-<h:head>
-	<title>#{msg.tituloLogin}</title>
-</h:head>
-<h:body>
- <h:form>
- 		<p:menubar id="mimenu">
-		<p:submenu style="float:right" label="#{msg.textoIdioma}"
-			icon="ui-icon-document">
-			<p:menuitem id="linkespa" value="#{msg.enlaceIdiomaES}"
-				actionListener="#{settings.setSpanish}" update="@all" />
-			<p:menuitem id="linkingles" value="#{msg.enlaceIdiomaEN}"
-				actionListener="#{settings.setEnglish}" update="@all" />
-		</p:submenu>
-	</p:menubar>
- 
-	
-		#{msg.rellenaUsuario}
-		<h:inputText value ="#{controller.user.login}"></h:inputText>
-		<br></br>
-		#{msg.rellenaContraseña}
-		<h:inputSecret value="#{controller.user.password}"></h:inputSecret>
- 			
- 				<tr>
-					<td></td>
-					<td><h:commandButton value="#{msg.botonRegistro}"
-							action="#{controller.registro}" /> <h:commandButton
-							id="validation-button" value="#{msg.botonValidar}"
-							action="#{controller.validar}" style="margin-left: 15px;" /></td>
-				</tr>
-	</h:form>
+	<h:head>
+		<title>#{msg.tituloLogin}</title>
+	</h:head>
+	<h:body>
+		<h:form>
+			<p:menubar id="mimenu">
+				<p:submenu style="float:right" label="#{msg.textoIdioma}"
+					icon="ui-icon-document">
+					<p:menuitem id="linkespa" value="#{msg.enlaceIdiomaES}"
+						actionListener="#{settings.setSpanish}" update="@all" />
+					<p:menuitem id="linkingles" value="#{msg.enlaceIdiomaEN}"
+						actionListener="#{settings.setEnglish}" update="@all" />
+				</p:submenu>
+			</p:menubar>
 
-</h:body>
+			<p:panel id="panel">
+
+				<p:focus context="panel" />
+				<h:panelGrid columns="2">
+					
+		#{msg.rellenaUsuario}
+		<h:panelGroup>
+		<p:inputText id="nombreUsuario" value="#{controller.user.login}"
+							required="true" requiredMessage="#{msg.login_form_falta_nombre}" />
+						<p:message for="nombreUsuario" />
+				</h:panelGroup>
+					
+		#{msg.rellenaContraseña}
+		<h:panelGroup>
+		<p:password id="pass" value="#{controller.user.password}"
+							required="true" requiredMessage="#{msg.login_form_falta_pass}" />
+						<p:message for="pass" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:commandButton id="validation-button"
+							value="#{msg.botonValidar}" action="#{controller.validar}"
+							style="margin-left: 15px;" />
+						<h:commandButton value="#{msg.botonRegistro}"
+							action="#{controller.registro}" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:panel>
+
+		</h:form>
+
+	</h:body>
 </f:view>
 </html>

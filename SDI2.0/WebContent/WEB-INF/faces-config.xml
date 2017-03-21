@@ -60,7 +60,7 @@
 		<navigation-case>
 			<from-action>#{controller.validar}</from-action>
 			<from-outcome>user</from-outcome>
-			<to-view-id>/listaTareas.xhtml</to-view-id>
+			<to-view-id>/menuUsuario.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-action>#{controller.registro}</from-action>

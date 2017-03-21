@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{settings.locale}">
+<h:head>
+	<title>#{msg.tituloLogin}</title>
+</h:head>
+<h:body>
+ <h:form>
+ <p:menubar id="mimenu">
+
+		<p:submenu id="misubmenu1" label="#{msg.menuUsuario_categorias}"
+			icon="ui-icon-document">
+			<p:menuitem id="linklistadoCategoria" value="#{msg.menuUsuario_listarCategorias}"
+				action="#{controller.listadoCategorias}" />
+			<p:separator />
+			<p:menuitem id="linkaltaCategoria" value="#{msg.menuUsuario_crearCategoria}" action="alta"
+				actionListener="#{controller.crearCategoria}" />	
+		</p:submenu>
+		<p:submenu id="misubmenu2" label="#{msg.menuUsuario_tareas}"
+			icon="ui-icon-document">
+			<p:menuitem id="linklistadoTarea" value="#{msg.menuUsuario_listarTareas}"
+				action="#{controller.listadoTareas}" />
+			<p:separator />
+			<p:menuitem id="linkaltaTarea" value="#{msg.menuUsuario_crearTareas}" action="alta"
+				actionListener="#{controller.crearTarea}" />
+		</p:submenu>
+		
+ 		
+		<p:submenu style="float:right" label="#{msg.textoIdioma}"
+			icon="ui-icon-document">
+			<p:menuitem id="linkespa" value="#{msg.enlaceIdiomaES}"
+				actionListener="#{settings.setSpanish}" update="@all" />
+			<p:menuitem id="linkingles" value="#{msg.enlaceIdiomaEN}"
+				actionListener="#{settings.setEnglish}" update="@all" />
+		</p:submenu>
+	</p:menubar>
+	</h:form>
+	
+	<h:form>
+    <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+        <h:outputLabel for="id" value="#{msg.usuarioId}" />
+             <h:outputLabel  value="#{controller.user.id}" />
+        
+ 
+        <h:outputLabel for="nombre" value="#{msg.usuarioLogin}" />
+             <h:outputLabel  value="#{controller.user.login}" />
+ 
+    <h:outputLabel for="email" value="#{msg.usuarioEmail}" />
+        <p:inplace id="email" editor="true">
+            <p:inputText value="#{controller.user.email}" required="true" label="text" />
+        </p:inplace>
+
+    </h:panelGrid>
+</h:form>
+</h:body>
+</f:view>
+</html>
