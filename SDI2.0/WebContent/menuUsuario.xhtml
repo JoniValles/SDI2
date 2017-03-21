@@ -41,19 +41,25 @@
 	</h:form>
 	
 	<h:form>
-    <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+    <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
         <h:outputLabel for="id" value="#{msg.usuarioId}" />
              <h:outputLabel  value="#{controller.user.id}" />
-        
- 
+        <br/>
+
         <h:outputLabel for="nombre" value="#{msg.usuarioLogin}" />
              <h:outputLabel  value="#{controller.user.login}" />
- 
+ 			 <br/>
+ 			 
     <h:outputLabel for="email" value="#{msg.usuarioEmail}" />
-        <p:inplace id="email" editor="true">
-            <p:inputText value="#{controller.user.email}" required="true" label="text" />
-        </p:inplace>
-
+        		<p:inputText value="#{controller.user.email}" required="true"
+				requiredMessage="#{msg.form_falta_email}"
+				validatorMessage="#{msg.form_incorrecto_email}"
+				id="correo">
+				<f:validateRegex pattern=".+@.+\.[a-z]+" />
+			</p:inputText>
+			<p:message for="correo" />
+        <p:commandButton id="btn"
+							actionListener="#{controller.actualizarEmail}" icon="ui-icon-disk" title="Guardar cambios" style="width:25px;height:15px" /> 
     </h:panelGrid>
 </h:form>
 </h:body>

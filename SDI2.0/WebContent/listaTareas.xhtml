@@ -7,24 +7,26 @@
 	<title>#{msg.cabeceraAdministrador}</title>
 </h:head>
 <h:body>
-<!-- 
-	<p:panel header="#{msg.tituloOperacionListado}">
-			<p:dataTable id="tablalistado" var="tarea"
-				value="#{user.tasks}" border="1">
+	<p:panel header="#{msg.titulo_tabla_tareas}">
+			<p:dataTable id="tablatareas" var="vtask"
+				value="#{controller.tasks}" border="1">
 				<p:column>
-					<f:facet name="header">#{msg.tablaNombre}</f:facet>#{tarea.title}</p:column>
+					<f:facet name="header">#{msg.}</f:facet>#{vtask.title}</p:column>
+				<p:column>
+					<f:facet name="header">#{msg.}</f:facet>#{vtask.comments}</p:column>
+				<p:column>
 				
+					<
 				</p:column>
 				<p:column>
 					<f:facet name="header">#{msgs.tablaEditar}</f:facet>
 					<p:commandLink action="editar" type="submit"
 						value="#{msgs.tablaEditar}"
-						actionListener="#{(tarea)}" immediate="true">
+						actionListener="#{alumno.setAlumno(valumno)}" immediate="true">
 					</p:commandLink>
 				</p:column>
 			</p:dataTable>
 		</p:panel>
- -->
 	<h:commandButton value="#{msg.botonAtras}"
 		action="#{controller.atras}" />
 </h:body>

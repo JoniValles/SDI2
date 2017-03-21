@@ -9,6 +9,7 @@ import com.sdi.business.Services;
 import com.sdi.business.TaskService;
 import com.sdi.business.UserService;
 import com.sdi.business.exception.BusinessException;
+import com.sdi.dto.Category;
 import com.sdi.dto.Task;
 import com.sdi.dto.User;
 import com.sdi.dto.types.UserStatus;
@@ -20,6 +21,7 @@ public class BeanUser {
 	private User user = new User();
 	private List<User> users = null;
 	private List<Task> tasks = null;
+	private List<Category> categorys= null;
 
 	public BeanUser() {
 		iniciarUser(null);
@@ -119,6 +121,7 @@ public class BeanUser {
 		tasks = Services.getTaskService().findInboxTasksByUserId(user.getId());
 	}
 
+	
 	public String registro(){
 		return "true";
 	}
@@ -138,7 +141,20 @@ public class BeanUser {
 		return "true"; 
 	}
 
-
+	public String actualizarEmail(){
+		UserService userService;
+		try {
+			userService = Services.getUserService();
+			if(user.getEmail()!=null)
+				userService.updateUserDetails(user);
+			
+		} catch (BusinessException e) {
+			e.printStackTrace();
+			return "error";
+			
+		}
+		return "true";
+	}
 	/**Boton atrás
 	 * 
 	 * @return
