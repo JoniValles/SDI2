@@ -10,37 +10,50 @@
 <h:body>
 
 	<h:form>
-		<p:dataTable id="listado" var="user" value="#{controller.users}" border="2">
-		
+		<p:dataTable id="listado" var="user" value="#{controller.users}"
+			border="2">
+
 			<p:column>
-				<f:facet name="header">#{usuarioId}</f:facet>#{user.id}</p:column>
+				<f:facet name="header">#{msg.usuarioId}</f:facet>#{user.id}</p:column>
 			<p:column>
-				<f:facet name="header">#{usuarioLogin}</f:facet>#{user.login}
+				<f:facet name="header">#{msg.usuarioLogin}</f:facet>#{user.login}
 				</p:column>
 			<p:column>
-				<f:facet name="header">#{usuarioEmail}</f:facet>#{user.email}
+				<f:facet name="header">#{msg.usuarioEmail}</f:facet>#{user.email}
 				</p:column>
 			<p:column>
-				<f:facet name="header">#{usuarioStatus}</f:facet>#{user.status}
+				<f:facet name="header">#{msg.usuarioStatus}</f:facet>#{user.status}
 				</p:column>
-				
-				<p:column>
+
+			<p:column>
+			<f:facet name="header">#{msg.usuarioStatus}</f:facet>
 				<p:commandLink action="#{controller.cambiarEstado(user)}"
-						rendered="#{user.isAdmin==false}" 
-						type="submit"
-						value="#{user.status}" 
-						immediate="true"
-						update = "listado"> 
-					</p:commandLink>
-				</p:column>
+					rendered="#{user.isAdmin==false}"
+					type="submit"
+					value="#{user.status}" 
+					immediate="true" 
+					update="listado">
+				</p:commandLink>
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">#{msg.usuarioEliminar}</f:facet>
+				<p:commandLink action="#{controller.eliminar(user)}"
+					rendered="#{user.isAdmin==false}" 
+					type="submit"
+					value="#{msg.usuarioEliminar}" 
+					inmediate="true"
+					update="listado">
+				</p:commandLink>
+			</p:column>
+			
 		</p:dataTable>
 	</h:form>
-	
-	
-	
-	
 
-	<h:commandButton value="#{msg.botonAtras}"
-		action="#{controller.atras}" />
+
+
+
+
+	<h:commandButton value="#{msg.botonAtras}" action="#{controller.atras}" />
 </h:body>
 </html>

@@ -85,13 +85,13 @@
 			<to-view-id>/listaUsuarios.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
-			<from-action>#{controller.eliminar(vuser)}</from-action>
+			<from-action>#{controller.eliminar(user)}</from-action>
 			<from-outcome>exito</from-outcome>
 			<to-view-id>/listaUsuarios.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	
-<!--  MENU USUARIO			 -->
+<!--  MENU USUARIO -->
 	<navigation-rule>
 		<from-view-id>/menuUsuario.xhtml</from-view-id>
 		<navigation-case>
