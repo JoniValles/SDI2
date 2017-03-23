@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14881860222760" configfile="/SDI2.0/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="178" id="pf14884505255530" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14884505255531" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="370" id="pf14884505255530" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14884505255531 pf14902742712030" path="*"/>
   <nodes xsi:type="pageflow:PFPage" name="error.xhtml" x="338" y="178" id="pf14884505255532" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14884505255531" path="/error.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="122" y="754" id="pf14884505255533" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14884505255534 pf14884795331220 pf14888027781760" inlinks="pf14888031775783" path="/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="exito.xhtml" x="338" y="562" id="pf14884505255535" referenceLink="//@navigationRule.3/@navigationCase.1/@toViewId|" outlinks="pf14885602656282 pf14888027781761" inlinks="pf14884505255534 pf14885602656282 pf14888027781761" path="/listaUsuarios.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="listaTareas.xhtml" x="338" y="946" id="pf14884795331221" referenceLink="//@navigationRule.2/@navigationCase.1/@toViewId|" inlinks="pf14884795331220" path="/listaTareas.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="registroUsuario.xhtml" id="pf14888027781762" referenceLink="//@navigationRule.2/@navigationCase.2/@toViewId|" outlinks="pf14888031775783" inlinks="pf14888027781760" path="/registroUsuario.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="1330" id="pf14884505255533" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14884505255534 pf14888027781760 pf14902742712031" inlinks="pf14888031775783" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="exito.xhtml" x="554" y="1330" id="pf14884505255535" referenceLink="//@navigationRule.3/@navigationCase.2/@toViewId|" outlinks="pf14885602656282 pf14888027781761 pf14902742712032" inlinks="pf14884505255534 pf14885602656282 pf14888027781761" path="/listaUsuarios.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="listaTareas.xhtml" x="338" y="946" id="pf14884795331221" referenceLink="//@navigationRule.6/@fromViewId|" outlinks="pf14902742712033" path="/listaTareas.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="registroUsuario.xhtml" x="122" y="1431" id="pf14888027781762" referenceLink="//@navigationRule.2/@navigationCase.2/@toViewId|" outlinks="pf14888031775783 pf14902742712034 pf14902742712035" inlinks="pf14888027781760 pf14902742712035" path="/registroUsuario.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="crearTarea.xhtml" x="338" y="562" id="pf14902742712036" referenceLink="//@navigationRule.5/@fromViewId|" outlinks="pf14902742712037" inlinks="pf14902742712030" path="/crearTarea.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.html" x="770" y="1532" id="pf14902742712038" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf14902742712034 pf14902742712032" path="/index.html"/>
+  <nodes xsi:type="pageflow:PFPage" name="menuUsuario.xhtml" x="554" y="946" id="pf14902742712039" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" outlinks="pf149027427120310" inlinks="pf14902742712031 pf14902742712037 pf14902742712033" path="/menuUsuario.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="listaTareas.html" x="770" y="946" id="pf149027427120311" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" inlinks="pf149027427120310" path="/listaTareas.html"/>
   <links id="pf14884505255531" target="pf14884505255532" source="pf14884505255530" outcome="error"/>
   <links id="pf14884505255534" target="pf14884505255535" source="pf14884505255533" outcome="admin" fromaction="#{controller.validar}"/>
-  <links id="pf14884795331220" target="pf14884795331221" source="pf14884505255533" outcome="user" fromaction="#{controller.validar}"/>
-  <links id="pf14885602656282" target="pf14884505255535" source="pf14884505255535" outcome="exito" fromaction="#{controller.cambiarEstado(vuser)}">
+  <links id="pf14888027781760" target="pf14888027781762" source="pf14884505255533" outcome="true" fromaction="#{controller.registro}"/>
+  <links id="pf14888031775783" target="pf14884505255533" source="pf14888027781762" outcome="true" fromaction="#{controller.registrar}"/>
+  <links id="pf14902742712030" target="pf14902742712036" source="pf14884505255530" outcome="crearTarea"/>
+  <links id="pf14902742712034" target="pf14902742712038" source="pf14888027781762" outcome="true" fromaction="#{controller.atras}"/>
+  <links id="pf14902742712031" target="pf14902742712039" source="pf14884505255533" outcome="user" fromaction="#{controller.validar}"/>
+  <links id="pf14902742712032" target="pf14902742712038" source="pf14884505255535" outcome="true" fromaction="#{controller.atras}"/>
+  <links id="pf149027427120310" target="pf149027427120311" source="pf14902742712039" outcome="true" fromaction="#{controller.listadoTareas}"/>
+  <links id="pf14902742712037" target="pf14902742712039" source="pf14902742712036" outcome="true" fromaction="#{task.crear}"/>
+  <links id="pf14902742712033" target="pf14902742712039" source="pf14884795331221" fromaction="#{controller.atras}"/>
+  <links id="pf14885602656282" target="pf14884505255535" source="pf14884505255535" outcome="exito" fromaction="#{controller.cambiarEstado(user)}">
     <bendPoints d1Height="-36" d2Height="-36"/>
     <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
     <bendPoints d1Width="-64" d2Width="-64"/>
@@ -19,6 +31,9 @@
     <bendPoints d1Width="-94" d1Height="-66" d2Width="-94" d2Height="-66"/>
     <bendPoints d1Width="-94" d2Width="-94"/>
   </links>
-  <links id="pf14888027781760" target="pf14888027781762" source="pf14884505255533" outcome="true" fromaction="#{controller.registro}"/>
-  <links id="pf14888031775783" target="pf14884505255533" source="pf14888027781762" outcome="true" fromaction="#{controller.registrar}"/>
+  <links id="pf14902742712035" target="pf14888027781762" source="pf14888027781762" outcome="false" fromaction="#{controller.registrar}">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
 </pageflow:Pageflow>

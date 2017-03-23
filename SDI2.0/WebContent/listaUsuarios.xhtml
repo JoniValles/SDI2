@@ -2,24 +2,43 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>#{msg.cabeceraAdmin}</title>
 </h:head>
 <h:body>
 
 	<h:form>
-		<h:dataTable var="user" value="#{controller.users}" border="1">
-			<h:column>
-				<f:facet name="header">#{usuarioId}</f:facet>#{user.id}</h:column>
-			<h:column>
-				<f:facet name="header">#{usuarioLogin}</f:facet>#{user.login}</h:column>
-			<h:column>
-				<f:facet name="header">#{usuarioEmail}</f:facet>#{user.email}</h:column>
-			<h:column>
-				<f:facet name="header">#{usuarioStatus}</f:facet>#{user.status}</h:column>
-		</h:dataTable>
+		<p:dataTable id="listado" var="user" value="#{controller.users}" border="2">
+		
+			<p:column>
+				<f:facet name="header">#{usuarioId}</f:facet>#{user.id}</p:column>
+			<p:column>
+				<f:facet name="header">#{usuarioLogin}</f:facet>#{user.login}
+				</p:column>
+			<p:column>
+				<f:facet name="header">#{usuarioEmail}</f:facet>#{user.email}
+				</p:column>
+			<p:column>
+				<f:facet name="header">#{usuarioStatus}</f:facet>#{user.status}
+				</p:column>
+				
+				<p:column>
+				<p:commandLink action="#{controller.cambiarEstado(user)}"
+						rendered="#{user.isAdmin==false}" 
+						type="submit"
+						value="#{user.status}" 
+						immediate="true"
+						update = "listado"> 
+					</p:commandLink>
+				</p:column>
+		</p:dataTable>
 	</h:form>
+	
+	
+	
+	
 
 	<h:commandButton value="#{msg.botonAtras}"
 		action="#{controller.atras}" />
