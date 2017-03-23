@@ -2,11 +2,13 @@ package com.sdi.presentation;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
-import alb.util.console.Console;
-import alb.util.date.DateUtil;
+
+
 
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
@@ -104,9 +106,14 @@ public class BeanUser implements Serializable {
 		UserService userService;
 
 		try {
+		
 			userService = Services.getUserService();
 			user = userService.findLoggableUser(user.getLogin(),
 					user.getPassword());
+			
+			Map<String, Object> session = FacesContext.getCurrentInstance()
+					.getExternalContext().getSessionMap();
+			session.put("LOGGEDIN_USER", user);
 			if (user.getIsAdmin()) { 
 				listadoUsuarios();
 				return "admin";

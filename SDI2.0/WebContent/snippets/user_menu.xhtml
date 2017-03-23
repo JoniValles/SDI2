@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	 <h:form>
+ <p:menubar id="mimenu">
+
+		<p:submenu id="misubmenu1" label="#{msg.menuUsuario_categorias}"
+			icon="ui-icon-document">
+			<p:menuitem id="linklistadoCategoria" value="#{msg.menuUsuario_listarCategorias}"
+				action="#{controller.listadoCategorias}"  />
+			<p:separator />
+			<p:menuitem id="linkaltaCategoria" value="#{msg.menuUsuario_crearCategoria}" action="alta"
+				actionListener="#{controller.crearCategoria}" />	
+		</p:submenu>
+		<p:submenu id="misubmenu2" label="#{msg.menuUsuario_tareas}"
+			icon="ui-icon-document">
+			<p:menuitem id="linklistadoTarea" value="#{msg.menuUsuario_listarTareas}"
+				action="#{controller.listadoTareas}" />
+			<p:separator />
+			<p:menuitem id="linkaltaTarea" value="#{msg.menuUsuario_crearTareas}" action="#{controller.irACrearTarea}" />
+		</p:submenu>
+		
+ 		
+		<p:submenu style="float:right" label="#{msg.textoIdioma}"
+			icon="ui-icon-document">
+			<p:menuitem id="linkespa" value="#{msg.enlaceIdiomaES}"
+				actionListener="#{settings.setSpanish}" update="@all" />
+			<p:menuitem id="linkingles" value="#{msg.enlaceIdiomaEN}"
+				actionListener="#{settings.setEnglish}" update="@all" />
+		</p:submenu>
+	</p:menubar>
+	</h:form>
+</ui:composition>

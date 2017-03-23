@@ -104,7 +104,7 @@
 	<navigation-rule>
 		<from-view-id>/crearTarea.xhtml</from-view-id>
 		<navigation-case>
- 			<from-action>#{task.crear}</from-action>
+ 			<from-action>#{controller.crear}</from-action>
  			<from-outcome>true</from-outcome>
  			<to-view-id>/menuUsuario.xhtml</to-view-id>
  		</navigation-case>
