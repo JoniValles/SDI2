@@ -19,7 +19,7 @@ public class BeanCategory extends Category implements Serializable {
 	private static final long serialVersionUID = 6L;
 	
 	
-	@ManagedProperty(value = "#{user}")
+	@ManagedProperty(value = "#{controller}")
 	private BeanUser user;
 
 	private Long id;

@@ -7,10 +7,12 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 
+import com.sdi.business.AdminService;
 import com.sdi.business.Services;
 import com.sdi.business.TaskService;
 import com.sdi.business.exception.BusinessException;
 import com.sdi.dto.Task;
+
 
 
 
@@ -21,17 +23,13 @@ import alb.util.date.DateUtil;
 
 @ManagedBean(name = "task")
 @SessionScoped
-public class BeanTask extends Task implements Serializable {
+public class BeanTask implements Serializable {
 	
 	
 	
-	public BeanTask(Long id, String title, String comments, Date created,
-			Date planned, Date finished, Long categoryId, Long userId) {
-		super(id, title, comments, created, planned, finished, categoryId, userId);
-	
+	public BeanTask(){
+		
 	}
-
-
 	private static final long serialVersionUID = 6L;
 	private String name="";
 	private Long id;
@@ -45,18 +43,22 @@ public class BeanTask extends Task implements Serializable {
 	
 	private Long categoryId;
 	private Long userId;
-	
-	@ManagedProperty(value = "#{categoria}")
-	private BeanCategory categoria;
+//	
+//	@ManagedProperty(value = "#{categoria}")
+//	private BeanCategory categoria;
 	
 
 	@PostConstruct
 	public void init() {
+//		try {
 		System.out.println("BeanSettings - PostConstruct");
-		// Buscamos el alumno en la sesión. Esto es un patrón factoría
-		// claramente.
-		categoria = (BeanCategory) FacesContext.getCurrentInstance()
-				.getExternalContext().getSessionMap().get(new String("categoria"));
+//		TaskService taskService =  Services.getTaskService();
+//		
+//			categoria = (BeanCategory) taskService.findCategoryById(categoryId);
+//		} catch (BusinessException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	public String getName() {
@@ -143,9 +145,12 @@ public class BeanTask extends Task implements Serializable {
 		return serialVersionUID;
 	}
 	
-	public BeanCategory getCategoria() {
-		return categoria;
-	}
+//	public BeanCategory getCategoria() {
+//		return categoria;
+//	}
+//	public void setCategoria(BeanCategory categoria) {
+//		this.categoria = categoria;
+//	}
 
 
 	public Date getCreacion() {
@@ -156,17 +161,12 @@ public class BeanTask extends Task implements Serializable {
 		this.creacion = creacion;
 	}
 
-	public void setCategoria(BeanCategory categoria) {
-		this.categoria = categoria;
-	}
-
-
 	public String crear() {
 		TaskService taskService;
 
 		try {
 			taskService = Services.getTaskService();
-			taskService.createTask( new Task(id, title, " ",  DateUtil.today(), null, null, categoria.getId(), userId));
+			taskService.createTask( new Task(id, title, " ",  DateUtil.today(), null, null, categoryId, userId));
 
 		} catch (BusinessException b) {
 			return "error"; 

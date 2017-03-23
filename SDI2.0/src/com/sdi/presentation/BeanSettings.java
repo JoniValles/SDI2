@@ -18,7 +18,7 @@ public class BeanSettings implements Serializable {
 	private static final Locale SPANISH = new Locale("es");
 	private Locale locale = new Locale("es");
 
-	@ManagedProperty(value = "#{user}")
+	@ManagedProperty(value = "#{controller}")
 	private BeanUser user;
 
 	public BeanUser getUser() {

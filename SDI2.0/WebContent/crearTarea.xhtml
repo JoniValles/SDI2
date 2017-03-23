@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
        xmlns:f="http://java.sun.com/jsf/core"
        xmlns:p="http://primefaces.org/ui">
-<f:view locale="#{settings.locale}">
+
 <h:head>
 	<title>#{msg.tituloLogin}</title>
 </h:head>
@@ -21,21 +21,23 @@
 	</p:menubar>
  
 		<p:panelGrid id="Grid" columns="2" cellpadding="5">
-  #{msg.tareaTitulo} 
-  <h:panelGroup>
-			<p:inputText value="#{tarea.nombre}" required="true"
-				requiredMessage="#{msg.formAlta_nombre_requiredMessage}"
-				validatorMessage="#{msg.formAlta_nombre_validatorMessage}"
-				id="nombre">
-				<f:validateLength maximum="20" />
-			</p:inputText>
-			<p:message for="nombre" />
-		</h:panelGroup>
+	  #{msg.tareaTitulo} 
+	  <h:panelGroup>
+				<p:inputText value="#{task.title}" required="true"
+					requiredMessage="#{msg.formAlta_nombre_requiredMessage}"
+					validatorMessage="#{msg.formAlta_nombre_validatorMessage}"
+					id="nombre">
+					<f:validateLength maximum="20" />
+				</p:inputText>
+				<p:message for="nombre" />
+	</h:panelGroup>
 
 		<p:commandButton id="boton" value="#{msg.botonCrearTarea}"
-			action="#{tarea.crear}" update="Grid" process="@form">
+			action="#{task.crear}" update="Grid" process="@form">
 		</p:commandButton>
+		
 	</p:panelGrid>
+	</h:form>
+	
 </h:body>
-</f:view>
 </html>

@@ -1,8 +1,12 @@
 package com.sdi.presentation;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.event.ActionEvent;
+
+import alb.util.console.Console;
+import alb.util.date.DateUtil;
 
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
@@ -15,14 +19,26 @@ import com.sdi.dto.User;
 import com.sdi.dto.types.UserStatus;
 
 
-public class BeanUser {
+public class BeanUser implements Serializable {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4346788724162425311L;
+	
 	private User user = new User();
 	private List<User> users = null;
 	private List<Task> tasks = null;
 	private List<Category> categorys= null;
+	private Task task=null;
+	
+	private List<Task> finishedTask=null;
+	private List<Task> weekTask=null;
+	private List<Task> todayTask=null;
+	
 
+	
 	public BeanUser() {
 		iniciarUser(null);
 	}
@@ -58,6 +74,30 @@ public class BeanUser {
 
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
+	}
+
+	public List<Task> getFinishedTask() {
+		return finishedTask;
+	}
+
+	public void setFinishedTask(List<Task> finishedTask) {
+		this.finishedTask = finishedTask;
+	}
+
+	public List<Task> getWeekTask() {
+		return weekTask;
+	}
+
+	public void setWeekTask(List<Task> weekTask) {
+		this.weekTask = weekTask;
+	}
+
+	public List<Task> getTodayTask() {
+		return todayTask;
+	}
+
+	public void setTodayTask(List<Task> todayTask) {
+		this.todayTask = todayTask;
 	}
 
 	public String validar() {
@@ -117,8 +157,23 @@ public class BeanUser {
 		users =  Services.getAdminService().findAllUsers();
 	}
 
-	private void listadoTareas() throws BusinessException{
-		tasks = Services.getTaskService().findInboxTasksByUserId(user.getId());
+	public String listadoTareas() throws BusinessException{
+		if(user.getId()!=null){
+		
+			finishedTask=Services.getTaskService().findFinishedInboxTasksByUserId(user.getId());
+			weekTask=Services.getTaskService().findWeekTasksByUserId(user.getId());
+			todayTask=Services.getTaskService().findTodayTasksByUserId(user.getId());
+//			if(finishedTask!=null)
+//				tasks.addAll(finishedTask);
+//			if(todayTask!=null)
+//				tasks.addAll(todayTask);
+//			if(weekTask!=null)
+//				tasks.addAll(weekTask);
+		}
+			return "true";
+//		
+//		else return "error";
+		
 	}
 
 	
@@ -155,6 +210,10 @@ public class BeanUser {
 		}
 		return "true";
 	}
+	
+	public String irACrearTarea(){
+		return "crearTarea";
+	}
 	/**Boton atrás
 	 * 
 	 * @return
@@ -164,6 +223,18 @@ public class BeanUser {
 		return "true";
 	}
 	
-	
+	public String crear() {
+		TaskService taskService;
+
+//		try {
+//			taskService = Services.getTaskService();
+//		
+//		//	taskService.createTask( new Task("", title, " ",  DateUtil.today(), null, null, categoryId, userId));
+//
+//		} catch (BusinessException b) {
+//			return "error"; 
+//		}
+		return "true"; 
+	}
 	
 }

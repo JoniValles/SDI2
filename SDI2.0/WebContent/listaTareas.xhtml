@@ -2,32 +2,76 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>#{msg.cabeceraAdministrador}</title>
 </h:head>
 <h:body>
-	<p:panel header="#{msg.titulo_tabla_tareas}">
-			<p:dataTable id="tablatareas" var="vtask"
-				value="#{controller.tasks}" border="1">
+	<h:form>
+	<!--  private List<Task> finishedTask=null;
+	private List<Task> weekTask=null;
+	private List<Task> todayTask=null;
+	 -->
+		<p:panel>
+		<p:panel header="#{msg.titulo_tabla_tareas}">
+	
+		
+			<p:dataTable id="tablatareas_1" var="vtask"
+				value="#{controller.todayTask}" border="1" emptyMessage="No existen tareas" stickyHeader="true" >
+				 <f:facet name="header">
+            	#{msg.titulo_tabla_hoy}
+        		</f:facet>
 				<p:column>
-					<f:facet name="header">#{msg.}</f:facet>#{vtask.title}</p:column>
+					<f:facet name="header">#{msg.tareaId}</f:facet>#{vtask.id}</p:column>
 				<p:column>
-					<f:facet name="header">#{msg.}</f:facet>#{vtask.comments}</p:column>
+					<f:facet name="header">#{msg.tareaTitulo}</f:facet>#{vtask.title}</p:column>
 				<p:column>
+					<f:facet name="header">#{msg.tareaComentarios}</f:facet>#{vtask.comments}</p:column>
+				<p:column>
+					<f:facet name="header">#{msg.tareaPlaneada}</f:facet>#{vtask.finished}</p:column>
+			</p:dataTable>
+	
+		</p:panel>
+	
+			<p:panel>
+			<p:dataTable id="tablatareas_2" var="vtask"
+				value="#{controller.weekTask}" border="1" emptyMessage="No existen tareas" resizableColumns="true" resizeMode="true"  stickyHeader="true">
+				<f:facet name="header">
+            	#{msg.titulo_tabla_semana}
+        		</f:facet>
+				<p:column>
+					<f:facet name="header">#{msg.tareaId}</f:facet>#{vtask.id}</p:column>
+				<p:column>
+					<f:facet name="header">#{msg.tareaTitulo}</f:facet>#{vtask.title}</p:column>
+				<p:column>
+					<f:facet name="header">#{msg.tareaComentarios}</f:facet>#{vtask.comments}</p:column>
+				<p:column>
+					<f:facet name="header">#{msg.tareaPlaneada}</f:facet>#{vtask.finished}</p:column>
 				
-					<
-				</p:column>
+			</p:dataTable>
+	</p:panel>
+		<p:panel>
+			<p:dataTable id="tablatareas" var="vtask"
+				value="#{controller.tasks}" border="1" emptyMessage="No existen tareas"  stickyHeader="true">
+					<f:facet name="header">
+            	#{msg.titulo_tabla_finalizadas}
+        		</f:facet>	
 				<p:column>
-					<f:facet name="header">#{msgs.tablaEditar}</f:facet>
-					<p:commandLink action="editar" type="submit"
-						value="#{msgs.tablaEditar}"
-						actionListener="#{alumno.setAlumno(valumno)}" immediate="true">
-					</p:commandLink>
-				</p:column>
+					<f:facet name="header">#{msg.tareaId}</f:facet>#{vtask.id}</p:column>
+				<p:column>
+					<f:facet name="header">#{msg.tareaTitulo}</f:facet>#{vtask.title}</p:column>
+				<p:column>
+					<f:facet name="header">#{msg.tareaComentarios}</f:facet>#{vtask.comments}</p:column>
+				<p:column>
+					<f:facet name="header">#{msg.tareaPlaneada}</f:facet>#{vtask.finished}</p:column>
+				
 			</p:dataTable>
 		</p:panel>
-	<h:commandButton value="#{msg.botonAtras}"
-		action="#{controller.atras}" />
+		
+	<p:commandButton value="#{msg.botonAtras}"
+		actionListener="#{controller.atras}" />
+	</p:panel>
+	</h:form>
 </h:body>
 </html>

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <faces-config
     xmlns="http://xmlns.jcp.org/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -29,6 +28,10 @@
  			<from-outcome>error</from-outcome>
  			<to-view-id>/error.xhtml</to-view-id>
  		</navigation-case>
+ 		<navigation-case>
+			<from-outcome>crearTarea</from-outcome>
+			<to-view-id>/crearTarea.xhtml</to-view-id>
+		</navigation-case>
  	</navigation-rule>
  	
  	<navigation-rule>
@@ -88,13 +91,35 @@
 		</navigation-case>
 	</navigation-rule>
 	
+<!--  MENU USUARIO			 -->
+	<navigation-rule>
+		<from-view-id>/menuUsuario.xhtml</from-view-id>
+		<navigation-case>
+ 			<from-action>#{controller.listadoTareas}</from-action>
+ 			<from-outcome>true</from-outcome>
+ 			<to-view-id>/listaTareas.html</to-view-id>
+ 		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/crearTarea.xhtml</from-view-id>
+		<navigation-case>
+ 			<from-action>#{task.crear}</from-action>
+ 			<from-outcome>true</from-outcome>
+ 			<to-view-id>/menuUsuario.xhtml</to-view-id>
+ 		</navigation-case>
+	</navigation-rule>
+		
+	
+	<!--                   -->
+	
 	<navigation-rule>
 		<from-view-id>/listaTareas.xhtml</from-view-id>
 		<navigation-case>
  			<from-action>#{controller.atras}</from-action>
- 			<from-outcome>true</from-outcome>
- 			<to-view-id>/index.html</to-view-id>
+ 			<to-view-id>/menuUsuario.xhtml</to-view-id>
  		</navigation-case>
 	</navigation-rule>
+	
 
 </faces-config>

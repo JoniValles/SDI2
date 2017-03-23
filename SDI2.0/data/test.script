@@ -54,7 +54,7 @@ SET SCHEMA PUBLIC
 INSERT INTO TUSERS VALUES(1,'me@system.gtd',TRUE,'admin','admin','ENABLED')
 INSERT INTO TUSERS VALUES(2,'john@mail.com',FALSE,'john','john123','ENABLED')
 INSERT INTO TUSERS VALUES(3,'ian@mail.com',FALSE,'ian','ian123','DISABLED')
-INSERT INTO TUSERS VALUES(4,'mary@mail.com',FALSE,'mary','mary123','ENABLED')
+INSERT INTO TUSERS VALUES(4,'mary5@mail.com',FALSE,'mary','mary123','ENABLED')
 INSERT INTO TTASKS VALUES(1,NULL,'2017-01-18',NULL,'2017-01-18','Task 6 for category Errants',4,4)
 INSERT INTO TTASKS VALUES(2,NULL,'2017-01-18','2017-01-25','2017-01-24','Task 2 for category Waiting event',1,4)
 INSERT INTO TTASKS VALUES(3,NULL,'2017-01-18',NULL,'2017-01-21','Task 6 for category @Office',7,4)
