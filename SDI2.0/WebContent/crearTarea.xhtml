@@ -33,7 +33,7 @@
 	</h:panelGroup>
 
 		<p:commandButton id="boton" value="#{msg.botonCrearTarea}"
-			action="#{task.crear}" update="Grid" process="@form">
+			actionListener="#{controller.crear}" update="Grid" process="@form">
 		</p:commandButton>
 		
 	</p:panelGrid>
