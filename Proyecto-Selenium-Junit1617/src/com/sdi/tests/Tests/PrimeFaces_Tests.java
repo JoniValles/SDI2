@@ -39,7 +39,7 @@ public class PrimeFaces_Tests {
 	  driver.quit();
 	}
 
-	
+	/*
 
 	@Test
 	public void PrimefacesOrg_Autocomplete() throws InterruptedException
@@ -155,6 +155,6 @@ public class PrimeFaces_Tests {
 	}
 
 
-
+*/
 
 }

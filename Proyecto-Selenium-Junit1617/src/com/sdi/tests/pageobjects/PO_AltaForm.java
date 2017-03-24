@@ -35,12 +35,12 @@ public class PO_AltaForm {
    public void rellenaFormularioLogin(WebDriver driver, String usuario,
 			String contraseña) {
 		WebElement loginUsuario = driver
-				.findElement(By.id("form-login:nombre"));
+				.findElement(By.id("form-login:nombreUsuario"));
 		loginUsuario.click();
 		loginUsuario.clear();
 		loginUsuario.sendKeys(usuario);
 		WebElement loginContraseña = driver.findElement(By
-				.id("form-login:passw"));
+				.id("form-login:pass"));
 		loginContraseña.click();
 		loginContraseña.clear();
 		loginContraseña.sendKeys(contraseña);
