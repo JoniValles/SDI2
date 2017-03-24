@@ -9,7 +9,7 @@
 		<title>#{msg.tituloLogin}</title>
 	</h:head>
 	<h:body>
-		<h:form>
+		<h:form id="form-login">
 			<p:menubar id="mimenu">
 				<p:submenu style="float:right" label="#{msg.textoIdioma}"
 					icon="ui-icon-document">
@@ -39,7 +39,7 @@
 						<p:message for="pass" />
 					</h:panelGroup>
 					<h:panelGroup>
-						<h:commandButton id="validation-button"
+						<h:commandButton id="iniciarSesion"
 							value="#{msg.botonValidar}" action="#{controller.validar}"
 							style="margin-left: 15px;" />
 						<h:commandButton value="#{msg.botonRegistro}"
