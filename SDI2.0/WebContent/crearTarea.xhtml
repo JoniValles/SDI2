@@ -1,43 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-       xmlns:f="http://java.sun.com/jsf/core"
-       xmlns:p="http://primefaces.org/ui">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="/templates/template-usuario.xhtml">
+		<ui:define name="titulo">
+				
+		</ui:define>
+<ui:define	name="cuerpo">
+			<ui:include	src="/snippets/user_crearTarea.xhtml"	/>
+</ui:define>
 
-<h:head>
-	<title>#{msg.tituloLogin}</title>
-</h:head>
-<h:body>
- <h:form>
- 		<p:menubar id="mimenu">
-		<p:submenu style="float:right" label="#{msg.textoIdioma}"
-			icon="ui-icon-document">
-			<p:menuitem id="linkespa" value="#{msg.enlaceIdiomaES}"
-				actionListener="#{settings.setSpanish}" update="@all" />
-			<p:menuitem id="linkingles" value="#{msg.enlaceIdiomaEN}"
-				actionListener="#{settings.setEnglish}" update="@all" />
-		</p:submenu>
-	</p:menubar>
- 
-		<p:panelGrid id="Grid" columns="2" cellpadding="5">
-	  #{msg.tareaTitulo} 
-	  <h:panelGroup>
-				<p:inputText value="#{task.title}" required="true"
-					requiredMessage="#{msg.formAlta_nombre_requiredMessage}"
-					validatorMessage="#{msg.formAlta_nombre_validatorMessage}"
-					id="nombre">
-					<f:validateLength maximum="20" />
-				</p:inputText>
-				<p:message for="nombre" />
-	</h:panelGroup>
 
-		<p:commandButton id="boton" value="#{msg.botonCrearTarea}"
-			actionListener="#{controller.crear}" update="Grid" process="@form">
-		</p:commandButton>
-		
-	</p:panelGrid>
-	</h:form>
-	
-</h:body>
-</html>
+</ui:composition>

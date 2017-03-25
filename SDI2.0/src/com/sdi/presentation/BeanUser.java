@@ -1,14 +1,10 @@
-package com.sdi.presentation;
+ package com.sdi.presentation;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.event.ActionEvent;
-
-
-
 
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
@@ -23,7 +19,6 @@ import com.sdi.dto.types.UserStatus;
 
 public class BeanUser implements Serializable {
 
-
 	/**
 	 * 
 	 */
@@ -32,13 +27,19 @@ public class BeanUser implements Serializable {
 	private User user = new User();
 	private List<User> users = null;
 	private List<Task> tasks = null;
-	private List<Category> categorys= null;
+	
 	private Task task=null;
 	
+	@ManagedProperty("#{category}")
+	private BeanCategory category;
+	
+	private String categoryName;
+	
+
 	private List<Task> finishedTask=null;
 	private List<Task> weekTask=null;
 	private List<Task> todayTask=null;
-	
+
 
 	
 	public BeanUser() {
@@ -102,6 +103,22 @@ public class BeanUser implements Serializable {
 		this.todayTask = todayTask;
 	}
 
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
+	}
+
+	public BeanCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(BeanCategory category) {
+		this.category = category;
+	}
+
 	public String validar() {
 		UserService userService;
 
@@ -111,9 +128,9 @@ public class BeanUser implements Serializable {
 			user = userService.findLoggableUser(user.getLogin(),
 					user.getPassword());
 			
-			Map<String, Object> session = FacesContext.getCurrentInstance()
-					.getExternalContext().getSessionMap();
-			session.put("LOGGEDIN_USER", user);
+//			Map<String, Object> session = FacesContext.getCurrentInstance()
+//					.getExternalContext().getSessionMap();
+//			session.put("LOGGEDIN_USER", user);
 			if (user.getIsAdmin()) { 
 				listadoUsuarios();
 				return "admin";
@@ -165,23 +182,21 @@ public class BeanUser implements Serializable {
 	}
 
 	public String listadoTareas() throws BusinessException{
-		if(user.getId()!=null){
 		
+			tasks = new ArrayList<Task>();
 			finishedTask=Services.getTaskService().findFinishedInboxTasksByUserId(user.getId());
 			weekTask=Services.getTaskService().findWeekTasksByUserId(user.getId());
 			todayTask=Services.getTaskService().findTodayTasksByUserId(user.getId());
-//			if(finishedTask!=null)
-//				tasks.addAll(finishedTask);
-//			if(todayTask!=null)
-//				tasks.addAll(todayTask);
-//			if(weekTask!=null)
-//				tasks.addAll(weekTask);
-		}
-			return "true";
-//		
-//		else return "error";
 		
+			if(finishedTask!=null)
+				tasks.addAll(finishedTask);
+			if(todayTask!=null)
+				tasks.addAll(todayTask);
+			if(weekTask!=null)
+				tasks.addAll(weekTask);
+		return "true";
 	}
+	
 
 	
 	public String registro(){
@@ -219,7 +234,12 @@ public class BeanUser implements Serializable {
 	}
 	
 	public String irACrearTarea(){
+		task=null;
 		return "crearTarea";
+	}
+	
+	public String irACrearCategoria(){
+		return "crearCategoria";
 	}
 	/**Boton atrás
 	 * 
@@ -230,18 +250,63 @@ public class BeanUser implements Serializable {
 		return "true";
 	}
 	
-	public String crear() {
+	public String crearTarea() {
 		TaskService taskService;
+		task.setUserId(user.getId());
+		try {
+			taskService = Services.getTaskService();
+		
+			taskService.createTask(task);
 
-//		try {
-//			taskService = Services.getTaskService();
-//		
-//		//	taskService.createTask( new Task("", title, " ",  DateUtil.today(), null, null, categoryId, userId));
-//
-//		} catch (BusinessException b) {
-//			return "error"; 
-//		}
+		} catch (BusinessException b) { 
+			return "error"; 
+		}
+		return "true"; 
+	}
+	public String crearCategoria() {
+		TaskService taskService;
+		Category cat = new Category();
+		cat.setName(categoryName);
+		cat.setUserId(user.getId());
+		try {
+			taskService = Services.getTaskService();
+			taskService.createCategory(cat );
+
+		} catch (BusinessException b) { 
+			return "error"; 
+		}
 		return "true"; 
 	}
 	
+	public List<Category> getCategorys(){
+		TaskService taskService;
+		taskService = Services.getTaskService ();
+		List<Category> cat=null;
+		try {
+			
+			cat = taskService.findCategoriesByUserId(user.getId());
+			
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return cat;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	
+	public String listadoCategorias(){
+		return "true";
+		
+	}
+	public String irACasa(){
+		return "home";
+	}
 }

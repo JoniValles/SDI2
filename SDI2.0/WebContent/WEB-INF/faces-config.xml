@@ -92,19 +92,52 @@
 	</navigation-rule>
 	
 <!--  MENU USUARIO -->
+
 	<navigation-rule>
-		<from-view-id>/menuUsuario.xhtml</from-view-id>
+		<from-view-id>*</from-view-id>
 		<navigation-case>
- 			<from-action>#{controller.listadoTareas}</from-action>
- 			<from-outcome>true</from-outcome>
- 			<to-view-id>/listaTareas.html</to-view-id>
+ 			<from-action>#{controller.irACasa}</from-action>
+ 			<from-outcome>home</from-outcome>
+ 			<to-view-id>/menuUsuario.xhtml</to-view-id>
  		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+ 			<from-action>#{controller.listadoTareas}</from-action>
+ 			<from-outcome>true</from-outcome>
+ 			<to-view-id>/listaTareas.xhtml</to-view-id>
+ 		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+ 			<from-action>#{controller.listadoCategorias}</from-action>
+ 			<from-outcome>true</from-outcome>
+ 			<to-view-id>/listaCategorias.xhtml</to-view-id>
+ 		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+ 			<from-action>#{controller.irACrearTarea}</from-action>
+ 			<from-outcome>crearTarea</from-outcome>
+ 			<to-view-id>/crearTarea.xhtml</to-view-id>
+ 		</navigation-case>
+	</navigation-rule>
+		<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+ 			<from-action>#{controller.irACrearCategoria}</from-action>
+ 			<from-outcome>crearCategoria</from-outcome>
+ 			<to-view-id>/crearCategoria.xhtml</to-view-id>
+ 		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
 		<from-view-id>/crearTarea.xhtml</from-view-id>
 		<navigation-case>
- 			<from-action>#{controller.crear}</from-action>
+ 			<from-action>#{controller.crearTarea}</from-action>
  			<from-outcome>true</from-outcome>
  			<to-view-id>/menuUsuario.xhtml</to-view-id>
  		</navigation-case>

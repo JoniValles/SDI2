@@ -11,18 +11,17 @@
              <h:outputLabel  value="#{controller.user.id}" />
         <br/>
 
-        <h:outputLabel for="nombre" value="#{msg.usuarioLogin}" />
-             <h:outputLabel  value="#{controller.user.login}" />
+        <h:outputLabel for="login" value="#{msg.usuarioLogin}" />
+             <h:outputLabel  id="login" value="#{controller.user.login}" />
  			 <br/>
  			 
     <h:outputLabel for="email" value="#{msg.usuarioEmail}" />
-        		<p:inputText value="#{controller.user.email}" required="true"
+        		<p:inputText id="email" value="#{controller.user.email}" required="true"
 				requiredMessage="#{msg.form_falta_email}"
-				validatorMessage="#{msg.form_incorrecto_email}"
-				id="correo">
+				validatorMessage="#{msg.form_incorrecto_email}">
 				<f:validateRegex pattern=".+@.+\.[a-z]+" />
 			</p:inputText>
-			<p:message for="correo" />
+			<p:message for="email" />
         <p:commandButton id="btn"
 							actionListener="#{controller.actualizarEmail}" icon="ui-icon-disk" title="Guardar cambios" style="width:25px;height:15px" /> 
     </h:panelGrid>

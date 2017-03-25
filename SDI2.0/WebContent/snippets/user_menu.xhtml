@@ -3,16 +3,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
-	 <h:form>
  <p:menubar id="mimenu">
-
+	 <p:menuitem id="linkCasa" value="#{msg.menuUsuario_casa}"
+				action="#{controller.irACasa}"  />
 		<p:submenu id="misubmenu1" label="#{msg.menuUsuario_categorias}"
 			icon="ui-icon-document">
 			<p:menuitem id="linklistadoCategoria" value="#{msg.menuUsuario_listarCategorias}"
 				action="#{controller.listadoCategorias}"  />
 			<p:separator />
-			<p:menuitem id="linkaltaCategoria" value="#{msg.menuUsuario_crearCategoria}" action="alta"
-				actionListener="#{controller.crearCategoria}" />	
+			<p:menuitem id="linkaltaCategoria" value="#{msg.menuUsuario_crearCategoria}"
+				action="#{controller.irACrearCategoria}" />	
 		</p:submenu>
 		<p:submenu id="misubmenu2" label="#{msg.menuUsuario_tareas}"
 			icon="ui-icon-document">
@@ -31,5 +31,5 @@
 				actionListener="#{settings.setEnglish}" update="@all" />
 		</p:submenu>
 	</p:menubar>
-	</h:form>
+
 </ui:composition>

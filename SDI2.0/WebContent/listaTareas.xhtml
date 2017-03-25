@@ -5,73 +5,53 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>#{msg.cabeceraAdministrador}</title>
+	<title>#{msg.tituloRegistro}</title>
 </h:head>
 <h:body>
+
 	<h:form>
-	<!--  private List<Task> finishedTask=null;
-	private List<Task> weekTask=null;
-	private List<Task> todayTask=null;
-	 -->
-		<p:panel>
-		<p:panel header="#{msg.titulo_tabla_tareas}">
-	
-		
-			<p:dataTable id="tablatareas_1" var="vtask"
-				value="#{controller.todayTask}" border="1" emptyMessage="No existen tareas" stickyHeader="true" >
-				 <f:facet name="header">
-            	#{msg.titulo_tabla_hoy}
-        		</f:facet>
-				<p:column>
-					<f:facet name="header">#{msg.tareaId}</f:facet>#{vtask.id}</p:column>
-				<p:column>
-					<f:facet name="header">#{msg.tareaTitulo}</f:facet>#{vtask.title}</p:column>
-				<p:column>
-					<f:facet name="header">#{msg.tareaComentarios}</f:facet>#{vtask.comments}</p:column>
-				<p:column>
-					<f:facet name="header">#{msg.tareaPlaneada}</f:facet>#{vtask.finished}</p:column>
-			</p:dataTable>
-	
-		</p:panel>
-	
-			<p:panel>
-			<p:dataTable id="tablatareas_2" var="vtask"
-				value="#{controller.weekTask}" border="1" emptyMessage="No existen tareas" resizableColumns="true" resizeMode="true"  stickyHeader="true">
-				<f:facet name="header">
-            	#{msg.titulo_tabla_semana}
-        		</f:facet>
-				<p:column>
-					<f:facet name="header">#{msg.tareaId}</f:facet>#{vtask.id}</p:column>
-				<p:column>
-					<f:facet name="header">#{msg.tareaTitulo}</f:facet>#{vtask.title}</p:column>
-				<p:column>
-					<f:facet name="header">#{msg.tareaComentarios}</f:facet>#{vtask.comments}</p:column>
-				<p:column>
-					<f:facet name="header">#{msg.tareaPlaneada}</f:facet>#{vtask.finished}</p:column>
-				
-			</p:dataTable>
-	</p:panel>
-		<p:panel>
-			<p:dataTable id="tablatareas" var="vtask"
-				value="#{controller.tasks}" border="1" emptyMessage="No existen tareas"  stickyHeader="true">
-					<f:facet name="header">
-            	#{msg.titulo_tabla_finalizadas}
-        		</f:facet>	
-				<p:column>
-					<f:facet name="header">#{msg.tareaId}</f:facet>#{vtask.id}</p:column>
-				<p:column>
-					<f:facet name="header">#{msg.tareaTitulo}</f:facet>#{vtask.title}</p:column>
-				<p:column>
-					<f:facet name="header">#{msg.tareaComentarios}</f:facet>#{vtask.comments}</p:column>
-				<p:column>
-					<f:facet name="header">#{msg.tareaPlaneada}</f:facet>#{vtask.finished}</p:column>
-				
-			</p:dataTable>
-		</p:panel>
-	
-	</p:panel>
+    <p:dataTable id="tablatareas_1" var="task" value="#{dtTableView.tasks}" widgetVar="tasksTable" multiViewState="true"
+                 rows="10" paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15"
+                 selectionMode="single" selection="#{dtTableView.selectedTask}" rowKey="#{task.id}"
+                 emptyMessage="No existen tareas" filteredValue="#{dtTableView.filteredTasks}">
+ 
+        <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="#{titulo_tabla_bTodosLosCampos}" />
+                <p:inputText id="globalFilter" onkeyup="PF('tasksTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+            </p:outputPanel>
+        </f:facet>
+ 
+        <!-- <p:ajax event="rowSelect" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
+  -->
+        <p:column headerText="Id" filterBy="#{task.id}" sortBy="#{task.id}" filterMatchMode="contains">
+            <h:outputText value="#{task.id}" />
+        </p:column>
+ 
+        <p:column headerText="#{tareaTitulo}" filterBy="#{task.title}" sortBy="#{task.title}" filterMatchMode="startsWith">
+            <h:outputText value="#{task.title}" />
+        </p:column>
+ 
+        <p:column headerText="#{tareaComentarios}" filterBy="#{task.comments}" sortBy="#{task.comments}" filterMatchMode="contains">
+           
+            <h:outputText value="#{task.comments}" />
+        </p:column>
+ 
+        <p:column headerText="#{menuUsuario_categorias}" filterBy="#{task.categoryId}" sortBy="#{task.categoryId}" filterMatchMode="in">
+           <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('tasksTable').filter()" style="width:100px;" >
+                    <f:selectItem itemLabel="#{titulo_tabla_seleccionaUna}" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{dtTableView.categorys}" />
+                </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{task.id}" />
+        </p:column>
+    </p:dataTable>
 	</h:form>
 	<p:commandButton value="#{msg.botonAtras}" 
 	action="#{controller.atras}" />
-</h:body>
+
+	</h:body>
 </html>

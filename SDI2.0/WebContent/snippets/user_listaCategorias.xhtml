@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+	<p:panel>
+
+	<h:form>
+    <p:dataTable id="tablatareas_1" var="cat" value="#{controller.getCategorys()}" widgetVar="tasksTable" multiViewState="true"
+                 rows="10" paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15"
+                 selectionMode="single" selection="#{categoryTableView.selectedCategory}" rowKey="#{cat.id}"
+                 emptyMessage="No existen categorias" filteredValue="#{categoryTableView.filteredCategory}">
+ 
+        <f:facet name="header">
+     				
+        </f:facet>
+ 
+        <!-- <p:ajax event="rowSelect" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
+  -->
+        <p:column headerText="Id" filterBy="#{cat.id}" sortBy="#{cat.id}" filterMatchMode="contains">
+            <h:outputText value="#{cat.id}" />
+        </p:column>
+ 
+        <p:column headerText="#{tareaTitulo}" filterBy="#{cat.name}" sortBy="#{cat.name}" filterMatchMode="contains">
+            <h:outputText value="#{cat.name}" />
+        </p:column>
+    </p:dataTable>
+	</h:form>
+	<p:commandButton value="#{msg.botonAtras}" 
+	action="#{controller.atras}" />
+    </p:panel>
+</h:form>
+
+</ui:composition>
