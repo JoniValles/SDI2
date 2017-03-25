@@ -3,7 +3,11 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import alb.util.log.Log;
+
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import com.sdi.business.AdminService;
@@ -29,6 +33,8 @@ public class BeanUser implements Serializable {
 	private List<Task> tasks = null;
 	
 	private Task task=null;
+	private String pass = "";
+
 	
 	@ManagedProperty("#{category}")
 	private BeanCategory category;
@@ -157,8 +163,12 @@ public class BeanUser implements Serializable {
 				adminService.enableUser(user.getId());
 			}
 			listadoUsuarios(); 
+			Log.debug("Estado del usuario [%s] cambiado con exito a [%s]",
+					user.getLogin(), user.getStatus().toString());
 			return "exito"; 
 		}catch(BusinessException b){
+			Log.error("Se ha producido un error al intentar cambiar el"
+					+ "estado del usuario");
 			return "error";
 		}
 	}
@@ -171,8 +181,12 @@ public class BeanUser implements Serializable {
 			adminService = Services.getAdminService();
 			adminService.deepDeleteUser(user.getId());
 			listadoUsuarios();
+			Log.debug("Se ha eliminado el usuario [%s] con exito",
+					user.getLogin());
 			return "exito"; 
 		} catch (BusinessException b){
+			Log.error("Se ha producido algun error al intentar eliminar el"
+					+ "usuario");
 			return "error";
 		}
 	}
@@ -206,6 +220,31 @@ public class BeanUser implements Serializable {
 	public String registrar() {
 		UserService userService;
 
+		
+		//HABRIA QUE PONER AVISOS EN EL FRONTEND
+		//Comprobar email
+		if (!user.getEmail().matches("[-\\w\\.]+@\\w+\\.\\w+")) {
+			Log.error("Email invalido: [%s]", user.getEmail());
+			return "false";
+		}
+		
+		//Comprobar contraseña
+		if (!pass.equals(user.getPassword())) {	
+			Log.error("Las contraseñas no coinciden: [%s] -- [%s]", pass,
+					user.getPassword());
+			return "false";
+		}
+		//Comprobar longitud de contraseña
+		else {
+			if (pass.length() < 8) {
+				Log.error("Las contraseñas deben tener una "
+						+ "longitud de al menos 8 caracteres [%s]", pass);
+				return "false";
+			}
+		}
+			
+			
+		
 		try {
 			userService = Services.getUserService();
 			user.setIsAdmin(false);
@@ -309,4 +348,13 @@ public class BeanUser implements Serializable {
 	public String irACasa(){
 		return "home";
 	}
+	
+	public String cerrarSesion() {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.put("userSession", null);
+		Log.debug("Se cierra la sesión correctamente");
+		return "EXITO";
+	}
+	
+	
 }

@@ -32,6 +32,11 @@
 			<from-outcome>crearTarea</from-outcome>
 			<to-view-id>/crearTarea.xhtml</to-view-id>
 		</navigation-case>
+			<navigation-case>
+			<from-action>#{controller.cerrarSesion}</from-action>
+			<from-outcome>EXITO</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
  	</navigation-rule>
  	
  	<navigation-rule>
@@ -153,6 +158,8 @@
  			<to-view-id>/menuUsuario.xhtml</to-view-id>
  		</navigation-case>
 	</navigation-rule>
+		
+		
 	
 
 </faces-config>

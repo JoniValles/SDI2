@@ -26,35 +26,33 @@
 				</p:column>
 
 			<p:column>
-			<f:facet name="header">#{msg.usuarioStatus}</f:facet>
+				<f:facet name="header">#{msg.usuarioStatus}</f:facet>
 				<p:commandLink action="#{controller.cambiarEstado(user)}"
-					rendered="#{user.isAdmin==false}"
-					type="submit"
-					value="#{user.status}" 
-					immediate="true" 
-					update="listado">
+					rendered="#{user.isAdmin==false}" type="submit"
+					value="#{user.status}" immediate="true" update="listado">
 				</p:commandLink>
 			</p:column>
-			
+
 			<p:column>
 				<f:facet name="header">#{msg.usuarioEliminar}</f:facet>
 				<p:commandLink action="#{controller.eliminar(user)}"
-					rendered="#{user.isAdmin==false}" 
-					type="submit"
-					value="#{msg.usuarioEliminar}" 
-					inmediate="true"
-					update="listado">
+					rendered="#{user.isAdmin==false}" type="submit"
+					value="#{msg.usuarioEliminar}" inmediate="true" update="listado">
 				</p:commandLink>
 			</p:column>
-			
+
 		</p:dataTable>
 	</h:form>
 
 
+	<div>
+		<p:commandButton id="botonCerrarSesion"
+			action="#{beanLogin.cerrarSesion}" icon="ui-icon-power" />
+	</div>
 
 
 
-	<p:commandButton value="#{msg.botonAtras}" 
-	action="#{controller.atras}" />
+
+	<p:commandButton value="#{msg.botonAtras}" action="#{controller.atras}" />
 </h:body>
 </html>

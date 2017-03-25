@@ -29,13 +29,13 @@ public class SDI2_Tests {
 
 	}
 
-//	@Before
-//	public void run()
-//	{
-//		//Vamos a la pagina principal
-//		driver = new FirefoxDriver();
-//		driver.get("http://localhost:8280/Notaneitorv2_0_SOLUCION_pruebas/");			
-//	}
+	//	@Before
+	//	public void run()
+	//	{
+	//		//Vamos a la pagina principal
+	//		driver = new FirefoxDriver();
+	//		driver.get("http://localhost:8280/Notaneitorv2_0_SOLUCION_pruebas/");			
+	//	}
 	@Before
 	public void run()
 	{
@@ -55,7 +55,7 @@ public class SDI2_Tests {
 		//Cerramos el navegador
 		driver.quit();
 	}
-	
+
 	public void testLoginParametros(String nombreForm, String usuario,
 			String contraseña) {
 		//Se rellena el formulario
@@ -68,51 +68,88 @@ public class SDI2_Tests {
 
 		// Comprobamos que aparezca el mensaje para el administrador
 		SeleniumUtils.textoPresentePagina(driver, usuario);
-		*/
+		 */
 	}
 
+	public void testLoginErroneoParametros(String nombreform, String usuario,
+			String contraseña) {
 
-		//PR01: Autentificar correctamente al administrador.
-		@Test
-		public void prueba01() {
+		new PO_AltaForm().rellenaFormularioLogin(driver, usuario, contraseña);
+
+		// Esperamos a que se cargue la pagina del admin
+		//SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin", 10);
+
+		// Comprobamos que aparezca el mensaje para el administrador
+		SeleniumUtils.textoPresentePagina(driver, "error");
+	}
+	
+	public void testVisualizarUsuarios(String nombreform, String usuario,
+			String contraseña) {
+
+		new PO_AltaForm().rellenaFormularioLogin(driver, usuario, contraseña);
+
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin", 10);
+		SeleniumUtils.textoPresentePagina(driver, usuario);
+
+		//FALTA
+
+		// Comprobamos que aparezca el elemento en la tabla
+		SeleniumUtils.textoPresentePagina(driver, usuario);
+		SeleniumUtils.textoPresentePagina(driver, "usuario1");
+	}
+
+/*
+	//PR01: Autentificar correctamente al administrador.
+	@Test
+	public void prueba01() {
 		testLoginParametros("form-login", "admin", "admin");
-		
+
 		// Esperamos a que se cargue la pagina del admin
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"listaUsuarios", 3);
-		
+
+		//Esta el texto presente?
 		SeleniumUtils.textoPresentePagina(driver, "admin");
 		SeleniumUtils.textoPresentePagina(driver, "me@system.gtd");
-		}
+	}
 
 
-/*
-		//PR02: Fallo en la autenticación del administrador por introducir mal el login.
-		@Test
-		public void prueba02() {
-			testLoginErroneoParametros("form-login", "admin123",
-					"admin");
-		}
 
-		// PR03: Fallo en la autenticación del administrador por introducir mal la
-		// password.
-		@Test
-		public void prueba03() {
-			testLoginErroneoParametros("form-login", "admin",
-					"admin123");
-		}
+	//PR02: Fallo en la autenticación del administrador por introducir mal el login.
+	@Test
+	public void prueba02() {
+		testLoginErroneoParametros("form-login", "admin123",
+				"admin");
 
-		public void testLoginErroneoParametros(String nombreform, String usuario,
-				String contraseña) {
+		//Seguimos en la misma pagina
+		driver.getCurrentUrl().equals(
+				"http://localhost:8280/SDI2.0/index.xhtml");
 
-			new PO_AltaForm().rellenaFormularioLogin(driver, usuario, contraseña);
+		//Esta presente el formulario login?
+		//driver.findElement(By.id("form-login"));
+		
+		//Esta presente el texto error?
+		SeleniumUtils.textoPresentePagina(driver, "error");
 
-			// Esperamos a que se cargue la pagina del admin
-			//SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin", 10);
+	}
 
-			// Comprobamos que aparezca el mensaje para el administrador
-			SeleniumUtils.textoPresentePagina(driver, "error");
-		}
+
+	// PR03: Fallo en la autenticación del administrador por introducir mal la
+	// password.
+	@Test
+	public void prueba03() {
+		testLoginErroneoParametros("form-login", "admin",
+				"admin123");
+
+		//Esta presente el formulario login?
+		//driver.findElement(By.id("form-login"));
+		
+		//Esta presente el texto error?
+				SeleniumUtils.textoPresentePagina(driver, "error");
+	}
+
+	*/
+	
 
 		//PR04: Probar que la base de datos contiene los datos insertados con
 		//conexión correcta a la base de datos.
@@ -120,29 +157,30 @@ public class SDI2_Tests {
 		public void prueba04() {
 			assertTrue(false);
 		}
+		
+		
 
 		//PR05: Visualizar correctamente la lista de usuarios normales.
 		@Test
 		public void prueba05() {
-		testVisualizarUsuarios("form-login", "admin", "admin");
-		
-		//FALTA AQUI
+			testLoginParametros("form-login", "admin", "admin");
+
+		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+				"form-admin", 10);
+
+
+		// Comprobamos que existen los usuarios
+		SeleniumUtils.textoPresentePagina(driver, "admin");
+		SeleniumUtils.textoPresentePagina(driver, "me@system.gtd");
+		SeleniumUtils.textoPresentePagina(driver, "user1");
+		SeleniumUtils.textoPresentePagina(driver, "user1@gmail.com");
+		SeleniumUtils.textoPresentePagina(driver, "user2");
+		SeleniumUtils.textoPresentePagina(driver, "user2@gmail.com");
+		SeleniumUtils.textoPresentePagina(driver, "user3");
+		SeleniumUtils.textoPresentePagina(driver, "user3@gmail.com");
 		}
 
-		public void testVisualizarUsuarios(String nombreform, String usuario,
-				String contraseña) {
-			
-			new PO_AltaForm().rellenaFormularioLogin(driver, usuario, contraseña);
 
-			SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin", 10);
-			SeleniumUtils.textoPresentePagina(driver, usuario);
-
-			//FALTA
-
-			// Comprobamos que aparezca el elemento en la tabla
-			SeleniumUtils.textoPresentePagina(driver, usuario);
-			SeleniumUtils.textoPresentePagina(driver, "usuario1");
-		}
 
 		//PR06: Cambiar el estado de un usuario de ENABLED a DISABLED. Y tratar de
 		//entrar con el usuario que se desactivado.
@@ -159,17 +197,9 @@ public class SDI2_Tests {
 
 			SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin", 10);
 			SeleniumUtils.textoPresentePagina(driver, usuario);
-
-			//FALTA
-
-			List<WebElement> elem = SeleniumUtils.EsperaCargaPagina(driver,
-					"id", "form-usuarios:tablalistado:0:filaId", 10);
-
-			SeleniumUtils.textoPresentePagina(driver, usuario);
-			SeleniumUtils.textoPresentePagina(driver, "usuario1");
 			
-			//Selecciona el primer elemento
-			elem.get(0).click();
+			
+			//FALTA
 
 		}
 
@@ -177,89 +207,38 @@ public class SDI2_Tests {
 		//entrar con el usuario que se ha activado.
 		@Test
 		public void prueba07() {
+			/*
 			testModificarStatus("form-login", "admin", "admin",
 					"ENABLED");
 			testLoginParametros("form-login", "usuario1", "usuario1");
+			TEMPLATES */
 		}
 
 		//PR08: Ordenar por Login
 		@Test
 		public void prueba08() throws InterruptedException {
-			testOrdenar("form-login", "admin", "admin",
-					"form-usuarios:tablalistado:headerNombre", "admin");
+			//Templates
 		}
 
-		public void testOrdenar(String nombreform, String usuario,
-				String contraseña, String elementoAOrdenar, String valorEsperado)
-				throws InterruptedException {
-			new PO_AltaForm().rellenaFormularioLogin(driver, usuario, contraseña);
-
-			SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin", 10);
-			SeleniumUtils.textoPresentePagina(driver, usuario);
-			SeleniumUtils.ClickSubopcionMenuHover(driver,
-					"form-cabecera:submenuOpciones",
-					"form-cabecera:menuitemUsuarios");
-
-			List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver,
-					"id", elementoAOrdenar, 10);
-			SeleniumUtils.textoPresentePagina(driver, usuario);
-			SeleniumUtils.textoPresentePagina(driver, "usuario1");
-
-			elementos.get(0).click();
-			Thread.sleep(500);
-
-			List<WebElement> login = SeleniumUtils.EsperaCargaPagina(driver, "id",
-					"form-usuarios:tablalistado:0:filaNombre", 10);
-
-			assertEquals(valorEsperado, login.get(0).getText());
-		}
 
 		//PR09: Ordenar por Email
 		@Test
 		public void prueba09() throws InterruptedException {
-			testOrdenar("form-login", "admin", "admin",
-					"form-usuarios:tablalistado:headerEmail", "admin");
+			//Templates
 		}
 
 		//PR10: Ordenar por Status
 		@Test
 		public void prueba10() throws InterruptedException {
-			testOrdenar("form-login", "admin", "admin",
-					"form-usuarios:tablalistado:headerStatus", "usuario1");
+			//Templates
 		}
 
 		//PR11: Borrar una cuenta de usuario normal y datos relacionados.
 		@Test
 		public void prueba11() throws InterruptedException {
-			testBorrarCuenta("form-login", "admin", "admin",
-					"form-usuarios:tablalistado:2:filaId", "");
+			//Templates
 		}
 
-		public void testBorrarCuenta(String nombreform, String usuario,
-				String contraseña, String elementoABorrar, String valorEsperado)
-				throws InterruptedException {
-			new PO_AltaForm().rellenaFormularioLogin(driver, usuario, contraseña);
-
-			SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin", 10);
-
-			SeleniumUtils.textoPresentePagina(driver, usuario);
-
-			SeleniumUtils.ClickSubopcionMenuHover(driver,
-					"form-cabecera:submenuOpciones",
-					"form-cabecera:menuitemUsuarios");
-
-			List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver,
-					"id", elementoABorrar, 10);
-
-			elementos.get(0).click();
-
-			By boton = By.id("form-usuarios:delete");
-			driver.findElement(boton).click();
-
-			Thread.sleep(500);
-
-			SeleniumUtils.textoNoPresentePagina(driver, "usuario3");
-		}
 
 		//PR12: Crear una cuenta de usuario normal con datos válidos.
 		@Test
@@ -477,5 +456,6 @@ public class SDI2_Tests {
 		public void prueba38() {
 			assertTrue(false);
 		}
-*/
-	}
+	 
+	 
+}
