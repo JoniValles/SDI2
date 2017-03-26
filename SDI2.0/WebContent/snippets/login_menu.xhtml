@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<p:menubar id="login_menu">
+				<p:submenu style="float:right" label="#{msg.textoIdioma}"
+					icon="ui-icon-document">
+					<p:menuitem id="linkespa" value="#{msg.enlaceIdiomaES}"
+						actionListener="#{settings.setSpanish}" update="@all" />
+					<p:menuitem id="linkingles" value="#{msg.enlaceIdiomaEN}"
+						actionListener="#{settings.setEnglish}" update="@all" />
+				</p:submenu>
+			</p:menubar>
+</ui:composition>

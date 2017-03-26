@@ -4,11 +4,13 @@
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
 				template="/templates/template-usuario.xhtml">
 		<ui:define name="titulo">
 				
 		</ui:define>
 <ui:define	name="cuerpo">
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 			<ui:include	src="/snippets/user_crearCategoria.xhtml"	/>
 </ui:define>
 

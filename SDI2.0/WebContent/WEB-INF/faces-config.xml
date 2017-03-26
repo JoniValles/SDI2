@@ -29,7 +29,7 @@
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>crearTarea</from-outcome>
-			<to-view-id>/crearTarea.xhtml</to-view-id>
+			<to-view-id>/restricted/crearTarea.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-action>#{controller.cerrarSesion}</from-action>
@@ -51,7 +51,22 @@
 			<to-view-id>/index.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
-
+	
+	
+	<navigation-rule>
+			<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{login.verify}</from-action>
+			<from-outcome>user</from-outcome>
+			<to-view-id>/restricted/menuUsuario.xhtml</to-view-id>
+		</navigation-case>
+			<navigation-case>
+			<from-action>#{login.verify}</from-action>
+			<from-outcome>admin</from-outcome>
+			<to-view-id>listaUsuarios.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
 	<navigation-rule>
 		<from-view-id>/index.xhtml</from-view-id>
 		<navigation-case>
@@ -62,7 +77,7 @@
 		<navigation-case>
 			<from-action>#{controller.validar}</from-action>
 			<from-outcome>user</from-outcome>
-			<to-view-id>/menuUsuario.xhtml</to-view-id>
+			<to-view-id>/restricted/menuUsuario.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-action>#{controller.registro}</from-action>
@@ -104,7 +119,7 @@
 		<navigation-case>
 			<from-action>#{controller.irACasa}</from-action>
 			<from-outcome>home</from-outcome>
-			<to-view-id>/menuUsuario.xhtml</to-view-id>
+			<to-view-id>/restricted/menuUsuario.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -113,7 +128,7 @@
 		<navigation-case>
 			<from-action>#{controller.listadoTareas}</from-action>
 			<from-outcome>true</from-outcome>
-			<to-view-id>/listaTareas.xhtml</to-view-id>
+			<to-view-id>/restricted/listaTareas.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
@@ -121,7 +136,7 @@
 		<navigation-case>
 			<from-action>#{controller.listadoCategorias}</from-action>
 			<from-outcome>true</from-outcome>
-			<to-view-id>/listaCategorias.xhtml</to-view-id>
+			<to-view-id>/restricted/listaCategorias.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
@@ -129,7 +144,7 @@
 		<navigation-case>
 			<from-action>#{controller.irACrearTarea}</from-action>
 			<from-outcome>crearTarea</from-outcome>
-			<to-view-id>/crearTarea.xhtml</to-view-id>
+			<to-view-id>/restricted/crearTarea.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
@@ -137,7 +152,7 @@
 		<navigation-case>
 			<from-action>#{controller.irACrearCategoria}</from-action>
 			<from-outcome>crearCategoria</from-outcome>
-			<to-view-id>/crearCategoria.xhtml</to-view-id>
+			<to-view-id>/restricted/crearCategoria.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
@@ -145,7 +160,7 @@
 		<navigation-case>
 			<from-action>#{controller.crearTarea}</from-action>
 			<from-outcome>true</from-outcome>
-			<to-view-id>/menuUsuario.xhtml</to-view-id>
+			<to-view-id>/restricted/menuUsuario.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -155,7 +170,7 @@
 		<navigation-case>
  			<from-action>#{controller.crearCategoria}</from-action>
  			<from-outcome>true</from-outcome>
- 			<to-view-id>/listaCategorias.xhtml</to-view-id>
+ 			<to-view-id>/restricted/listaCategorias.xhtml</to-view-id>
  		</navigation-case>
 	</navigation-rule>
 	
@@ -166,7 +181,7 @@
 		<from-view-id>/listaTareas.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{controller.atras}</from-action>
-			<to-view-id>/menuUsuario.xhtml</to-view-id>
+			<to-view-id>/restricted/menuUsuario.xhtml</to-view-id>
 		</navigation-case>
 			<navigation-case>
 			<from-action>#{controller.cerrarSesion}</from-action>

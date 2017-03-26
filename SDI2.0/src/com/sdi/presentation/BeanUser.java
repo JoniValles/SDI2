@@ -2,17 +2,17 @@
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import alb.util.log.Log;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.servlet.http.HttpSession;
 
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
@@ -130,13 +130,8 @@ public class BeanUser implements Serializable {
 	}
 
 	public String validar() {
-		UserService userService;
-
-		try {
 		
-			userService = Services.getUserService();
-			user = userService.findLoggableUser(user.getLogin(),
-					user.getPassword());
+		try {
 			
 //			Map<String, Object> session = FacesContext.getCurrentInstance()
 //					.getExternalContext().getSessionMap();
@@ -149,11 +144,15 @@ public class BeanUser implements Serializable {
 //			listadoTareas();
 
 		} catch (BusinessException b) {
-			return "error"; 
+	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error al iniciar sesion"));
+
+		//	return "error"; 
+			
 		}
 
 		return "user"; 
 	}
+
 
 	public String cambiarEstado(User user){
 		AdminService adminService;
@@ -312,8 +311,9 @@ public class BeanUser implements Serializable {
 			taskService = Services.getTaskService();
 			taskService.createCategory(cat);
 
-		} catch (BusinessException b) { 
-			return "error"; 
+		} catch (BusinessException b) {
+			mostrarError(b.getMessage());
+			return "err"; 
 		}
 		return "true";
 	}
@@ -371,6 +371,21 @@ public class BeanUser implements Serializable {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	
+
+
+	public void mostrarError(String msg){
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		try{
+        ResourceBundle bundle = facesContext.getApplication().getResourceBundle(facesContext, "msg");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", 
+      		  bundle.getString(msg)));
+		}catch(Exception e){
+			 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", 
+		      		  msg));
+		}
+		
+
+	}
+
 
 }
