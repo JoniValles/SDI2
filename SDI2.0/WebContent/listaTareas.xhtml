@@ -1,57 +1,37 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title>#{msg.tituloRegistro}</title>
-</h:head>
-<h:body>
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template-usuario.xhtml">
+	<ui:define name="titulo">
+	</ui:define>
+	<ui:define name="cuerpo">
+		<h:form id="form">
+			<p:tabView>
+				<p:tab title="inbox">
+					<ui:include src="/snippets/user_listaTareas_inbox.xhtml" />
+				</p:tab>
+		
+				<p:tab title="#{msg.titulo_tabla_hoy}">
+					<ui:include src="/snippets/user_listaTareas_hoy.xhtml" />
+				</p:tab>
+			
+	
+				<p:tab title="#{msg.titulo_tabla_semana}">
+			<!-- 		<ui:include src="/snippets/user_listaTareas_semana.xhtml" /> -->
+				</p:tab>
+			
+			
+			<p:tab title="#{msg.titulo_tabla_todas}">
+			 		<ui:include src="/snippets/user_listaTareas_todas.xhtml" /> 
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	
+	</ui:define>
 
-	<h:form>
-    <p:dataTable id="tablatareas_1" var="task" value="#{dtTableView.tasks}" widgetVar="tasksTable" multiViewState="true"
-                 rows="10" paginator="true"
-                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                 rowsPerPageTemplate="5,10,15"
-                 selectionMode="single" selection="#{dtTableView.selectedTask}" rowKey="#{task.id}"
-                 emptyMessage="No existen tareas" filteredValue="#{dtTableView.filteredTasks}">
- 
-        <f:facet name="header">
-            <p:outputPanel>
-                <h:outputText value="#{titulo_tabla_bTodosLosCampos}" />
-                <p:inputText id="globalFilter" onkeyup="PF('tasksTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-            </p:outputPanel>
-        </f:facet>
- 
-        <!-- <p:ajax event="rowSelect" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
-  -->
-        <p:column headerText="Id" filterBy="#{task.id}" sortBy="#{task.id}" filterMatchMode="contains">
-            <h:outputText value="#{task.id}" />
-        </p:column>
- 
-        <p:column headerText="#{tareaTitulo}" filterBy="#{task.title}" sortBy="#{task.title}" filterMatchMode="startsWith">
-            <h:outputText value="#{task.title}" />
-        </p:column>
- 
-        <p:column headerText="#{tareaComentarios}" filterBy="#{task.comments}" sortBy="#{task.comments}" filterMatchMode="contains">
-           
-            <h:outputText value="#{task.comments}" />
-        </p:column>
- 
-        <p:column headerText="#{menuUsuario_categorias}" filterBy="#{task.categoryId}" sortBy="#{task.categoryId}" filterMatchMode="in">
-           <f:facet name="filter">
-                <p:selectOneMenu onchange="PF('tasksTable').filter()" style="width:100px;" >
-                    <f:selectItem itemLabel="#{titulo_tabla_seleccionaUna}" itemValue="#{null}" noSelectionOption="true" />
-                    <f:selectItems value="#{dtTableView.categorys}" />
-                </p:selectOneMenu>
-            </f:facet>
-            <h:outputText value="#{task.id}" />
-        </p:column>
-    </p:dataTable>
-	</h:form>
-	<p:commandButton value="#{msg.botonAtras}" 
-	action="#{controller.atras}" />
 
-	</h:body>
-</html>
+</ui:composition>

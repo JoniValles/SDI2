@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<form>
+	<h3 style="margin:15">Inbox: </h3>
+         <h:outputText value="Show finished" />
+        <p:inputSwitch value="#{dtTableView.showFinished}">
+            <p:ajax update="tablatareas_inbox" />
+        </p:inputSwitch>
+            <p:dataTable id="tablatareas_inbox" var="task" value="#{dtTableView.inbox}" widgetVar="tasksTable" multiViewState="true"
+                 rows="8" paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="8"
+                 selectionMode="single" selection="#{dtTableView.selectedTask}" rowKey="#{task.id}"
+                 emptyMessage="#{msg.tabla_NoExistenTareas}" filteredValue="#{dtTableView.filteredTasks}"
+              >
+ 
+        <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="#{msg.titulo_tabla_bTodosLosCampos}" />
+                <p:inputText id="globalFilter" onkeyup="PF('tasksTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+            </p:outputPanel>
+        </f:facet>
+ 
+        <!-- <p:ajax event="rowSelect" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
+  -->
+        <p:column headerText="Id"   >
+            <h:outputText value="#{task.id}" />
+        </p:column>
+ 
+        <p:column headerText="#{msg.tareaTitulo}" filterBy="#{task.title}" filterMatchMode="contains">
+            <h:outputText value="#{task.title}" />
+        </p:column>
+ 
+        <p:column headerText="#{msg.tareaComentarios}">
+            <h:outputText value="#{task.comments}" />
+        </p:column>
+       	<p:column headerText="#{msg.tareaCreada}" >
+            <h:outputText value="#{task.planned}" />
+        </p:column>
+         <p:column headerText="#{msg.tareaPlaneada}" sortBy="#{task.finished}">
+            <h:outputText value="#{task.finished}" />
+        </p:column>
+      <!--   <p:column headerText="#{menuUsuario_categorias}" filterBy="#{task.categoryId}" sortBy="#{task.categoryId}" filterMatchMode="in">
+           <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('tasksTable').filter()" style="width:100px;" >
+                    <f:selectItem itemLabel="#{titulo_tabla_seleccionaUna}" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{dtTableView.categorys}" />
+                </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{task.id}" />
+        </p:column> -->
+    </p:dataTable>
+</form>
+</ui:composition>
