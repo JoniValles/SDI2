@@ -148,7 +148,7 @@ public class SDI2_Tests {
 				SeleniumUtils.textoPresentePagina(driver, "error");
 	}
 
-	*/
+	
 	
 
 		//PR04: Probar que la base de datos contiene los datos insertados con
@@ -203,17 +203,57 @@ public class SDI2_Tests {
 
 		}
 
+*/
+	
+	
 		//PR07: Cambiar el estado de un usuario a DISABLED a ENABLED. Y Y tratar de
 		//entrar con el usuario que se ha activado.
+		//SOLO PASA LA PRIMERA PRUEBA QUE SE HAGA, LUEGO QUEDA ENABLED
 		@Test
 		public void prueba07() {
+			
+			//Login
+			testLoginParametros("form-login", "admin",
+					"admin");
+			
+			//Se carga el form
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"listaUsuarios", 3);
+
+			//Se comprueba usuario
+			SeleniumUtils.textoPresentePagina(driver, "user1");
+			SeleniumUtils.textoPresentePagina(driver, "user1@mail.com");
+
 			/*
-			testModificarStatus("form-login", "admin", "admin",
-					"ENABLED");
-			testLoginParametros("form-login", "usuario1", "usuario1");
-			TEMPLATES */
+			By enlace = By
+					.xpath("/html/body/form[@id='listaUsuarios']/div[@id='listaUsuarios:listado']/div[@class='ui-datatable-tablewrapper']/table/tbody[@id='listaUsuarios:listado_data']/tr[@class='ui-widget-content ui-datatable-even'][3]/td[4]");
+			driver.findElement(enlace).click();// Ahora estaria disabled
+			*/
+			
+			By enlace = By
+					.xpath("/html/body/form[@id='listaUsuarios']/div[@id='listaUsuarios:listado']/div[@class='ui-datatable-tablewrapper']/table/tbody[@id='listaUsuarios:listado_data']/tr[@class='ui-widget-content ui-datatable-even'][3]/td[5]/a[@id='listaUsuarios:listado:4:j_idt19']");
+			driver.findElement(enlace).click();// Ahora estaria enabled
+			
+
+			enlace = By.xpath("/html/body/div[1]/button[@id='botonCerrarSesion']/span[@class='ui-button-text ui-c']");
+			driver.findElement(enlace).click();
+
+			//Se accede como usuario
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"form-login", 3);
+			testLoginParametros("formLogin", "user1",
+					"user1");
+			//Se visualiza el menu del usuario
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"mimenu", 3);
+			
+		
+			
+
 		}
 
+		/*
+		
 		//PR08: Ordenar por Login
 		@Test
 		public void prueba08() throws InterruptedException {
@@ -457,5 +497,5 @@ public class SDI2_Tests {
 			assertTrue(false);
 		}
 	 
-	 
+	 */
 }

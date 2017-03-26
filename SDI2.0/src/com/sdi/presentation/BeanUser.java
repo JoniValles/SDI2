@@ -3,12 +3,14 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import alb.util.log.Log;
 
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
@@ -350,11 +352,12 @@ public class BeanUser implements Serializable {
 	}
 	
 	public String cerrarSesion() {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-				.put("userSession", null);
-		Log.debug("Se cierra la sesión correctamente");
-		return "EXITO";
+		Map<String, Object> session = FacesContext.getCurrentInstance()
+				.getExternalContext().getSessionMap();
+		session.put("LOGGEDIN_USER", null);
+		Log.info("Sesion cerrada.");
+
+		return "true";
 	}
-	
 	
 }

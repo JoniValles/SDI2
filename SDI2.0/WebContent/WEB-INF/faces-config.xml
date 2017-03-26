@@ -1,63 +1,57 @@
-<faces-config
-    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
-    version="2.2">
-    
-    <application>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+
+	<application>
 		<resource-bundle>
 			<base-name>messages</base-name>
 			<var>msg</var>
 		</resource-bundle>
 	</application>
-    
-    <managed-bean>
- 		<managed-bean-name>controller</managed-bean-name>
- 		<managed-bean-class>com.sdi.presentation.BeanUser</managed-bean-class>
- 		<managed-bean-scope>session</managed-bean-scope>
+
+	<managed-bean>
+		<managed-bean-name>controller</managed-bean-name>
+		<managed-bean-class>com.sdi.presentation.BeanUser</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
- 		<managed-bean-name>settings</managed-bean-name>
- 		<managed-bean-class>com.sdi.presentation.BeanSettings</managed-bean-class>
- 		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-name>settings</managed-bean-name>
+		<managed-bean-class>com.sdi.presentation.BeanSettings</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
-	
+
 	<navigation-rule>
- 		<from-view-id>*</from-view-id>
- 		<navigation-case>
- 			<from-outcome>error</from-outcome>
- 			<to-view-id>/error.xhtml</to-view-id>
- 		</navigation-case>
- 		<navigation-case>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>error</from-outcome>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>crearTarea</from-outcome>
 			<to-view-id>/crearTarea.xhtml</to-view-id>
 		</navigation-case>
-			<navigation-case>
+		<navigation-case>
 			<from-action>#{controller.cerrarSesion}</from-action>
-			<from-outcome>EXITO</from-outcome>
+			<from-outcome>true</from-outcome>
 			<to-view-id>/index.xhtml</to-view-id>
 		</navigation-case>
- 	</navigation-rule>
- 	
- 	<navigation-rule>
- 		<from-view-id>/registroUsuario.xhtml</from-view-id>
- 		<navigation-case>
- 			<from-action>#{controller.atras}</from-action>
- 			<from-outcome>true</from-outcome>
- 			<to-view-id>/index.html</to-view-id>
- 		</navigation-case>
- 		<navigation-case>
- 			<from-action>#{controller.registrar}</from-action>
- 			<from-outcome>true</from-outcome>
- 			<to-view-id>/index.xhtml</to-view-id>
- 		</navigation-case>
- 		<navigation-case>
- 			<from-action>#{controller.registrar}</from-action>
- 			<from-outcome>false</from-outcome>
- 			<to-view-id>/registroUsuario.xhtml</to-view-id>
- 		</navigation-case>
- 	</navigation-rule>
- 	
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/registroUsuario.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{controller.atras}</from-action>
+			<from-outcome>true</from-outcome>
+			<to-view-id>/index.html</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{controller.registro}</from-action>
+			<from-outcome>true</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
 	<navigation-rule>
 		<from-view-id>/index.xhtml</from-view-id>
 		<navigation-case>
@@ -76,15 +70,17 @@
 			<to-view-id>/registroUsuario.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
-	
+
+
+<!-- Menu Admin -->
 	<navigation-rule>
 		<from-view-id>/listaUsuarios.xhtml</from-view-id>
 		<navigation-case>
- 			<from-action>#{controller.atras}</from-action>
- 			<from-outcome>true</from-outcome>
- 			<to-view-id>/index.html</to-view-id>
- 		</navigation-case>
- 		<navigation-case>
+			<from-action>#{controller.atras}</from-action>
+			<from-outcome>true</from-outcome>
+			<to-view-id>/index.html</to-view-id>
+		</navigation-case>
+		<navigation-case>
 			<from-action>#{controller.cambiarEstado(user)}</from-action>
 			<from-outcome>exito</from-outcome>
 			<to-view-id>/listaUsuarios.xhtml</to-view-id>
@@ -94,72 +90,82 @@
 			<from-outcome>exito</from-outcome>
 			<to-view-id>/listaUsuarios.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-action>#{controller.cerrarSesion}</from-action>
+			<from-outcome>true</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
-	
-<!--  MENU USUARIO -->
+
+	<!-- MENU USUARIO -->
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
- 			<from-action>#{controller.irACasa}</from-action>
- 			<from-outcome>home</from-outcome>
- 			<to-view-id>/menuUsuario.xhtml</to-view-id>
- 		</navigation-case>
+			<from-action>#{controller.irACasa}</from-action>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/menuUsuario.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
-	
+
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
- 			<from-action>#{controller.listadoTareas}</from-action>
- 			<from-outcome>true</from-outcome>
- 			<to-view-id>/listaTareas.xhtml</to-view-id>
- 		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
- 			<from-action>#{controller.listadoCategorias}</from-action>
- 			<from-outcome>true</from-outcome>
- 			<to-view-id>/listaCategorias.xhtml</to-view-id>
- 		</navigation-case>
+			<from-action>#{controller.listadoTareas}</from-action>
+			<from-outcome>true</from-outcome>
+			<to-view-id>/listaTareas.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
- 			<from-action>#{controller.irACrearTarea}</from-action>
- 			<from-outcome>crearTarea</from-outcome>
- 			<to-view-id>/crearTarea.xhtml</to-view-id>
- 		</navigation-case>
+			<from-action>#{controller.listadoCategorias}</from-action>
+			<from-outcome>true</from-outcome>
+			<to-view-id>/listaCategorias.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
-		<navigation-rule>
+	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
- 			<from-action>#{controller.irACrearCategoria}</from-action>
- 			<from-outcome>crearCategoria</from-outcome>
- 			<to-view-id>/crearCategoria.xhtml</to-view-id>
- 		</navigation-case>
+			<from-action>#{controller.irACrearTarea}</from-action>
+			<from-outcome>crearTarea</from-outcome>
+			<to-view-id>/crearTarea.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-action>#{controller.irACrearCategoria}</from-action>
+			<from-outcome>crearCategoria</from-outcome>
+			<to-view-id>/crearCategoria.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
 		<from-view-id>/crearTarea.xhtml</from-view-id>
 		<navigation-case>
- 			<from-action>#{controller.crearTarea}</from-action>
- 			<from-outcome>true</from-outcome>
- 			<to-view-id>/menuUsuario.xhtml</to-view-id>
- 		</navigation-case>
+			<from-action>#{controller.crearTarea}</from-action>
+			<from-outcome>true</from-outcome>
+			<to-view-id>/menuUsuario.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
-		
-	
-	<!--                   -->
-	
+
+
+	<!-- -->
+
 	<navigation-rule>
 		<from-view-id>/listaTareas.xhtml</from-view-id>
 		<navigation-case>
- 			<from-action>#{controller.atras}</from-action>
- 			<to-view-id>/menuUsuario.xhtml</to-view-id>
- 		</navigation-case>
+			<from-action>#{controller.atras}</from-action>
+			<to-view-id>/menuUsuario.xhtml</to-view-id>
+		</navigation-case>
+			<navigation-case>
+			<from-action>#{controller.cerrarSesion}</from-action>
+			<from-outcome>true</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
-		
-		
-	
+
+
+
 
 </faces-config>
