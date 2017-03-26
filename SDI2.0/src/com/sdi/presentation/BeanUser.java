@@ -1,7 +1,9 @@
  package com.sdi.presentation;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -43,10 +45,10 @@ public class BeanUser implements Serializable {
 	
 	private String categoryName;
 	
+	//String usado para informar al usuario
+	private String msg="";
 
-	private List<Task> finishedTask=null;
-	private List<Task> weekTask=null;
-	private List<Task> todayTask=null;
+
 
 
 	
@@ -87,29 +89,29 @@ public class BeanUser implements Serializable {
 		this.tasks = tasks;
 	}
 
-	public List<Task> getFinishedTask() {
-		return finishedTask;
-	}
-
-	public void setFinishedTask(List<Task> finishedTask) {
-		this.finishedTask = finishedTask;
-	}
-
-	public List<Task> getWeekTask() {
-		return weekTask;
-	}
-
-	public void setWeekTask(List<Task> weekTask) {
-		this.weekTask = weekTask;
-	}
-
-	public List<Task> getTodayTask() {
-		return todayTask;
-	}
-
-	public void setTodayTask(List<Task> todayTask) {
-		this.todayTask = todayTask;
-	}
+//	public List<Task> getFinishedTask() {
+//		return finishedTask;
+//	}
+//
+//	public void setFinishedTask(List<Task> finishedTask) {
+//		this.finishedTask = finishedTask;
+//	}
+//
+//	public List<Task> getWeekTask() {
+//		return weekTask;
+//	}
+//
+//	public void setWeekTask(List<Task> weekTask) {
+//		this.weekTask = weekTask;
+//	}
+//
+//	public List<Task> getTodayTask() {
+//		return todayTask;
+//	}
+//
+//	public void setTodayTask(List<Task> todayTask) {
+//		this.todayTask = todayTask;
+//	}
 
 	public Task getTask() {
 		return task;
@@ -144,7 +146,7 @@ public class BeanUser implements Serializable {
 				return "admin";
 			}
 
-			listadoTareas();
+//			listadoTareas();
 
 		} catch (BusinessException b) {
 			return "error"; 
@@ -198,21 +200,21 @@ public class BeanUser implements Serializable {
 	}
 
 	public String listadoTareas() throws BusinessException{
-		
-			tasks = new ArrayList<Task>();
-			finishedTask=Services.getTaskService().findFinishedInboxTasksByUserId(user.getId());
-			weekTask=Services.getTaskService().findWeekTasksByUserId(user.getId());
-			todayTask=Services.getTaskService().findTodayTasksByUserId(user.getId());
-		
-			if(finishedTask!=null)
-				tasks.addAll(finishedTask);
-			if(todayTask!=null)
-				tasks.addAll(todayTask);
-			if(weekTask!=null)
-				tasks.addAll(weekTask);
+//		
+//			tasks = new ArrayList<Task>();
+//			finishedTask=Services.getTaskService().findFinishedInboxTasksByUserId(user.getId());
+//			weekTask=Services.getTaskService().findWeekTasksByUserId(user.getId());
+//			todayTask=Services.getTaskService().findTodayTasksByUserId(user.getId());
+//		
+//			if(finishedTask!=null)
+//				tasks.addAll(finishedTask);
+//			if(todayTask!=null)
+//				tasks.addAll(todayTask);
+//			if(weekTask!=null)
+//				tasks.addAll(weekTask);
 		return "true";
 	}
-	
+//	
 
 	
 	public String registro(){
@@ -244,9 +246,6 @@ public class BeanUser implements Serializable {
 				return "false";
 			}
 		}
-			
-			
-		
 		try {
 			userService = Services.getUserService();
 			user.setIsAdmin(false);
@@ -311,12 +310,12 @@ public class BeanUser implements Serializable {
 		cat.setUserId(user.getId());
 		try {
 			taskService = Services.getTaskService();
-			taskService.createCategory(cat );
+			taskService.createCategory(cat);
 
 		} catch (BusinessException b) { 
 			return "error"; 
 		}
-		return "true"; 
+		return "true";
 	}
 	
 	public List<Category> getCategorys(){
@@ -360,4 +359,18 @@ public class BeanUser implements Serializable {
 		return "true";
 	}
 	
+	public Date getHoy(){
+		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		return date;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+	
+
 }

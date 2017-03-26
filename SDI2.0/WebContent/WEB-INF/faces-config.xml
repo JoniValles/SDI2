@@ -149,8 +149,18 @@
 		</navigation-case>
 	</navigation-rule>
 
-
-	<!-- -->
+	
+		<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+ 			<from-action>#{controller.crearCategoria}</from-action>
+ 			<from-outcome>true</from-outcome>
+ 			<to-view-id>/listaCategorias.xhtml</to-view-id>
+ 		</navigation-case>
+	</navigation-rule>
+	
+	<!--                   -->
+	
 
 	<navigation-rule>
 		<from-view-id>/listaTareas.xhtml</from-view-id>
