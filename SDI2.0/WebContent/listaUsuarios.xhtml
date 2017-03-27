@@ -9,23 +9,26 @@
 	<title>#{msg.cabeceraAdmin}</title>
 </h:head>
 <h:body>
-	
+
 	<h:form id="listaUsuarios">
-	<ui:include src="/snippets/login_menu.xhtml" />
+		<ui:include src="/snippets/login_menu.xhtml" />
 		<p:dataTable id="listado" var="user" value="#{controller.users}"
 			border="2">
 
-			<p:column>
-				<f:facet name="header">#{msg.usuarioId}</f:facet>#{user.id}</p:column>
-			<p:column>
-				<f:facet name="header">#{msg.usuarioLogin}</f:facet>#{user.login}
-				</p:column>
-			<p:column>
-				<f:facet name="header">#{msg.usuarioEmail}</f:facet>#{user.email}
-				</p:column>
-			<p:column>
-				<f:facet name="header">#{msg.usuarioStatus}</f:facet>#{user.status}
-				</p:column>
+			<p:column headerText="#{msg.usuarioId}">
+				<h:outputText value="#{user.id}" />
+			</p:column>
+
+			<p:column headerText="#{msg.usuarioLogin}" sortBy="#{user.login}" id="ordenarLogin">
+				<h:outputText value="#{user.login}" id="loginUsers"  />
+			</p:column>
+			<p:column headerText="#{msg.usuarioEmail}" sortBy="#{user.email}" id="ordenarEmail">
+				<h:outputText value="#{user.email}" id="emailUsers"  />
+			</p:column>
+			
+			<p:column headerText="#{msg.usuarioStatus}" sortBy="#{user.status}" id="ordenarStatus">
+				<h:outputText value="#{user.status}" id="statusUsers"  />
+			</p:column>
 
 			<p:column>
 				<f:facet name="header">#{msg.usuarioStatus}</f:facet>

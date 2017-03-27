@@ -34,7 +34,7 @@ public class PlantillaSDI2_Tests1617 {
 		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
 		FirefoxProfile firefoxProfile = new FirefoxProfile();       
 		driver = new FirefoxDriver(ffBinary,firefoxProfile);
-		driver.get("http://localhost:8280/SDI2.0");
+		driver.get("http://localhost:8280/SDI-53/");
 		//Este código es para ejecutar con una versión instalada de Firex 46.0 
 		//driver = new FirefoxDriver();
 		//driver.get("http://localhost:8180/sdi2-n");			

@@ -44,7 +44,7 @@ public class SDI2_Tests {
 		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
 		FirefoxProfile firefoxProfile = new FirefoxProfile();       
 		driver = new FirefoxDriver(ffBinary,firefoxProfile);
-		driver.get("http://localhost:8280/SDI2.0/");	
+		driver.get("http://localhost:8280/SDI-53/");	
 		//Este código es para ejecutar con una versión instalada de Firex 46.0 
 		//driver = new FirefoxDriver();
 		//driver.get("http://localhost:8180/Notaneitorv2_0_SOLUCION_pruebas/");			
@@ -158,7 +158,7 @@ public class SDI2_Tests {
 			assertTrue(false);
 		}
 		
-		
+		*/
 
 		//PR05: Visualizar correctamente la lista de usuarios normales.
 		@Test
@@ -203,7 +203,7 @@ public class SDI2_Tests {
 
 		}
 
-*/
+
 	
 	
 		//PR07: Cambiar el estado de un usuario a DISABLED a ENABLED. Y Y tratar de
@@ -252,32 +252,110 @@ public class SDI2_Tests {
 
 		}
 
-		/*
+		
+		//EN OBRAS
+		
+		
 		
 		//PR08: Ordenar por Login
 		@Test
 		public void prueba08() throws InterruptedException {
-			//Templates
+			//Login
+			testLoginParametros("form-login", "admin",
+					"admin");
+			
+			//Se carga el form
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"listaUsuarios", 3);
+
+			//Ordenados inicialmente
+			List<WebElement> logins = driver.findElements(By
+					.xpath("//span[contains(@id, 'loginUsers')]"));
+			assertTrue(logins.get(0).getText().equals("admin"));
+			assertTrue(logins.get(1).getText().equals("john"));
+			assertTrue(logins.get(2).getText().equals("ian"));
+			assertTrue(logins.get(3).getText().equals("mary"));
+
+			By button = By.xpath("//th[contains(@id, 'ordenarLogin')]");
+			driver.findElement(button).click();
+			
+			//Ordenados despues del click
+			assertTrue(logins.get(0).getText().equals("admin"));
+			assertTrue(logins.get(1).getText().equals("ian"));
+			assertTrue(logins.get(2).getText().equals("john"));
+			assertTrue(logins.get(3).getText().equals("mary"));
+
+			
+
 		}
 
 
 		//PR09: Ordenar por Email
 		@Test
 		public void prueba09() throws InterruptedException {
-			//Templates
+			//Login
+			testLoginParametros("form-login", "admin",
+					"admin");
+			
+			//Se carga el form
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"listaUsuarios", 3);
+
+			//Ordenados inicialmente
+			List<WebElement> logins = driver.findElements(By
+					.xpath("//span[contains(@id, 'emailUsers')]"));
+			assertTrue(logins.get(0).getText().equals("admin"));
+			assertTrue(logins.get(1).getText().equals("john"));
+			assertTrue(logins.get(2).getText().equals("ian"));
+			assertTrue(logins.get(3).getText().equals("mary"));
+
+			By button = By.xpath("//th[contains(@id, 'ordenarEmail')]");
+			driver.findElement(button).click();
+			
+			//Ordenados despues del click
+			assertTrue(logins.get(0).getText().equals("admin"));
+			assertTrue(logins.get(1).getText().equals("ian"));
+			assertTrue(logins.get(2).getText().equals("john"));
+			assertTrue(logins.get(3).getText().equals("mary"));
 		}
 
 		//PR10: Ordenar por Status
 		@Test
 		public void prueba10() throws InterruptedException {
-			//Templates
+			//Login
+			testLoginParametros("form-login", "admin",
+					"admin");
+			
+			//Se carga el form
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"listaUsuarios", 3);
+
+			//Ordenados inicialmente
+			List<WebElement> logins = driver.findElements(By
+					.xpath("//span[contains(@id, 'statusUsers')]"));
+			assertTrue(logins.get(0).getText().equals("admin"));
+			assertTrue(logins.get(1).getText().equals("john"));
+			assertTrue(logins.get(2).getText().equals("ian"));
+			assertTrue(logins.get(3).getText().equals("mary"));
+
+			By button = By.xpath("//th[contains(@id, 'ordenarStatus')]");
+			driver.findElement(button).click();
+			
+			//Ordenados despues del click
+			assertTrue(logins.get(0).getText().equals("admin"));
+			assertTrue(logins.get(1).getText().equals("ian"));
+			assertTrue(logins.get(2).getText().equals("john"));
+			assertTrue(logins.get(3).getText().equals("mary"));
 		}
 
+		/*
 		//PR11: Borrar una cuenta de usuario normal y datos relacionados.
 		@Test
 		public void prueba11() throws InterruptedException {
 			//Templates
 		}
+		
+		/*
 
 
 		//PR12: Crear una cuenta de usuario normal con datos válidos.

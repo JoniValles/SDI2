@@ -53,7 +53,7 @@ GRANT DBA TO SA
 SET SCHEMA PUBLIC
 INSERT INTO TUSERS VALUES(1,'me@system.gtd',TRUE,'admin','admin','ENABLED')
 INSERT INTO TUSERS VALUES(2,'john@mail.com',FALSE,'john','john123','ENABLED')
-INSERT INTO TUSERS VALUES(3,'ian@mail.com',FALSE,'ian','ian123','DISABLED')
+INSERT INTO TUSERS VALUES(3,'ian@mail.com',FALSE,'ian','ian123','ENABLED')
 INSERT INTO TUSERS VALUES(4,'mary5@mail.com',FALSE,'mary','mary123','ENABLED')
 INSERT INTO TUSERS VALUES(5,'user1@mail.com',FALSE,'user1','user1','DISABLED')
 INSERT INTO TUSERS VALUES(6,'user2@mail.com',FALSE,'user2','user2','ENABLED')
