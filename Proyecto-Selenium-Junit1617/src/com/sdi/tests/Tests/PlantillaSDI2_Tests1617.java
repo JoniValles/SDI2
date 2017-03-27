@@ -47,7 +47,7 @@ public class PlantillaSDI2_Tests1617 {
 		//Cerramos el navegador
 		driver.quit();
 	}
-
+	/*
 	//PRUEBAS
 	//ADMINISTRADOR
 	//PR01: Autentificar correctamente al administrador.
@@ -56,7 +56,7 @@ public class PlantillaSDI2_Tests1617 {
 		
 		assertTrue(false);	
     }
-	/*
+	
 	//PR02: Fallo en la autenticación del administrador por introducir mal el login.
 	@Test
     public void prueba02() {

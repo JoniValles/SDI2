@@ -1,5 +1,7 @@
 package com.sdi.tests.Tests;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.util.List;
 
@@ -14,7 +16,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
 import com.sdi.tests.pageobjects.PO_AltaForm;
-import com.sdi.tests.pageobjects.PO_Form;
 import com.sdi.tests.utils.SeleniumUtils;
 
 
@@ -23,7 +24,7 @@ public class SDI2_Tests {
 
 	WebDriver driver; // = new FirefoxDriver();
 	List<WebElement> elementos = null;
-	
+
 	public SDI2_Tests()
 	{
 		//driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
@@ -83,7 +84,7 @@ public class SDI2_Tests {
 		// Comprobamos que aparezca el mensaje para el administrador
 		SeleniumUtils.textoPresentePagina(driver, "error");
 	}
-	
+
 	public void testVisualizarUsuarios(String nombreform, String usuario,
 			String contraseña) {
 
@@ -99,7 +100,7 @@ public class SDI2_Tests {
 		SeleniumUtils.textoPresentePagina(driver, "usuario1");
 	}
 
-/*
+	/*
 	//PR01: Autentificar correctamente al administrador.
 	@Test
 	public void prueba01() {
@@ -128,10 +129,10 @@ public class SDI2_Tests {
 
 		//Esta presente el formulario login?
 		//driver.findElement(By.id("form-login"));
-		
-		//Esta presente el texto error?
-		SeleniumUtils.textoPresentePagina(driver, "error");
 
+		//Seguimos en index
+SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"form-login", 3);
 	}
 
 
@@ -144,13 +145,14 @@ public class SDI2_Tests {
 
 		//Esta presente el formulario login?
 		//driver.findElement(By.id("form-login"));
-		
-		//Esta presente el texto error?
-				SeleniumUtils.textoPresentePagina(driver, "error");
+
+		//Seguimos en index
+SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"form-login", 3);
 	}
 
-	
-	
+
+
 
 		//PR04: Probar que la base de datos contiene los datos insertados con
 		//conexión correcta a la base de datos.
@@ -158,8 +160,8 @@ public class SDI2_Tests {
 		public void prueba04() {
 			assertTrue(false);
 		}
-		
-		*/
+
+
 
 		//PR05: Visualizar correctamente la lista de usuarios normales.
 		@Test
@@ -198,25 +200,25 @@ public class SDI2_Tests {
 
 			SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin", 10);
 			SeleniumUtils.textoPresentePagina(driver, usuario);
-			
-			
+
+
 			//FALTA
 
 		}
 
 
-	
-	
+
+
 		//PR07: Cambiar el estado de un usuario a DISABLED a ENABLED. Y Y tratar de
 		//entrar con el usuario que se ha activado.
 		//SOLO PASA LA PRIMERA PRUEBA QUE SE HAGA, LUEGO QUEDA ENABLED
 		@Test
 		public void prueba07() {
-			
+
 			//Login
 			testLoginParametros("form-login", "admin",
 					"admin");
-			
+
 			//Se carga el form
 			SeleniumUtils.EsperaCargaPagina(driver, "id",
 					"listaUsuarios", 3);
@@ -225,16 +227,11 @@ public class SDI2_Tests {
 			SeleniumUtils.textoPresentePagina(driver, "user1");
 			SeleniumUtils.textoPresentePagina(driver, "user1@mail.com");
 
-			/*
+
 			By enlace = By
-					.xpath("/html/body/form[@id='listaUsuarios']/div[@id='listaUsuarios:listado']/div[@class='ui-datatable-tablewrapper']/table/tbody[@id='listaUsuarios:listado_data']/tr[@class='ui-widget-content ui-datatable-even'][3]/td[4]");
-			driver.findElement(enlace).click();// Ahora estaria disabled
-			*/
-			
-			By enlace = By
-					.xpath("/html/body/form[@id='listaUsuarios']/div[@id='listaUsuarios:listado']/div[@class='ui-datatable-tablewrapper']/table/tbody[@id='listaUsuarios:listado_data']/tr[@class='ui-widget-content ui-datatable-even'][3]/td[5]/a[@id='listaUsuarios:listado:4:j_idt19']");
+					.xpath("/html/body/form[@id='listaUsuarios']/div[@id='listaUsuarios:listado']/div[@class='ui-datatable-tablewrapper']/table/tbody[@id='listaUsuarios:listado_data']/tr[@class='ui-widget-content ui-datatable-even'][3]/td[5]/a[@id='listaUsuarios:listado:4:j_idt10']");
 			driver.findElement(enlace).click();// Ahora estaria enabled
-			
+
 
 			enlace = By.xpath("/html/body/div[1]/button[@id='botonCerrarSesion']/span[@class='ui-button-text ui-c']");
 			driver.findElement(enlace).click();
@@ -247,24 +244,18 @@ public class SDI2_Tests {
 			//Se visualiza el menu del usuario
 			SeleniumUtils.EsperaCargaPagina(driver, "id",
 					"mimenu", 3);
-			
-		
-			
+			}
 
-		}
 
-		
-		//EN OBRAS
-		
-		
-		
+
+
 		//PR08: Ordenar por Login
 		@Test
 		public void prueba08() throws InterruptedException {
 			//Login
 			testLoginParametros("form-login", "admin",
 					"admin");
-			
+
 			//Se carga el form
 			SeleniumUtils.EsperaCargaPagina(driver, "id",
 					"listaUsuarios", 3);
@@ -279,14 +270,20 @@ public class SDI2_Tests {
 
 			By button = By.xpath("//th[contains(@id, 'ordenarLogin')]");
 			driver.findElement(button).click();
-			
+			//Espera para acceder correctamente al elemento del DOM
+			Thread.sleep(1000);
+
+			//Se vuelven a asignar al vector despues de ordenar
+			logins = driver.findElements(By
+					.xpath("//span[contains(@id, 'loginUsers')]"));
+
 			//Ordenados despues del click
 			assertTrue(logins.get(0).getText().equals("admin"));
 			assertTrue(logins.get(1).getText().equals("ian"));
 			assertTrue(logins.get(2).getText().equals("john"));
 			assertTrue(logins.get(3).getText().equals("mary"));
 
-			
+
 
 		}
 
@@ -297,7 +294,7 @@ public class SDI2_Tests {
 			//Login
 			testLoginParametros("form-login", "admin",
 					"admin");
-			
+
 			//Se carga el form
 			SeleniumUtils.EsperaCargaPagina(driver, "id",
 					"listaUsuarios", 3);
@@ -305,20 +302,30 @@ public class SDI2_Tests {
 			//Ordenados inicialmente
 			List<WebElement> logins = driver.findElements(By
 					.xpath("//span[contains(@id, 'emailUsers')]"));
-			assertTrue(logins.get(0).getText().equals("admin"));
-			assertTrue(logins.get(1).getText().equals("john"));
-			assertTrue(logins.get(2).getText().equals("ian"));
-			assertTrue(logins.get(3).getText().equals("mary"));
+			assertTrue(logins.get(0).getText().equals("me@system.gtd"));
+			assertTrue(logins.get(1).getText().equals("john@mail.com"));
+			assertTrue(logins.get(2).getText().equals("ian@mail.com"));
+			assertTrue(logins.get(3).getText().equals("mary5@mail.com"));
 
 			By button = By.xpath("//th[contains(@id, 'ordenarEmail')]");
 			driver.findElement(button).click();
-			
+			//Espera para acceder correctamente al elemento del DOM
+			Thread.sleep(1000);
+
+			//Se vuelven a asignar al vector despues de ordenar
+			logins = driver.findElements(By
+					.xpath("//span[contains(@id, 'emailUsers')]"));
+
 			//Ordenados despues del click
-			assertTrue(logins.get(0).getText().equals("admin"));
-			assertTrue(logins.get(1).getText().equals("ian"));
-			assertTrue(logins.get(2).getText().equals("john"));
-			assertTrue(logins.get(3).getText().equals("mary"));
+			assertTrue(logins.get(0).getText().equals("ian@mail.com"));
+			assertTrue(logins.get(1).getText().equals("john@mail.com"));
+			assertTrue(logins.get(2).getText().equals("mary5@mail.com"));
+			assertTrue(logins.get(3).getText().equals("me@system.gtd"));
 		}
+
+
+
+
 
 		//PR10: Ordenar por Status
 		@Test
@@ -326,7 +333,7 @@ public class SDI2_Tests {
 			//Login
 			testLoginParametros("form-login", "admin",
 					"admin");
-			
+
 			//Se carga el form
 			SeleniumUtils.EsperaCargaPagina(driver, "id",
 					"listaUsuarios", 3);
@@ -334,29 +341,68 @@ public class SDI2_Tests {
 			//Ordenados inicialmente
 			List<WebElement> logins = driver.findElements(By
 					.xpath("//span[contains(@id, 'statusUsers')]"));
-			assertTrue(logins.get(0).getText().equals("admin"));
-			assertTrue(logins.get(1).getText().equals("john"));
-			assertTrue(logins.get(2).getText().equals("ian"));
-			assertTrue(logins.get(3).getText().equals("mary"));
+			assertTrue(logins.get(0).getText().equals("ENABLED"));
+			assertTrue(logins.get(1).getText().equals("ENABLED"));
+			assertTrue(logins.get(2).getText().equals("ENABLED"));
+			assertTrue(logins.get(3).getText().equals("ENABLED"));
 
 			By button = By.xpath("//th[contains(@id, 'ordenarStatus')]");
 			driver.findElement(button).click();
-			
+			//Espera para acceder correctamente al elemento del DOM
+			Thread.sleep(1000);
+
+			//Se vuelven a asignar al vector despues de ordenar
+			logins = driver.findElements(By
+					.xpath("//span[contains(@id, 'statusUsers')]"));
+
 			//Ordenados despues del click
-			assertTrue(logins.get(0).getText().equals("admin"));
-			assertTrue(logins.get(1).getText().equals("ian"));
-			assertTrue(logins.get(2).getText().equals("john"));
-			assertTrue(logins.get(3).getText().equals("mary"));
+			assertTrue(logins.get(0).getText().equals("ENABLED"));
+			assertTrue(logins.get(1).getText().equals("ENABLED"));
+			assertTrue(logins.get(2).getText().equals("ENABLED"));
+			assertTrue(logins.get(3).getText().equals("ENABLED"));
 		}
 
-		/*
-		//PR11: Borrar una cuenta de usuario normal y datos relacionados.
-		@Test
-		public void prueba11() throws InterruptedException {
-			//Templates
-		}
-		
-		/*
+	 
+
+
+	//PR11: Borrar una cuenta de usuario normal y datos relacionados.
+	@Test
+	public void prueba11() throws InterruptedException {
+		//Login
+		testLoginParametros("form-login", "admin",
+				"admin");
+
+		//Se carga el form
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"listaUsuarios", 3);
+
+		//Se comprueba usuario
+		SeleniumUtils.textoPresentePagina(driver, "user3");
+		SeleniumUtils.textoPresentePagina(driver, "user3@mail.com");
+
+
+		By enlace = By
+				.xpath("/html/body/form[@id='listaUsuarios']/div[@id='listaUsuarios:listado']/div[@class='ui-datatable-tablewrapper']/table/tbody[@id='listaUsuarios:listado_data']/tr[@class='ui-widget-content ui-datatable-even'][4]/td[6]/a[@id='listaUsuarios:listado:6:j_idt13']");
+		driver.findElement(enlace).click();//Ahora estaria eliminado
+
+
+		enlace = By.xpath("/html/body/div[1]/button[@id='botonCerrarSesion']/span[@class='ui-button-text ui-c']");
+		driver.findElement(enlace).click();
+
+		//Se accede como usuario
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-login", 3);
+		testLoginParametros("formLogin", "user3",
+				"user3");
+		//Como se ha eliminado no se puede acceder
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-login", 3);
+
+
+	}
+	*/
+
+	/*
 
 
 		//PR12: Crear una cuenta de usuario normal con datos válidos.
@@ -366,7 +412,7 @@ public class SDI2_Tests {
 					"usuarioprueba1", "usuarioprueba1");
 		}
 
-		public void testRegistroCorrecto(String usuario, String email,
+		public void testRegistro(String usuario, String email,
 				String contraseña, String contraseña2) throws InterruptedException {
 			SeleniumUtils.clickLink(driver, "linkRegistro");
 
@@ -404,30 +450,30 @@ public class SDI2_Tests {
 			SeleniumUtils.textoPresentePagina(driver, "error");
 
 		}
-*/
-		//PR14: Crear una cuenta de usuario normal con Email incorrecto.
-//		@Test
-//		public void prueba14() throws InterruptedException {
-//		
-//			By button = By.xpath("//input[contains(@id, 'form-template:"
-//					+ "form-login:btnRegistroUsuario')]");
-//			driver.findElement(button).click();
-//
-//			
-//			SeleniumUtils.EsperaCargaPagina(driver, "id",
-//					"form-template:form-registro", 10);
-//
-//			// Registramos con mail incorrecto
-//			new PO_Form().rellenaRegsitro(driver, "testLog", "testLog", "testLog",
-//					"testLog");
-//
-//			// Seguimos en el registro. no se ha registrado
-//			SeleniumUtils.EsperaCargaPagina(driver, "id",
-//					"form-template:form-registro", 10);
-//		
-//			
-//		}
-/*
+	 */
+	//PR14: Crear una cuenta de usuario normal con Email incorrecto.
+	//		@Test
+	//		public void prueba14() throws InterruptedException {
+	//		
+	//			By button = By.xpath("//input[contains(@id, 'form-template:"
+	//					+ "form-login:btnRegistroUsuario')]");
+	//			driver.findElement(button).click();
+	//
+	//			
+	//			SeleniumUtils.EsperaCargaPagina(driver, "id",
+	//					"form-template:form-registro", 10);
+	//
+	//			// Registramos con mail incorrecto
+	//			new PO_Form().rellenaRegsitro(driver, "testLog", "testLog", "testLog",
+	//					"testLog");
+	//
+	//			// Seguimos en el registro. no se ha registrado
+	//			SeleniumUtils.EsperaCargaPagina(driver, "id",
+	//					"form-template:form-registro", 10);
+	//		
+	//			
+	//		}
+	/*
 		//PR15: Crear una cuenta de usuario normal con Password incorrecta.
 		@Test
 		public void prueba15() throws InterruptedException {
@@ -591,6 +637,6 @@ public class SDI2_Tests {
 		public void prueba38() {
 			assertTrue(false);
 		}
-	 
+
 	 */
 }
