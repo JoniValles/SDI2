@@ -15,6 +15,8 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
+import com.sdi.tests.utils.SeleniumUtils;
+
 //Ordenamos las pruebas por el nombre del método
 @FixMethodOrder(MethodSorters.NAME_ASCENDING) 
 public class PlantillaSDI2_Tests1617 {
@@ -43,16 +45,18 @@ public class PlantillaSDI2_Tests1617 {
 	public void end()
 	{
 		//Cerramos el navegador
-		//driver.quit();
+		driver.quit();
 	}
-/*
+
 	//PRUEBAS
 	//ADMINISTRADOR
 	//PR01: Autentificar correctamente al administrador.
 	@Test
     public void prueba01() {
+		
 		assertTrue(false);	
     }
+	/*
 	//PR02: Fallo en la autenticación del administrador por introducir mal el login.
 	@Test
     public void prueba02() {
