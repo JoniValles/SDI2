@@ -7,6 +7,7 @@ import com.sdi.business.exception.BusinessException;
 import com.sdi.business.impl.admin.command.DeepDeleteUserCommand;
 import com.sdi.business.impl.admin.command.DisableUserCommand;
 import com.sdi.business.impl.admin.command.EnableUserCommand;
+import com.sdi.business.impl.admin.command.restartBDCommand;
 import com.sdi.business.impl.command.Command;
 import com.sdi.business.impl.command.CommandExecutor;
 import com.sdi.dto.User;
@@ -46,6 +47,11 @@ public class AdminServiceImpl implements AdminService {
 				return Persistence.getUserDao().findById(id);
 			}
 		});
+	}
+
+	@Override
+	public void restartBD() throws BusinessException {
+		new CommandExecutor<Void>().execute( new restartBDCommand() );
 	}
 
 }

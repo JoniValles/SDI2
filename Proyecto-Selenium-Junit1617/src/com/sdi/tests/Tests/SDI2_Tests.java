@@ -1,5 +1,4 @@
 package com.sdi.tests.Tests;
-import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.List;
@@ -15,6 +14,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
 import com.sdi.tests.pageobjects.PO_AltaForm;
+import com.sdi.tests.pageobjects.PO_Form;
 import com.sdi.tests.utils.SeleniumUtils;
 
 
@@ -23,6 +23,7 @@ public class SDI2_Tests {
 
 	WebDriver driver; // = new FirefoxDriver();
 	List<WebElement> elementos = null;
+	
 	public SDI2_Tests()
 	{
 		//driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
@@ -325,14 +326,30 @@ public class SDI2_Tests {
 			SeleniumUtils.textoPresentePagina(driver, "error");
 
 		}
-
+*/
 		//PR14: Crear una cuenta de usuario normal con Email incorrecto.
-		@Test
-		public void prueba14() throws InterruptedException {
-			testRegistroIncorrecto("usuariopruebaemail", "usuarioprueba1@gmail.com", 
-					"usuariopruebaemail1", "usuariopruebaemail1");
-		}
-
+//		@Test
+//		public void prueba14() throws InterruptedException {
+//		
+//			By button = By.xpath("//input[contains(@id, 'form-template:"
+//					+ "form-login:btnRegistroUsuario')]");
+//			driver.findElement(button).click();
+//
+//			
+//			SeleniumUtils.EsperaCargaPagina(driver, "id",
+//					"form-template:form-registro", 10);
+//
+//			// Registramos con mail incorrecto
+//			new PO_Form().rellenaRegsitro(driver, "testLog", "testLog", "testLog",
+//					"testLog");
+//
+//			// Seguimos en el registro. no se ha registrado
+//			SeleniumUtils.EsperaCargaPagina(driver, "id",
+//					"form-template:form-registro", 10);
+//		
+//			
+//		}
+/*
 		//PR15: Crear una cuenta de usuario normal con Password incorrecta.
 		@Test
 		public void prueba15() throws InterruptedException {
