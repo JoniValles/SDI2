@@ -37,7 +37,7 @@ public class BeanTasksController implements Serializable {
 		
 		private List<Category> categories;
 	    private String[] selectedCategorys;
-	    private String selectedCategory;
+	    private Long selectedCategoryId;
 	    
 	    @ManagedProperty("#{controller}")
 	    private BeanUser user;
@@ -271,23 +271,12 @@ public class BeanTasksController implements Serializable {
 			return "true";
 		}
 
-		/**
-		 * Metodo que retorna el Id de la categoria que ha sido seleccionada a la hora de
-		 * crear una tarea 
-		 * @return
-		 */
-		public Long obtenerIdCategoriaSeleccionada(){
-			for(Category cat : user.getCategories()){
-				if(cat.getName().equals(selectedCategory))
-					return cat.getId();
-			}return null;
-		}
+		
 		public String crearTarea() {
 			TaskService taskService;
 			
 			task.setUserId(user.getUser().getId());
-			
-			task.setCategoryId( obtenerIdCategoriaSeleccionada());
+			task.setCategoryId(selectedCategoryId);
 			
 			try {
 				taskService = Services.getTaskService();
@@ -295,10 +284,21 @@ public class BeanTasksController implements Serializable {
 				taskService.createTask(task);
 				//volvemos a task por defecto
 				task.iniciaTask(null);
+				
+				actualizarTablas();
+				
 			} catch (BusinessException b) { 
+				user.mostrarError(b.getMessage());
 				return "error"; 
 			}
 			return "true"; 
+		}
+		
+		private void actualizarTablas(){
+			cargarAllTask();
+			cargarFinishedTask();
+			cargarInbox();
+			cargarWeekTask();
 		}
 		
 		public String seleccionarTarea(Task task){
@@ -312,18 +312,19 @@ public class BeanTasksController implements Serializable {
 		public void setSelectedCategorys(String[] selectedCategorys) {
 			this.selectedCategorys = selectedCategorys;
 		}
-		public String getSelectedCategory() {
-			return selectedCategory;
-		}
-		public void setSelectedCategory(String selectedCategory) {
-			this.selectedCategory = selectedCategory;
-		}
+		
 		public List<Category> getCategories() {
 			categories=user.getCategories();
 			return categories;
 		}
 		public void setCategories(List<Category> categories) {
 			this.categories = categories;
+		}
+		public Long getSelectedCategoryId() {
+			return selectedCategoryId;
+		}
+		public void setSelectedCategoryId(Long selectedCategoryId) {
+			this.selectedCategoryId = selectedCategoryId;
 		}
 	}
 

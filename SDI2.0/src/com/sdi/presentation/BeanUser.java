@@ -300,7 +300,7 @@ public class BeanUser implements Serializable {
 		try {
 			taskService = Services.getTaskService();
 			taskService.createCategory(cat);
-
+			
 		} catch (BusinessException b) {
 			mostrarError(b.getMessage());
 			return "err"; 

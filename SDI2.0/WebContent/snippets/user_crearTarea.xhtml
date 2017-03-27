@@ -6,6 +6,8 @@
 
 	<p:panel>
 		<h:form id="form-task">
+		<p:messages id="messagess" showDetail="true" autoUpdate="true"
+							closable="true" />
 			<p:panelGrid id="Grid" columns="2" cellpadding="5">
 
 				<p:outputLabel value="#{msg.tareaTitulo}" />
@@ -21,8 +23,8 @@
 
 
 					<p:selectOneMenu id="taskCat"
-							value="#{dtTasks.selectedCategory}" >
-							<f:selectItem value=" " />
+							value="#{dtTasks.selectedCategoryId}" >
+							<f:selectItem itemLabel="#{msgs.noCategoria}" itemValue="" />
 							<f:selectItems value="#{dtTasks.categories}" var="cat"
 								itemLabel="#{cat.name}" itemValue="#{cat.id}" />
 						</p:selectOneMenu>

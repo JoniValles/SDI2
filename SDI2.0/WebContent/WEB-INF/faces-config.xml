@@ -157,7 +157,7 @@
 	</navigation-rule>
 	
 	<navigation-rule>
-		<from-view-id>/crearTarea.xhtml</from-view-id>
+		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-action>#{dtTasks.crearTarea()}</from-action>
 			<from-outcome>true</from-outcome>
