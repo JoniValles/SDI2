@@ -1,5 +1,6 @@
 package com.sdi.business.impl.admin.command;
 
+import java.sql.Date;
 import java.util.List;
 
 import alb.util.date.DateUtil;
@@ -58,11 +59,11 @@ public class restartBDCommand implements Command<Void>{
 		Category cat = new Category();
 		
 			cat.setUserId(user.getId());
-			cat.setName("categoria_1");
+			cat.setName("categoria1");
 			cDao.save(cat);
-			cat.setName("categoria_2");
+			cat.setName("categoria2");
 			cDao.save(cat);
-			cat.setName("categoria_3");
+			cat.setName("categoria3");
 			cDao.save(cat);
 			
 		
@@ -82,24 +83,74 @@ public class restartBDCommand implements Command<Void>{
 
 	private void createTasks(User user, UserDao uDao, TaskDao tDao, CategoryDao cDao) {
 				todayTasks(user, tDao);
-//				weekTasks(u);
-//				categoryTasks(u);
-			
-		
+				weekTasks(user, tDao);
+				categoryTasks(user, tDao, cDao);
 	}
 
 
-	private void todayTasks(User u, TaskDao tDao) {
+	private void todayTasks(User user, TaskDao tDao) {
 		Task task = new Task();
-		task.setUserId(u.getId());
+		task.setUserId(user.getId());
 		task.setCategoryId(null);
 		task.setCreated(DateUtil.today());
 		task.setPlanned(DateUtil.today());
 		task.setFinished(null);
 		for (int i = 1; i <= 10; i++) {
-			task.setTitle("Hoy:" + i);
+			task.setTitle("Tarea Hoy:" + i);
 			tDao.save(task);
 		}
+	}
+	
+	
+
+	private void weekTasks(User user, TaskDao tDao) {
+		Task task = new Task();
+		task.setUserId(user.getId());
+		task.setCategoryId(null); 
+		task.setFinished(null);
+		task.setCreated(DateUtil.today());
+		
+		for (int i = 1; i <= 10; i++) {
+			task.setTitle("Tarea Semana:" + i);
+			java.util.Date dia = DateUtil.addDays(DateUtil.today(), i);
+			task.setPlanned(dia);
+			tDao.save(task);
+		}
+
+	}
+
+	private void categoryTasks(User user, TaskDao tDao, CategoryDao cDao) {
+		Task task = new Task();
+		task.setUserId(user.getId());
+		task.setCreated(DateUtil.today());
+		task.setPlanned(DateUtil.yesterday()); 
+		task.setFinished(null);
+		
+		//Categoria1
+		Category cat= cDao.findByUserIdAndName(user.getId(), "categoria1");
+		for (int i = 1; i == 3; i++) { 
+			task.setTitle("Tarea categoria1: " + i);
+			task.setCategoryId(cat.getId());
+			tDao.save(task);
+		}
+		//Categoria 2
+		cat= cDao.findByUserIdAndName(user.getId(), "categoria2");
+		for (int i = 1; i == 3; i++) { 
+			task.setTitle("Tarea categoria2:" + i);
+			task.setCategoryId(cat.getId());
+			
+			tDao.save(task);
+		}
+		
+		//Categoria3
+		cat= cDao.findByUserIdAndName(user.getId(), "categoria3");
+		for (int i = 1; i == 4; i++) {
+			task.setTitle("Tarea categoria3:" + i);
+			task.setCategoryId(cat.getId());
+
+			tDao.save(task);
+		}
+
 	}
 
 	
