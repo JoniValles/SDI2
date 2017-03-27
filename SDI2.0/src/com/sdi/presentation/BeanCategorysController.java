@@ -19,9 +19,10 @@ public class BeanCategorysController extends Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 	// public Category category;
 
-	public List<Category> categorys = null;
+	public List<Category> categories = null;
 	public List<Category> filteredCategory;
 
+	
 	public Category selectedCategory;
 
 	@ManagedProperty("#{controller}")
@@ -29,14 +30,14 @@ public class BeanCategorysController extends Category implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		getCategorys();
+		getCategories();
 
 	}
 
 	@PostConstruct
-	public List<Category> getCategorys() {
-		categorys = user.getCategorys();
-		return categorys;
+	public List<Category> getCategories() {
+		categories = user.getCategories();
+		return categories;
 	}
 
 	public Category getSelectedCategory() {
@@ -55,8 +56,8 @@ public class BeanCategorysController extends Category implements Serializable {
 		this.user = user;
 	}
 
-	public void setCategorys(List<Category> categorys) {
-		this.categorys = categorys;
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 	public void setFilteredTasks(List<Category> filteredCategory) {

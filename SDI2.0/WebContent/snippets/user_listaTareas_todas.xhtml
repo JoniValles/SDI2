@@ -42,9 +42,10 @@
         <p:column headerText="#{msg.menuUsuario_categorias}" filterBy="#{task.categoryId}" sortBy="#{task.title}" filterMatchMode="contains">
            <f:facet name="filter">
                 <p:selectOneMenu onchange="PF('tasksTable').filter()" style="width:100px;" >
-                    <f:selectItem itemLabel="#{titulo_tabla_seleccionaUna}" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItem itemLabel="#{titulo_tabla_seleccionaUna}" itemValue="1" noSelectionOption="true" />
                     <f:selectItems value="#{dtTasks.categorys}" />
                 </p:selectOneMenu>
+                
             </f:facet>
             <h:outputText value="#{task.id}" />
         </p:column> 

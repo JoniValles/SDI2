@@ -308,7 +308,7 @@ public class BeanUser implements Serializable {
 		return "true";
 	}
 	
-	public List<Category> getCategorys(){
+	public List<Category> getCategories(){
 		TaskService taskService;
 		taskService = Services.getTaskService ();
 		List<Category> cat=null;

@@ -1,5 +1,6 @@
 package com.sdi.presentation;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -32,9 +33,12 @@ public class BeanTasksController implements Serializable {
 	    private List<Task> inbox;
 		private List<Task> all;
 	    
-		private String[] strCategorys;
+		private List<String> strCategorys;
 		
-	     
+		private List<Category> categories;
+	    private String[] selectedCategorys;
+	    private String selectedCategory;
+	    
 	    @ManagedProperty("#{controller}")
 	    private BeanUser user;
 	 
@@ -49,7 +53,7 @@ public class BeanTasksController implements Serializable {
 	    }
 	    @PostConstruct
 	    public List<Category> getCategorys() {
-	        return user.getCategorys();
+	        return user.getCategories();
 	    }
 	     
 	     public void cargarCategoriasStr(){
@@ -70,10 +74,10 @@ public class BeanTasksController implements Serializable {
 			
 	     }
 	    
-		private String[] conversorCategoriasString(List<Category> listaCategorias){
-	    	String[] lista =new String[listaCategorias.size()];
-	    	for(int i=0; i<listaCategorias.size(); i++)
-	    		 lista[i]=listaCategorias.get(i).getName();
+		private List<String> conversorCategoriasString(List<Category> listaCategorias){
+	    	List<String> lista = new ArrayList<String>();
+	    	for(Category cat : listaCategorias)
+	    		 lista.add(cat.getName());
 	    	return lista;
 	     }
 	    public List<Task> getTasks() {
@@ -116,7 +120,7 @@ public class BeanTasksController implements Serializable {
 			return todayTask;
 		}
 		public void setTodayTask(List<Task> todayTask) {
-			
+			cargarCategoriasStr();
 			this.todayTask=todayTask;
 		}
 	
@@ -245,10 +249,11 @@ public class BeanTasksController implements Serializable {
 		public void setAll(List<Task> all) {
 			this.all = all;
 		}
-		public String[] getStrCategorys() {
+		public List<String> getStrCategorys() {
+			
 			return strCategorys;
 		}
-		public void setStrCategorys(String[] strCategorys) {
+		public void setStrCategorys(List<String> strCategorys) {
 			this.strCategorys = strCategorys;
 		}
 		
@@ -265,14 +270,28 @@ public class BeanTasksController implements Serializable {
 			
 			return "true";
 		}
-		
+
+		/**
+		 * Metodo que retorna el Id de la categoria que ha sido seleccionada a la hora de
+		 * crear una tarea 
+		 * @return
+		 */
+		public Long obtenerIdCategoriaSeleccionada(){
+			for(Category cat : user.getCategories()){
+				if(cat.getName().equals(selectedCategory))
+					return cat.getId();
+			}return null;
+		}
 		public String crearTarea() {
 			TaskService taskService;
 			
 			task.setUserId(user.getUser().getId());
+			
+			task.setCategoryId( obtenerIdCategoriaSeleccionada());
+			
 			try {
 				taskService = Services.getTaskService();
-			
+				
 				taskService.createTask(task);
 				//volvemos a task por defecto
 				task.iniciaTask(null);
@@ -286,6 +305,25 @@ public class BeanTasksController implements Serializable {
 			selectedTask=task;
 			this.task.setTask(task);
 			return "true";
+		}
+		public String[] getSelectedCategorys() {
+			return selectedCategorys;
+		}
+		public void setSelectedCategorys(String[] selectedCategorys) {
+			this.selectedCategorys = selectedCategorys;
+		}
+		public String getSelectedCategory() {
+			return selectedCategory;
+		}
+		public void setSelectedCategory(String selectedCategory) {
+			this.selectedCategory = selectedCategory;
+		}
+		public List<Category> getCategories() {
+			categories=user.getCategories();
+			return categories;
+		}
+		public void setCategories(List<Category> categories) {
+			this.categories = categories;
 		}
 	}
 
