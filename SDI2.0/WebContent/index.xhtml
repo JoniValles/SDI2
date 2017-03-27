@@ -11,41 +11,42 @@
 	</h:head>
 	<h:body>
 		<h:form id="form-login">
-		<ui:include	src="/snippets/login_menu.xhtml"/>
-
+			<ui:include src="/snippets/login_menu.xhtml" />
+			
 			<p:panel id="panel">
 
 				<p:focus context="panel" />
-	<h:panelGrid columns="2" id="Grid">
-		<h:panelGroup></h:panelGroup>
-		<h:panelGroup> 
-		<p:messages id="messagess" showDetail="true" autoUpdate="true" closable="true" />
-		<!-- <h:outputText id="msgAlta" value="#{msg[login.result]}" /> -->
-		</h:panelGroup>
+				<h:panelGrid columns="2" id="Grid">
+					<h:panelGroup></h:panelGroup>
+					<h:panelGroup>
+						<p:messages id="messagess" showDetail="true" autoUpdate="true"
+							closable="true" />
+						<!-- <h:outputText id="msgAlta" value="#{msg[login.result]}" /> -->
+					</h:panelGroup>
 		#{msg.rellenaUsuario}
 		<h:panelGroup>
-		<p:inputText id="nombreUsuario" value="#{login.name}"
+						<p:inputText id="nombreUsuario" value="#{login.name}"
 							required="true" requiredMessage="#{msg.login_form_falta_nombre}" />
-						
-				</h:panelGroup>
+
+					</h:panelGroup>
 					
 		#{msg.rellenaContraseña}
 		<h:panelGroup>
-		<p:password id="pass" value="#{login.password}"
-							required="true" requiredMessage="#{msg.login_form_falta_pass}" />
-				
+						<p:password id="pass" value="#{login.password}" required="true"
+							requiredMessage="#{msg.login_form_falta_pass}" />
+
 					</h:panelGroup>
-					
+
 					<h:panelGroup>
 
-					 
-				
-		<p:commandButton value="#{msg.botonValidar}"
-			action="#{login.verify}" update="Grid" process="@form">
-			
-		</p:commandButton>
-						<p:commandButton value="#{msg.botonRegistro}" 
-						action="#{controller.registro}" />
+
+
+						<p:commandButton value="#{msg.botonValidar}"
+							action="#{login.verify}" update="Grid" process="@form">
+
+						</p:commandButton>
+						<p:commandButton value="#{msg.botonRegistro}"
+							action="#{controller.registro}" />
 					</h:panelGroup>
 				</h:panelGrid>
 			</p:panel>

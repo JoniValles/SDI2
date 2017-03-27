@@ -3,26 +3,25 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<form>
-	<h3 style="margin:15">Todas: </h3>
-         
-            <p:dataTable id="tablatareas_todas" var="task" value="#{dtTableView.all}" widgetVar="tasksTable" multiViewState="true"
-                 rows="8" paginator="true"
+<h:form>
+	<p:panel>
+           <p:dataTable id="tablatareas_1" var="task" value="#{dtTableView.getAll()}" widgetVar="tasksTable" multiViewState="true"
+                 rows="10" paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                 rowsPerPageTemplate="8"
+                 rowsPerPageTemplate="5,10,15"
                  selectionMode="single" selection="#{dtTableView.selectedTask}" rowKey="#{task.id}"
-                 emptyMessage="#{msg.tabla_NoExistenTareas}" filteredValue="#{dtTableView.filteredTasks}"
-              >
+                 emptyMessage="#{msg.tabla_NoExistenTareas}" filteredValue="#{dtTableView.filteredTasks}">
  
+        <f:facet name="header">
+     
         <f:facet name="header">
             <p:outputPanel>
                 <h:outputText value="#{msg.titulo_tabla_bTodosLosCampos}" />
                 <p:inputText id="globalFilter" onkeyup="PF('tasksTable').filter()" style="width:150px" placeholder="Enter keyword"/>
             </p:outputPanel>
+        </f:facet>  
         </f:facet>
  
-        <!-- <p:ajax event="rowSelect" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
-  -->
         <p:column headerText="Id"   >
             <h:outputText value="#{task.id}" />
         </p:column>
@@ -34,13 +33,15 @@
         <p:column headerText="#{msg.tareaComentarios}">
             <h:outputText value="#{task.comments}" />
         </p:column>
+        
        	<p:column headerText="#{msg.tareaCreada}" >
             <h:outputText value="#{task.planned}" />
         </p:column>
+        
          <p:column headerText="#{msg.tareaPlaneada}" sortBy="#{task.finished}">
             <h:outputText value="#{task.finished}" />
-        </p:column>
-      <!--   <p:column headerText="#{menuUsuario_categorias}" filterBy="#{task.categoryId}" sortBy="#{task.categoryId}" filterMatchMode="in">
+        </p:column> 
+        <p:column headerText="#{menuUsuario_categorias}" filterBy="#{task.categoryId}" sortBy="#{task.categoryId}" filterMatchMode="contains">
            <f:facet name="filter">
                 <p:selectOneMenu onchange="PF('tasksTable').filter()" style="width:100px;" >
                     <f:selectItem itemLabel="#{titulo_tabla_seleccionaUna}" itemValue="#{null}" noSelectionOption="true" />
@@ -48,7 +49,8 @@
                 </p:selectOneMenu>
             </f:facet>
             <h:outputText value="#{task.id}" />
-        </p:column> -->
+        </p:column> 
     </p:dataTable>
-</form>
+    </p:panel>
+</h:form>
 </ui:composition>

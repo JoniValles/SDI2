@@ -9,7 +9,7 @@
         <p:inputSwitch value="#{dtTableView.showFinished}">
             <p:ajax update="tablatareas_inbox" />
         </p:inputSwitch>
-            <p:dataTable id="tablatareas_inbox" var="task" value="#{dtTableView.inbox}" widgetVar="tasksTable" multiViewState="true"
+            <p:dataTable id="tablatareas_inbox" var="task" value="#{dtTableView.getInbox()}" widgetVar="tasksTable" multiViewState="true"
                  rows="8" paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  rowsPerPageTemplate="8"

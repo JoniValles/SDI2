@@ -26,9 +26,9 @@
 		<p:submenu style="float:right" label="#{msg.textoIdioma}"
 			icon="ui-icon-document">
 			<p:menuitem id="linkespa" value="#{msg.enlaceIdiomaES}"
-				actionListener="#{settings.setSpanish}" update="@all" />
+				actionListener="#{settings.setSpanish}" update="@all" immediate="true" />
 			<p:menuitem id="linkingles" value="#{msg.enlaceIdiomaEN}"
-				actionListener="#{settings.setEnglish}" update="@all" />
+				actionListener="#{settings.setEnglish}" update="@all" immediate="true" />
 		</p:submenu>
 	</p:menubar>
 

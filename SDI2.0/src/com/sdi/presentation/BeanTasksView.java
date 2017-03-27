@@ -1,6 +1,5 @@
 package com.sdi.presentation;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -24,9 +23,11 @@ public class BeanTasksView implements Serializable {
 	
 		private static final long serialVersionUID = 1012715922860875459L;
 
-		public List<Task> tasks=null;
+		public List<Task> tasks;
 	    public List<Task> filteredTasks ;
-	     
+
+	    public Task selectedTask;
+	    
 	    private boolean showFinished;
 	    
 		private List<Task> finishedTask;
@@ -37,7 +38,6 @@ public class BeanTasksView implements Serializable {
 	    
 		private String[] strCategorys;
 		
-	    public Task selectedTask;
 	     
 	    @ManagedProperty("#{controller}")
 	    private BeanUser user;
@@ -54,10 +54,11 @@ public class BeanTasksView implements Serializable {
 	    }
 	     
 	     public void cargarCategoriasStr(){
+	    	 
 	    		TaskService taskService;
 				taskService = Services.getTaskService ();
 				List<Category> aux=null;
-				List<String> lista=null;
+			
 				try {
 					
 					aux=taskService.findCategoriesByUserId(user.getUser().getId());
@@ -92,7 +93,7 @@ public class BeanTasksView implements Serializable {
 	        this.selectedTask = selectedTask;
 	    }
 	 
-	    public void setFilteredCars(List<Task> filteredTask) {
+	    public void setFilteredTasks(List<Task> filteredTask) {
 	        this.filteredTasks=filteredTask;
 	    }
 	    @PostConstruct
@@ -190,7 +191,7 @@ public class BeanTasksView implements Serializable {
 			lista = getFinishedTask();
 			lista.addAll(getTodayTask());
 			lista.addAll(getWeekTask());
-		
+			all= lista;
 			return lista;
 		}
 		
@@ -233,6 +234,7 @@ public class BeanTasksView implements Serializable {
 			this.showFinished = showFinished;
 		}
 		public List<Task> getAll() {
+			cargarAllTask();
 			return all;
 		}
 		public void setAll(List<Task> all) {
