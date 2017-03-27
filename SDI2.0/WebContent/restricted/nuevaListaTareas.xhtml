@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template-usuario.xhtml">
+
+	<ui:define name="cuerpo">
+
+			<table id="menu" style="align: center;">
+				<p:row>
+				
+						<p:commandButton id="btnInbox" value="Inbox" 
+							actionListener="#{dtTasks.mostrarInbox()}" inmediate="true"
+							update="tabla, filtro-finished" />
+				
+						<p:commandButton  id="btnHoy" value="#{msg.hoy}"
+							actionListener="#{btasks.todayTask}" inmediate="true"
+							update="tablalistado,header,filtro-terminadas" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="#{msgs.semana}" id="boton-week"
+							actionListener="#{btasks.weekTask}" inmediate="true"
+							update="tablalistado,header,filtro-terminadas" />
+					</p:column>
+				</p:row>
+			</table>
+
+			 <h:outputText value="Show finished" />
+		<p:inputSwitch value="#{dtTasks.showFinished}">
+			<p:ajax update="tabla" actionListener="#{dtTasks.actualizarTabla()}"/>
+		</p:inputSwitch>
+		
+				header="#{msgs.tituloListadoTareas} #{btasks.listaSeleccionada}">
+				<p:commandButton
+					value="#{msgs.FiltrarTerminadas}  #{dtTasks.terminadas}"
+					id="filtro-terminadas" actionListener="#{btasks.getFinishedTask}"
+					inmediate="true" update="tablalistado,header"
+					rendered="#{btasks.listaSeleccionada.equals('Inbox')}" />
+				<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}"
+					border="1" rows="8" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+					<p:column headerText="#{msgs.tareaId}" sortBy="#{vtask.id}">
+						<h:outputText value="#{vtask.id} " id="taskId" />
+						<p:commandLink value="#{msgs.tareaEditar}" id="editar"
+							action="#{btasks.editarTarea(vtask)}"
+							rendered="#{vtask.finished == null}" />
+					</p:column>
+
+					<p:column filterBy="#{vtask.title}"
+						headerText="#{msgs.tareaTitulo}" sortBy="#{vtask.title}"
+						filterMatchMode="contains" id="ordenar-title-inbox"
+						rendered="#{btasks.listaSeleccionada.equals('Inbox')}">
+						<h:outputText value="#{vtask.title}" id="title-inbox"
+							rendered="#{vtask.finished == null}" />
+						<h:outputText value="#{vtask.title}" id="title-inboxFinished"
+							style="background-color:#7FFF00;"
+							rendered="#{vtask.finished != null}" />
+					</p:column>
+					<p:column headerText="#{msgs.tareaTitulo}" sortBy="#{vtask.title}"
+						id="ordenar-title"
+						rendered="#{btasks.listaSeleccionada.equals('Inbox') == false}">
+						<h:outputText value="#{vtask.title}" id="title-noinbox" />
+					</p:column>
+
+					<p:column headerText="#{msgs.tareaComentarios}"
+						sortBy="#{vtask.comments}">
+						<h:outputText value="#{vtask.comments}" />
+					</p:column>
+
+					<p:column headerText="#{msgs.
+					tareaCategoria}"
+						id="ordenar-cat" sortBy="#{vtask.catName}">
+						<h:outputText value="#{vtask.catName}" id="categoria-noname"
+							rendered="#{btasks.listaSeleccionada.equals('Week') == false}" />
+						<h:outputText value="#{vtask.catName}" id="categoria-red"
+							rendered="#{btasks.listaSeleccionada.equals('Week') == true and vtask.retrasada}"
+							style="background-color:#FF0000;" />
+						<h:outputText value="#{vtask.catName}" id="categoria-nored"
+							rendered="#{btasks.listaSeleccionada.equals('Week') == true and vtask.retrasada == false}" />
+					</p:column>
+
+					<p:column headerText="#{msgs.tareaPlaneada}" id="ordenar-planed"
+						sortBy="#{vtask.planned}">
+						<h:outputText value="#{vtask.planned}" id="planned-red"
+							style="background-color:#FF0000;"
+							rendered="#{btasks.listaSeleccionada.equals('Week')== false and vtask.retrasada}" />
+						<h:outputText value="#{vtask.planned}" id="planned-week"
+							rendered="#{btasks.listaSeleccionada.equals('Week')}" />
+						<h:outputText value="#{vtask.planned}" id="planned-nored"
+							rendered="#{btasks.listaSeleccionada.equals('Week')== false and vtask.retrasada == false}" />
+					</p:column>
+
+					<p:column headerText="#{msgs.tareaFinalizar}">
+						<p:commandLink value="#{msgs.tareaFinalizar}" id="finalizar"
+							action="#{btasks.cerrarTarea(vtask.id)}" inmediate="true"
+							update="tablalistado" rendered="#{vtask.finished == null}" />
+					</p:column>
+				</p:dataTable>
+				<p:messages id="mensaje" showDetail="true" autoUpdate="true"
+					closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

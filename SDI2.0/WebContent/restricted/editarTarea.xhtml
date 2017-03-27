@@ -11,7 +11,36 @@
 		</ui:define>
 <ui:define	name="cuerpo">
 			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-			<ui:include	src="/snippets/user_editarTarea.xhtml"	/>
+			
+		<h:form id="form-task">
+			<p:panel header="#{msg.titulo_grid_crearTareas}" id="tablaform">
+				<table>
+					<p:messages id="mensaje" showDetail="true" autoUpdate="true"
+					closable="true" />
+					<tr>
+						<td><p:outputLabel value="#{msg.tareaTitulo}" /></td>
+						<td><h:inputText id="inputTitle" value="#{task.title}"
+								style="width:300px">
+							</h:inputText></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel value="#{msg.tareaComentarios}" /></td>
+						<td><p:inputTextarea id="comment"
+								value="#{task.comments}" rows="7" cols="50" /></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel value="#{msg.tareaPlaneada}" /></td>
+						<td><p:calendar id="planned" value="#{task.planned}"></p:calendar></td>
+					</tr>
+					
+					<tr>
+						<td><p:commandButton id="editar_button"
+								value="#{msg.botonGuardar}" action="#{dtTasks.editarTarea}"/></td>
+					</tr>
+				</table>
+			
+			</p:panel>
+		</h:form>
 </ui:define>
 
 

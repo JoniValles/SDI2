@@ -11,7 +11,23 @@
 		</ui:define>
 <ui:define	name="cuerpo">
 			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-			<ui:include	src="/snippets/user_crearCategoria.xhtml"	/>
+			<p:panel>
+    <p:panelGrid id="Grid" columns="2" cellpadding="5">
+    	 <f:facet name="header">#{msg.titulo_grid_crearCategoria}</f:facet>
+	  #{msg.categoria_nombre} 
+	  <h:panelGroup>
+				<p:inputText id="nombre" value="#{controller.categoryName}" required="true">
+					<f:validateLength maximum="20" />
+				</p:inputText>
+				<p:message for="nombre" />
+	</h:panelGroup>
+
+		<p:commandButton id="btn" value="#{msg.botonCrearCategoria}"
+			action="#{controller.crearCategoria}">
+		</p:commandButton>
+		
+	</p:panelGrid>
+    </p:panel>
 </ui:define>
 
 

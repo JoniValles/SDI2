@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+import alb.util.log.Log;
+
 import com.sdi.business.Services;
 import com.sdi.business.TaskService;
 import com.sdi.business.exception.BusinessException;
@@ -27,6 +29,9 @@ public class BeanTasksController implements Serializable {
 	    
 	    private boolean showFinished;
 	    
+	    enum tiposTabla { week, today, inbox}
+	    private tiposTabla tipoTablaSeleccionado = tiposTabla.inbox;
+	    
 		private List<Task> finishedTask;
 		private List<Task> weekTask;
 		private List<Task> todayTask;
@@ -36,6 +41,7 @@ public class BeanTasksController implements Serializable {
 		private List<String> strCategorys;
 		
 		private List<Category> categories;
+		
 	    private String[] selectedCategorys;
 	    private Long selectedCategoryId;
 	    
@@ -47,7 +53,18 @@ public class BeanTasksController implements Serializable {
 	    
 	    @PostConstruct
 	    public void init() {
-	        tasks=user.getTasks() ;
+	    	TaskService taskService= Services.getTaskService();
+	    	try {
+			tasks = taskService.findInboxTasksByUserId(user.getUser().getId());
+			categories = Services.getTaskService().findCategoriesByUserId(
+								user.getUser().getId());
+			
+			Log.debug("Cargando tareas y categorias para lista de tareas.");
+	    	} catch (BusinessException e) {
+	    		Log.error("No ha sido posible cargar tareas y categorias");
+						e.printStackTrace();
+					}
+	        
 	        cargarCategoriasStr();
 	      
 	    }
@@ -56,6 +73,7 @@ public class BeanTasksController implements Serializable {
 	        return user.getCategories();
 	    }
 	     
+	    
 	     public void cargarCategoriasStr(){
 	    	 
 	    		TaskService taskService;
@@ -135,9 +153,30 @@ public class BeanTasksController implements Serializable {
 			this.inbox = inbox;
 		}
 		public List<Task> getFinishedTask() {
-			cargarFinishedTask();
 			return finishedTask;
 		}
+		
+		public String[] getSelectedCategorys() {
+			return selectedCategorys;
+		}
+		public void setSelectedCategorys(String[] selectedCategorys) {
+			this.selectedCategorys = selectedCategorys;
+		}
+		
+		public List<Category> getCategories() {
+			categories=user.getCategories();
+			return categories;
+		}
+		public void setCategories(List<Category> categories) {
+			this.categories = categories;
+		}
+		public Long getSelectedCategoryId() {
+			return selectedCategoryId;
+		}
+		public void setSelectedCategoryId(Long selectedCategoryId) {
+			this.selectedCategoryId = selectedCategoryId;
+		}
+
 		public String getCategoryString(Task task){
 	    	TaskService taskService;
 			taskService = Services.getTaskService ();
@@ -155,9 +194,19 @@ public class BeanTasksController implements Serializable {
 		
 	    }
 	
-	    public void setTasks(List<Task> tsk){
+	    public tiposTabla getTipoTablaSeleccionado() {
+			return tipoTablaSeleccionado;
+		}
+		public void setTipoTablaSeleccionado(tiposTabla tipoTablaSeleccionado) {
+			this.tipoTablaSeleccionado = tipoTablaSeleccionado;
+		}
+		public void setTasks(List<Task> tsk){
 	    	tasks=tsk;
 	    }
+		/***
+		 * Metodo que actualiza la lista de tareas a tareas inbox.
+		 * @return lista de tareas
+		 */
 	    public List<Task> cargarInbox(){
 	    	TaskService taskService;
 			taskService = Services.getTaskService ();
@@ -165,16 +214,24 @@ public class BeanTasksController implements Serializable {
 			try {
 				
 				lista = taskService.findInboxTasksByUserId(user.getUser().getId());
-				if(showFinished) lista.addAll(getFinishedTask());
+				if(showFinished) lista.addAll(obtenerTareasFinalizadas());
+				tasks=lista;
 				inbox = lista;
+				
+				
+			
 			} catch (BusinessException e) {
-				// TODO Auto-generated catch block
+				Log.error("Error al cargar tareas inbox");
 				e.printStackTrace();
 			}
-		
-			return inbox;
+			Log.debug("Cargadas las tareas inbox");
+			return tasks;
 	    }
 	    
+	    /**
+	     * Metodo que actualiza la lista de tareas a tareas de hoy
+	     * @return
+	     */
 		public List<Task> cargarTodayTask(){
 			TaskService taskService;
 			taskService = Services.getTaskService ();
@@ -183,22 +240,32 @@ public class BeanTasksController implements Serializable {
 				
 				lista = taskService.findTodayTasksByUserId(user.getUser().getId());
 				 todayTask=lista;
+				 tasks= lista;
+				 
+				 Log.debug("Cargadas las tareas de hoy");
 			} catch (BusinessException e) {
-				// TODO Auto-generated catch block
+				Log.error("Error al cargar las tareas de hoy");
 				e.printStackTrace();
 			}
-			return todayTask;
-		}
-		public List<Task> cargarAllTask(){
-			List<Task> lista = null;
-			lista = getFinishedTask();
-			lista.addAll(getTodayTask());
-			lista.addAll(getWeekTask());
-			all= lista;
-			return lista;
+
+			
+			return tasks;
 		}
 		
-		 public List<Task> cargarFinishedTask() {
+		
+//		public List<Task> cargarAllTask(){
+//			List<Task> lista = null;
+//			lista = getFinishedTask();
+//			lista.addAll(getTodayTask());
+//			lista.addAll(getWeekTask());
+//			all= lista;
+//			return lista;
+//		}
+		/**
+		 * Metodo que retorna las tareas finalizadas
+		 * @return
+		 */
+		 public List<Task> obtenerTareasFinalizadas() {
 		    	TaskService taskService;
 				taskService = Services.getTaskService ();
 				List<Task> lista = null;
@@ -206,13 +273,20 @@ public class BeanTasksController implements Serializable {
 					
 					lista = taskService.findFinishedInboxTasksByUserId(user.getUser().getId());
 					finishedTask=lista;
+					
+					 Log.debug("Obteniendo tareas finalizadas");
 				} catch (BusinessException e) {
-					// TODO Auto-generated catch block
+					 Log.error("No ha sido posible obtener tareas finalizadas");
 					e.printStackTrace();
 				}
 		
-				return finishedTask;
+				return lista;
 			}
+		 
+		 /**
+		  * Metodo que actualiza la lista con las tareas de la semana
+		  * @return
+		  */
 		 public List<Task> cargarWeekTask() {
 		    	TaskService taskService;
 				taskService = Services.getTaskService ();
@@ -221,8 +295,9 @@ public class BeanTasksController implements Serializable {
 					
 					lista = taskService.findWeekTasksByUserId(user.getUser().getId());
 					weekTask=lista;
+					 Log.debug("Cargando tareas de la semana ");
 				} catch (BusinessException e) {
-					// TODO Auto-generated catch block
+					 Log.error("No ha sido posible cargar las tareas de la semana");
 					e.printStackTrace();
 				}
 		
@@ -237,7 +312,7 @@ public class BeanTasksController implements Serializable {
 			this.showFinished = showFinished;
 		}
 		public List<Task> getAll() {
-			cargarAllTask();
+//			cargarAllTask();
 			return all;
 		}
 		public BeanTask getTask() {
@@ -271,60 +346,88 @@ public class BeanTasksController implements Serializable {
 			return "true";
 		}
 
-		
+		/**
+		 * Metodo que se encarga de crear las tareas
+		 * @return
+		 */
 		public String crearTarea() {
 			TaskService taskService;
 			
 			task.setUserId(user.getUser().getId());
 			task.setCategoryId(selectedCategoryId);
-			
+			Task aux=null;
 			try {
 				taskService = Services.getTaskService();
 				
 				taskService.createTask(task);
 				//volvemos a task por defecto
+				aux=task;
 				task.iniciaTask(null);
 				
-				actualizarTablas();
+				actualizarTabla();
 				
 			} catch (BusinessException b) { 
 				user.mostrarError(b.getMessage());
+				 Log.error("Error al crear tarea con id [" + aux.getId() +" ] "
+				 		+ "Titulo: "+ aux.getTitle());
 				return "error"; 
 			}
+			 Log.debug("Creando tarea con titulo: " +aux.getTitle());
 			return "true"; 
 		}
 		
-		private void actualizarTablas(){
-			cargarAllTask();
-			cargarFinishedTask();
-			cargarInbox();
-			cargarWeekTask();
+		/**
+		 * Metodo actualizarTabla que actualizara la lista a mostrar
+		 * con las tareas correspondientes en funcion
+		 * de que informacion se desea mostrar
+		 */
+		private void actualizarTabla(){
+			if(tipoTablaSeleccionado.equals(tiposTabla.inbox))
+				cargarInbox();
+			if(tipoTablaSeleccionado.equals(tiposTabla.today))
+				cargarTodayTask();
+			else 
+				cargarWeekTask();
+			 Log.debug("Tabla actualizada");
 		}
 		
+		/**
+		 * Metodo que da por seleccionada una tarea para posteriormente 
+		 * manejarla 
+		 * @param task
+		 * @return
+		 */
 		public String seleccionarTarea(Task task){
 			selectedTask=task;
 			this.task.setTask(task);
 			return "true";
 		}
-		public String[] getSelectedCategorys() {
-			return selectedCategorys;
-		}
-		public void setSelectedCategorys(String[] selectedCategorys) {
-			this.selectedCategorys = selectedCategorys;
-		}
 		
-		public List<Category> getCategories() {
-			categories=user.getCategories();
-			return categories;
+		public void mostrarInbox(){
+			if(!tipoTablaSeleccionado.equals(tiposTabla.inbox)){
+				tipoTablaSeleccionado=tiposTabla.inbox;
+				showFinished=false;
+				cargarInbox();
+			}
+			else  Log.debug("Inbox ya estan siendo mostrada");
+			 Log.debug("Mostrando tareas en Inbox");
 		}
-		public void setCategories(List<Category> categories) {
-			this.categories = categories;
+		public void mostrarToday(){
+			if(!tipoTablaSeleccionado.equals(tiposTabla.today)){
+				tipoTablaSeleccionado=tiposTabla.today;
+				cargarTodayTask();
+			}
+			else  Log.debug("Las tareas de hoy ya estan siendo mostrada");
+			 Log.debug("Mostrando tareas de hoy");
 		}
-		public Long getSelectedCategoryId() {
-			return selectedCategoryId;
+		public void mostrarWeek(){
+			if(!tipoTablaSeleccionado.equals(tiposTabla.week)){
+					tipoTablaSeleccionado=tiposTabla.week;
+					cargarTodayTask();
+					
+				}
+			else  Log.debug("Las tareas de la semana ya estan siendo mostrada");
+			 Log.debug("Mostrando tareas de la semana");
 		}
-		public void setSelectedCategoryId(Long selectedCategoryId) {
-			this.selectedCategoryId = selectedCategoryId;
-		}
-	}
+}
 

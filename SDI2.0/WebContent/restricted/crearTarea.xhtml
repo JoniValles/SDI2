@@ -11,7 +11,41 @@
 		</ui:define>
 <ui:define	name="cuerpo">
 			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-			<ui:include	src="/snippets/user_crearTarea.xhtml"	/>
+			<p:panel>
+		<h:form id="form-task">
+		<p:messages id="messagess" showDetail="true" autoUpdate="true"
+							closable="true" />
+			<p:panelGrid id="Grid" columns="2" cellpadding="5">
+
+				<p:outputLabel value="#{msg.tareaTitulo}" />
+				<h:inputText id="taskNombre" placeholder="Name"
+					value="#{dtTasks.task.title}" required="true">
+				</h:inputText>
+
+				<p:outputLabel value="#{msg.tareaPlaneada}" />
+				<p:calendar id="taskPlanned" value="#{dtTasks.task.planned}"
+					style="width:auto; height:auto; padding-left:5px;" />
+
+				<p:outputLabel for="taskCat" value="#{msg.tareaCategoria}" />
+
+
+					<p:selectOneMenu id="taskCat"
+							value="#{dtTasks.selectedCategoryId}" >
+							<f:selectItem itemLabel="#{msgs.noCategoria}" itemValue="" />
+							<f:selectItems value="#{dtTasks.categories}" var="cat"
+								itemLabel="#{cat.name}" itemValue="#{cat.id}" />
+						</p:selectOneMenu>
+				
+
+
+				<h:commandButton value="#{msg.menuUsuario_crearTareas}"
+					id="createTaskButton" action="#{dtTasks.crearTarea()}"
+					inmediate="true"></h:commandButton>
+
+			</p:panelGrid>
+		</h:form>
+
+	</p:panel>
 </ui:define>
 
 

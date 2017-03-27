@@ -4,12 +4,33 @@
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
-				template="/templates/template-usuario.xhtml">
+				template="/templates/template-usuario.xhtml"
+				xmlns:p="http://primefaces.org/ui">
 		<ui:define name="titulo">
 				<!--  #{msgs.login_form_title}-->
 		</ui:define>
 <ui:define	name="cuerpo">
-			<ui:include	src="/snippets/user_info.xhtml"	/>
+			<p:panel>
+    <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
+        <h:outputLabel for="id" value="#{msg.usuarioId}" />
+             <h:outputLabel  value="#{controller.user.id}" />
+        <br/>
+
+        <h:outputLabel for="login" value="#{msg.usuarioLogin}" />
+             <h:outputLabel  id="login" value="#{controller.user.login}" />
+ 			 <br/>
+ 			 
+    <h:outputLabel for="email" value="#{msg.usuarioEmail}" />
+        		<p:inputText id="email" value="#{controller.user.email}" required="true"
+				requiredMessage="#{msg.form_falta_email}"
+				validatorMessage="#{msg.form_incorrecto_email}">
+				<f:validateRegex pattern=".+@.+\.[a-z]+" />
+			</p:inputText>
+			<p:message for="email" />
+        <p:commandButton id="btn"
+							actionListener="#{controller.actualizarEmail}" icon="ui-icon-disk" title="Guardar cambios" style="width:25px;height:15px" /> 
+    </h:panelGrid>
+    </p:panel>
 </ui:define>
 
 
