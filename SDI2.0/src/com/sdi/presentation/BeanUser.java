@@ -37,7 +37,7 @@ public class BeanUser implements Serializable {
 	private List<Task> tasks = null;
 	
 	private Task task=null;
-	private String pass = "";
+	private String pass=" ";
 
 	
 	@ManagedProperty("#{category}")
