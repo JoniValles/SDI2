@@ -22,6 +22,8 @@
 			<p:menuitem id="linkaltaTarea" value="#{msg.menuUsuario_crearTareas}" action="#{controller.irACrearTarea}" />
 		</p:submenu>
 		
+		<p:menuitem id="botonCerrarSesion"
+			action="#{controller.cerrarSesion}" icon="ui-icon-power" />
  		
 		<p:submenu style="float:right" label="#{msg.textoIdioma}"
 			icon="ui-icon-document">
@@ -29,6 +31,7 @@
 				actionListener="#{settings.setSpanish}" update="@all" immediate="true" />
 			<p:menuitem id="linkingles" value="#{msg.enlaceIdiomaEN}"
 				actionListener="#{settings.setEnglish}" update="@all" immediate="true" />
+				
 		</p:submenu>
 	</p:menubar>
 

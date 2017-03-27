@@ -4,12 +4,13 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <form>
-      <p:dataTable id="tablatareas_hoy" var="task" value="#{dtTableView.getTodayTask()}" widgetVar="tasksTable" multiViewState="true"
+      <p:dataTable id="tablatareas_hoy" var="task" value="#{dtTasks.getTodayTask()}" widgetVar="tasksTable" multiViewState="true"
                  rows="8" paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  rowsPerPageTemplate="8"
-                 selectionMode="single" selection="#{dtTableView.selectedTask}" rowKey="#{task.id}"
-                 emptyMessage="#{msg.tabla_NoExistenTareas}" filteredValue="#{dtTableView.filteredTasks}"
+                 selectionMode="single" selection="#{dtTasks.selectedTask}" rowKey="#{task.id}"
+                 emptyMessage="#{msg.tabla_NoExistenTareas}" filteredValue="#{dtTasks.filteredTasks}"
+                 
               >
  
         <f:facet name="header">
@@ -42,11 +43,16 @@
            <f:facet name="filter">
                 <p:selectOneMenu onchange="PF('tasksTable').filter()" style="width:100px;" >
                     <f:selectItem itemLabel="#{titulo_tabla_seleccionaUna}" itemValue="#{null}" noSelectionOption="true" />
-                    <f:selectItems value="#{dtTableView.strCategorys}" />
+                    <f:selectItems value="#{dtTasks.strCategorys}" />
                 </p:selectOneMenu>
             </f:facet>
             <h:outputText value="#{task.id}" />
         </p:column> 
+        <p:column headerText=" " >
+            <p:commandLink value="#{msg.tareaEditar}" id="editar"
+							action="#{btasks.seleccionarTarea(task)}"
+							rendered="#{task.finished == null}" />
+        </p:column>
     </p:dataTable>
 </form>
 </ui:composition>

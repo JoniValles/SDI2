@@ -16,7 +16,8 @@ public class Task {
 	private Long categoryId;
 	private Long userId;
 	
-	
+	public Task() {
+	}
 	
 	public Task(Long id, String title, String comments, Date created,
 			Date planned, Date finished, Long categoryId, Long userId) {
@@ -24,7 +25,7 @@ public class Task {
 		this.id = id;
 		this.title = title;
 		this.comments = comments;
-		this.created = created;
+		this.created = DateUtil.today();
 		this.planned = planned;
 		this.finished = finished;
 		this.categoryId = categoryId;

@@ -3,41 +3,37 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	<h:form>
+
 	<p:panel>
-    	<p:panelGrid id="Grid" columns="2" cellpadding="5">
-    	 <f:facet name="header">#{msg.titulo_grid_crearTareas}</f:facet>
-	  #{msg.tareaTitulo} 
-	  <h:panelGroup>
-				<p:inputText id="titulo" value="#{task.title}" required="true"
-					requiredMessage="#{msg.formAlta_nombre_requiredMessage}"
-					validatorMessage="#{msg.formAlta_nombre_validatorMessage}">
-					<f:validateLength maximum="20" />
-				</p:inputText>
-				<p:message for="titulo" />
-	</h:panelGroup>
-	#{msg.tareaComentarios}
-	 <h:panelGroup>
-				<p:inputText value="#{controller.task.comments}">
-				</p:inputText>
-	</h:panelGroup>
-		#{msg.tareaCategoria}
-	 <h:panelGroup>
-				<p:inputText value="#{controller.task.categoryId}">
-				</p:inputText>
-				
-	</h:panelGroup>
-		#{msg.tareaPlaneada}
-	 <h:panelGroup>
-				<p:inputText value="#{controller.task.finished}" required="true">
-				</p:inputText>
-	</h:panelGroup>
-		<p:commandButton id="boton" value="#{msg.botonCrearTarea}"
-			actionListener="#{controller.crearTarea}" update="Grid" process="@form">
-		</p:commandButton>
-		
-	</p:panelGrid>
+    <h:form id="form-task">
+			 <p:panelGrid id="Grid" columns="2" cellpadding="5">
+					
+					 <p:outputLabel value="#{msg.tareaTitulo}" />
+					<h:inputText id="taskNombre" placeholder="Name"
+							value="#{dtTasks.task.title}" required="true"
+								>
+						</h:inputText>
+						
+					<p:outputLabel value="#{msg.tareaPlaneada}" />	
+					<p:calendar id="taskPlanned"
+							value="#{dtTasks.task.planned}"
+							style="width:auto; height:auto; padding-left:5px;" />
+							
+						<p:outputLabel for="taskCategory"
+								value="#{msg.tareaCategoria}" />	
+					<p:selectOneMenu id="taskCategory"
+							value="#{dtTasks.task.categoryId}" style="width:auto; height:auto;">
+							<f:selectItem itemLabel="#{msg.sinCategoria}" itemValue="" />
+							<f:selectItems value="#{btasks.categories}" var="cat"
+								itemLabel="#{cat.name}" itemValue="#{cat.id}" />
+						</p:selectOneMenu>
+						
+					<h:commandButton value="#{msg.menuUsuario_crearTareas}"
+							id="taskButton" action="#{btasks.crearTarea}" inmediate="true"></h:commandButton>
+					
+			</p:panelGrid>
+			</h:form>
+			
     </p:panel>
-</h:form>
 
 </ui:composition>

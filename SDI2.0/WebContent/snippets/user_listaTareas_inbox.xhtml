@@ -6,15 +6,15 @@
 <form>
 	<h3 style="margin:15">Inbox: </h3>
          <h:outputText value="Show finished" />
-        <p:inputSwitch value="#{dtTableView.showFinished}">
+        <p:inputSwitch value="#{dtTasks.showFinished}">
             <p:ajax update="tablatareas_inbox" />
         </p:inputSwitch>
-            <p:dataTable id="tablatareas_inbox" var="task" value="#{dtTableView.getInbox()}" widgetVar="tasksTable" multiViewState="true"
+            <p:dataTable id="tablatareas_inbox" var="task" value="#{dtTasks.getInbox()}" widgetVar="tasksTable" multiViewState="true"
                  rows="8" paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  rowsPerPageTemplate="8"
-                 selectionMode="single" selection="#{dtTableView.selectedTask}" rowKey="#{task.id}"
-                 emptyMessage="#{msg.tabla_NoExistenTareas}" filteredValue="#{dtTableView.filteredTasks}"
+                 selectionMode="single" selection="#{dtTasks.selectedTask}" rowKey="#{task.id}"
+                 emptyMessage="#{msg.tabla_NoExistenTareas}" filteredValue="#{dtTasks.filteredTasks}"
               >
  
         <f:facet name="header">
@@ -52,6 +52,11 @@
             </f:facet>
             <h:outputText value="#{task.id}" />
         </p:column> -->
+        <p:column headerText=" " >
+            <p:commandLink value="#{msg.tareaEditar}" id="editar"
+							action="#{btasks.seleccionarTarea(task)}"
+							rendered="#{task.finished == null}" />
+        </p:column>
     </p:dataTable>
 </form>
 </ui:composition>

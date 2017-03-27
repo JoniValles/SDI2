@@ -36,7 +36,9 @@ public class BeanUser implements Serializable {
 	private List<User> users = null;
 	private List<Task> tasks = null;
 	
-	private Task task=null;
+	@ManagedProperty(value = "#{task}")
+	private BeanTask task = null;
+
 	private String pass=" ";
 
 	
@@ -113,11 +115,11 @@ public class BeanUser implements Serializable {
 //		this.todayTask = todayTask;
 //	}
 
-	public Task getTask() {
+	public BeanTask getTask() {
 		return task;
 	}
 
-	public void setTask(Task task) {
+	public void setTask(BeanTask task) {
 		this.task = task;
 	}
 
@@ -289,19 +291,7 @@ public class BeanUser implements Serializable {
 		return "true";
 	}
 	
-	public String crearTarea() {
-		TaskService taskService;
-		task.setUserId(user.getId());
-		try {
-			taskService = Services.getTaskService();
-		
-			taskService.createTask(task);
-
-		} catch (BusinessException b) { 
-			return "error"; 
-		}
-		return "true"; 
-	}
+	
 	public String crearCategoria() {
 		TaskService taskService;
 		Category cat = new Category();

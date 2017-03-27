@@ -11,7 +11,7 @@ import com.sdi.dto.Category;
 
 @ManagedBean(name = "categoryTableView")
 @SessionScoped
-public class BeanCategorysView extends Category implements Serializable {
+public class BeanCategorysController extends Category implements Serializable {
 
 	/**
 	 * 

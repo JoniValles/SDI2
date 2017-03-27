@@ -7,19 +7,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-
-
-
-
 import com.sdi.business.Services;
 import com.sdi.business.TaskService;
 import com.sdi.business.exception.BusinessException;
 import com.sdi.dto.Category;
 import com.sdi.dto.Task;
 
-@ManagedBean( name = "dtTableView")
+@ManagedBean( name = "dtTasks")
 @SessionScoped
-public class BeanTasksView implements Serializable {
+public class BeanTasksController implements Serializable {
 	
 		private static final long serialVersionUID = 1012715922860875459L;
 
@@ -42,6 +38,9 @@ public class BeanTasksView implements Serializable {
 	    @ManagedProperty("#{controller}")
 	    private BeanUser user;
 	 
+		@ManagedProperty(value = "#{task}")
+		private BeanTask task;
+	    
 	    @PostConstruct
 	    public void init() {
 	        tasks=user.getTasks() ;
@@ -237,6 +236,12 @@ public class BeanTasksView implements Serializable {
 			cargarAllTask();
 			return all;
 		}
+		public BeanTask getTask() {
+			return task;
+		}
+		public void setTask(BeanTask task) {
+			this.task = task;
+		}
 		public void setAll(List<Task> all) {
 			this.all = all;
 		}
@@ -248,6 +253,38 @@ public class BeanTasksView implements Serializable {
 		}
 		
 		
+		public String editarTarea() {
+		 	TaskService taskService;
+			taskService = Services.getTaskService ();
+			try {
+				taskService.updateTask(task);
+			} catch (BusinessException b) {
+				
+				return "error";
+			}
+			
+			return "exito";
+		}
 		
+		public String crearTarea() {
+			TaskService taskService;
+			task.setUserId(user.getUser().getId());
+			try {
+				taskService = Services.getTaskService();
+			
+				taskService.createTask(task);
+				//volvemos a task por defecto
+				task.iniciaTask(null);
+			} catch (BusinessException b) { 
+				return "error"; 
+			}
+			return "true"; 
+		}
+		
+		public String seleccionarTarea(Task task){
+			selectedTask=task;
+			this.task.setTask(task);
+			return "true";
+		}
 	}
 
