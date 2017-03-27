@@ -14,13 +14,10 @@
                 >
  
         <f:facet name="header">
-     
-        <f:facet name="header">
             <p:outputPanel>
                 <h:outputText value="#{msg.titulo_tabla_bTodosLosCampos}" />
                 <p:inputText id="globalFilter" onkeyup="PF('tasksTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-            </p:outputPanel>
-        </f:facet>  
+            </p:outputPanel>  
         </f:facet>
  
         <p:column headerText="Id"   >
@@ -42,7 +39,7 @@
          <p:column headerText="#{msg.tareaPlaneada}" sortBy="#{task.finished}">
             <h:outputText value="#{task.finished}" />
         </p:column> 
-        <p:column headerText="#{menuUsuario_categorias}" filterBy="#{task.categoryId}" sortBy="#{task.categoryId}" filterMatchMode="contains">
+        <p:column headerText="#{msg.menuUsuario_categorias}" filterBy="#{task.categoryId}" sortBy="#{task.title}" filterMatchMode="contains">
            <f:facet name="filter">
                 <p:selectOneMenu onchange="PF('tasksTable').filter()" style="width:100px;" >
                     <f:selectItem itemLabel="#{titulo_tabla_seleccionaUna}" itemValue="#{null}" noSelectionOption="true" />
@@ -52,11 +49,12 @@
             <h:outputText value="#{task.id}" />
         </p:column> 
         <p:column headerText=" " >
-            <p:commandLink value="#{msg.tareaEditar}" 
-							action="#{btasks.seleccionarTarea(task)}"
-							rendered="#{task.finished == null}" />
+   	  <p:commandLink value="#{msg.tareaEditar}" id="editar"
+								action="#{dtTasks.seleccionarTarea(task)}"
+								rendered="#{vtask.finished == null}" />
         </p:column>
     </p:dataTable>
-
+ 
+ 	
 </h:form>
 </ui:composition>

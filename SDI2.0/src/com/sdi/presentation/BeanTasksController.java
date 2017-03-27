@@ -263,11 +263,12 @@ public class BeanTasksController implements Serializable {
 				return "error";
 			}
 			
-			return "exito";
+			return "true";
 		}
 		
 		public String crearTarea() {
 			TaskService taskService;
+			
 			task.setUserId(user.getUser().getId());
 			try {
 				taskService = Services.getTaskService();

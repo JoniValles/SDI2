@@ -1,11 +1,4 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-	<h:form>
-	
-	
+
 	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -32,20 +25,7 @@
 						<td><p:outputLabel value="#{msg.tareaPlaneada}" /></td>
 						<td><p:calendar id="planned" value="#{task.planned}"></p:calendar></td>
 					</tr>
-					<tr>
-						<td><p:outputLabel for="categorias_menu"
-								value="#{msg.tareaCategoria}" /></td>
-					<!-- 	<td><p:selectOneMenu id="categorias_menu"
-								style="width:125px;" value="#{task.categoryId}">
-								<f:selectItem itemLabel="#{msgs.noCategoria}" itemVaule="null" />
-								<f:selectItem itemLabel="#{msgs.categoria1}"
-									itemValue="#{btasks.categories[0].id}" />
-								<f:selectItem itemLabel="#{msgs.categoria2}"
-									itemValue="#{btasks.categories[1].id}" />
-								<f:selectItem itemLabel="#{msgs.categoria3}"
-									itemValue="#{btasks.categories[2].id}" />
-							</p:selectOneMenu></td>
-					</tr> -->
+					
 					<tr>
 						<td><p:commandButton id="editar_button"
 								value="#{msg.botonGuardar}" action="#{dtTasks.editarTarea}"/></td>
@@ -54,6 +34,6 @@
 			
 			</p:panel>
 		</h:form>
-	</ui:define>
+	
 
 </ui:composition>

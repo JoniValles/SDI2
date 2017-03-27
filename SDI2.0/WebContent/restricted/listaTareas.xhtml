@@ -21,7 +21,7 @@
 			
 	
 				<p:tab title="#{msg.titulo_tabla_semana}">
-			<!-- 		<ui:include src="/snippets/user_listaTareas_semana.xhtml" /> -->
+			 		<ui:include src="/snippets/user_listaTareas_semana.xhtml" /> 
 				</p:tab>
 			
 			
@@ -29,54 +29,11 @@
 			 		<ui:include src="/snippets/user_listaTareas_todas.xhtml" /> 
 				</p:tab>
 			</p:tabView>
+			
+ 			
 		</h:form>
 	
 	</ui:define>
-
-
-	<h:form id="listaTareas">
-    <p:dataTable id="tablatareas_1" var="task" value="#{dtTableView.tasks}" widgetVar="tasksTable" multiViewState="true"
-                 rows="10" paginator="true"
-                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                 rowsPerPageTemplate="5,10,15"
-                 selectionMode="single" selection="#{dtTableView.selectedTask}" rowKey="#{task.id}"
-                 emptyMessage="No existen tareas" filteredValue="#{dtTableView.filteredTasks}">
- 
-        <f:facet name="header">
-            <p:outputPanel>
-                <h:outputText value="#{titulo_tabla_bTodosLosCampos}" />
-                <p:inputText id="globalFilter" onkeyup="PF('tasksTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-            </p:outputPanel>
-        </f:facet>
- 
-        <!-- <p:ajax event="rowSelect" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
-  -->
-        <p:column headerText="Id" filterBy="#{task.id}" sortBy="#{task.id}" filterMatchMode="contains">
-            <h:outputText value="#{task.id}" />
-        </p:column>
- 
-        <p:column headerText="#{tareaTitulo}" filterBy="#{task.title}" sortBy="#{task.title}" filterMatchMode="startsWith">
-            <h:outputText value="#{task.title}" />
-        </p:column>
- 
-        <p:column headerText="#{tareaComentarios}" filterBy="#{task.comments}" sortBy="#{task.comments}" filterMatchMode="contains">
-           
-            <h:outputText value="#{task.comments}" />
-        </p:column>
- 
-        <p:column headerText="#{menuUsuario_categorias}" filterBy="#{task.categoryId}" sortBy="#{task.categoryId}" filterMatchMode="in">
-           <f:facet name="filter">
-                <p:selectOneMenu onchange="PF('tasksTable').filter()" style="width:100px;" >
-                    <f:selectItem itemLabel="#{titulo_tabla_seleccionaUna}" itemValue="#{null}" noSelectionOption="true" />
-                    <f:selectItems value="#{dtTableView.categorys}" />
-                </p:selectOneMenu>
-            </f:facet>
-            <h:outputText value="#{task.id}" />
-        </p:column>
-    </p:dataTable>
-	</h:form>
-	<p:commandButton value="#{msg.botonAtras}" 
-	action="#{controller.atras}" />
 
 
 </ui:composition>
