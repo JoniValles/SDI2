@@ -1,39 +1,169 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/template-usuario.xhtml">
-	<ui:define name="titulo">
-	</ui:define>
+
 	<ui:define name="cuerpo">
-		<h:form id="form">
-			<p:tabView>
-				<p:tab title="inbox">
-					<ui:include src="/snippets/user_listaTareas_inbox.xhtml" />
-				</p:tab>
+	<h:form>
+	<p:panel>
+			<h:panelGrid columns="3" >
+			
+						<p:commandButton id="btnInbox" value="Inbox" 
+							actionListener="#{dtTasks.mostrarInbox()}" inmediate="true"
+							update="tabla" />
+				
+						<p:commandButton  id="btnHoy" value="#{msg.hoy}"
+							actionListener="#{dtTasks.mostrarToday()}" inmediate="true"
+							update="tabla"/>
+					
+						<p:commandButton value="#{msg.semana}" id="btnSemana"
+							actionListener="#{dtTasks.mostrarWeek()}" inmediate="true"
+							update="tabla" />	
+			</h:panelGrid>
+			<h:panelGroup rendered="#{dtTasks.inboxSeleccionada()==true}"> 
+			<h:outputText value="Show finished" />
+				<p:inputSwitch id="filtroTTerminadas" value="#{dtTasks.showFinished}" >
+			<p:ajax  actionListener="#{dtTasks.actualizarTabla()}" update="tabla"/>
+		</p:inputSwitch>
+		</h:panelGroup>
 		
-				<p:tab title="#{msg.titulo_tabla_hoy}">
-					<ui:include src="/snippets/user_listaTareas_hoy.xhtml" />
-				</p:tab>
-			
+		<p:dataTable id="tabla" value="#{dtTasks.tasks}" var="task" 
+					rows="8" paginator="true" 
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} " >
+       
+        <!--  Cabecera con filtro global -->
+					     <f:facet name="tableHeader">
+			            <p:outputPanel>
+			                <h:outputText value="#{msg.titulo_tabla_bTodosLosCampos}" />
+			                <p:inputText id="globalFilter" onkeyup="PF('task').filter()" style="width:150px" placeholder="Enter keyword"/>
+			            </p:outputPanel>  
+			     		 </f:facet>
+        <!--  ID -->
+					<p:column headerText="Id">
+						<h:outputText  id="id" value="#{task.id} " />
+					</p:column>
 	
-				<p:tab title="#{msg.titulo_tabla_semana}">
-			 		<ui:include src="/snippets/user_listaTareas_semana.xhtml" /> 
-				</p:tab>
+		<!--- TITULO -->
 			
+				<!--  si es hoy   -->
+				<p:column headerText="#{msgs.tareaTitulo}"
+						rendered="#{dtTask.todaySeleccionada()== true}">
+						<h:outputText  id="tituloHoy" value="#{task.title}" />
+					</p:column>
+					
+				<!--  si es de la semana   -->
+					<p:column headerText="#{msg.tareaTitulo}"
+						id="filtro-ordenar-titulo-semana" sortBy="#{task.title}"
+						rendered="#{dtTask.weekSeleccionada()== true}">
+						<h:outputText  id="tituloSemana" value="#{task.title}" />
+					</p:column>
+					
+				<!--  si es inbox  -->
+					<p:column 
+						headerText="#{msg.tareaTitulo}" filterBy="#{task.title}" 
+						filterMatchMode="contains" sortBy="#{task.title}"  
+						rendered="#{dtTasks.inboxSeleccionada()==true}">
+						
+						<h:outputText id="tituloInbox" value="#{task.title}" 
+							rendered="#{dtTasks.finalizada(task)==false}" />
+						
+						<h:outputText id="tituloInboxFinalizada" value="#{task.title}" 
+							style="background-color:#FF3333;"
+							rendered="#{tdTasks.estaFinalizada(task)==true}" />
+					</p:column>
+					
+					<p:column 
+						headerText="#{msg.tareaTitulo}" filterBy="#{task.title}">
+						<h:outputText id="tareaTitulo" value="#{task.title}" /> 	
+					</p:column>
+					
+					
+				<!--- COMENTARIO -->
+					<p:column headerText="#{msg.tareaComentarios}">
+						<h:outputText value="#{task.comments}" />
+					</p:column>
+					
+				<!--  PLANEADA  -->
+					
+					<!--  si es inbox    -->
+					<p:column headerText="#{msg.tareaPlaneada}" id="filtro-ordenar-planeada-inbox"
+					rendered="#{dtTasks.inboxSeleccionada()==true}" sortBy="#{task.planned}">
+						<h:outputText id="tareaPlaneadaInbox_retrasada" value="#{task.planned}"
+							style="background-color:#FF0000;"
+							rendered="#{tdTasks.retrasada(task)==true}" />
+						<h:outputText id="tareaPlaneadaInbox_noRetrasada" value="#{task.planned}" 
+							rendered="#{tdTasks.retrasada(task)==false}" />
+					</p:column>
+					
+					<!--  si es de la semana   -->
+					
+					<p:column headerText="#{msg.tareaPlaneada}" id="filtro-tareaPlaneadaSemana"
+					sortBy="#{task.planned}"
+					 rendered="#{dtTasks.weekSeleccionada()==true}">
+					 <h:outputText id="tareaPlaneadaSemana" value="#{task.planned}" />
+					</p:column>
+					
+					<!--  si es de hoy  -->
+					<p:column headerText="#{msg.tareaPlaneada}" id="filtro-ordenar-planeada-hoy"
+					rendered="#{dtTasks.todaySeleccionada()==true}" sortBy="#{task.planned}">
+						<h:outputText id="tareaPlaneadaHoy_retrasada" value="#{task.planned}"
+							style="background-color:#FF0000;"
+							rendered="#{tdTasks.retrasada(task)==true}" />
+						<h:outputText id="tareaPlaneadaHoy_noRetrasada" value="#{task.planned}" 
+							rendered="#{tdTasks.retrasada(task)==false}" />
+					</p:column>
+					
+				<!--  FINALIZADA -->	
+					<p:column headerText="#{msg.tareaFinalizada}" id="filtro-semana-tareaFinalizada"
+					sortBy="#{task.finished}"
+					 rendered="#{dtTasks.weekSeleccionada()==true}">
+					<h:outputText id="tareaFinalizadaSemana" value="#{task.finished}" />
+					</p:column>
+					<p:column headerText="#{msg.tareaFinalizada}">
+					<h:outputText id="tareaFinalizada" value="#{task.finished}" />
+					</p:column>
+
+				<!--  CATEGORIA -->	
+				
+					<p:column headerText="#{msg.
+					tareaCategoria}"  
+						id="filtro-ordenar-categoriaId" sortBy="#{task.categoryId}">
+						
+						<!-- filtro  -->
+						<f:facet name="filtro-categorias">
+			                <p:selectOneMenu onchange="PF('tasksTable').filter()" style="width:100px;" >
+			                    <f:selectItem itemLabel="#{msg.titulo_tabla_seleccionaUna}" itemValue="#{null}" noSelectionOption="true" />
+			                    <f:selectItems var="cat" itemLabel="#{cat.name}" itemValue="#{cat.id}"  />
+			                </p:selectOneMenu>
+           				 </f:facet>
+           				 
+						<h:outputText  id="tareaCategoria-retrasada" value="#{dtTasks.obtenerNombreCategoria(task.categoryId)}" 
+							style="background-color:#FF0000;" 
+							rendered="#{dtTasks.retrasada(task)==true and dtTasks.weekSeleccionada()==true }"/>
+						<h:outputText id="tareaCategoria-noRetrasada" value="#{dtTask.obtenerNombreCategoria(task.categoryId)}" 
+							rendered="#{dtTaskss.retrasada(task)==false and dtTasks.weekSeleccionada()==true }" />
+						<h:outputText id="tareaCategoria" value="#{dtTasks.obtenerNombreCategoria(task.categoryId)}" 
+							rendered="#{dtTasks.weekSeleccionada()==false}" />
+				
+				
 			
-			<p:tab title="#{msg.titulo_tabla_todas}">
-			 		<ui:include src="/snippets/user_listaTareas_todas.xhtml" /> 
-				</p:tab>
-			</p:tabView>
-			
- 			
+			</p:column>
+					
+				<!--  OPCIONES-->
+					<p:column headerText=" ">
+						<p:commandButton value="#{msg.botonFinalizar}" id="finalizar"
+							action="#{dtTasks.cerrarTarea(task)}" update="tabla" 
+							rendered="#{dtTask.finalizada(task) == false}"
+							inmediate="true" />
+						<p:commandButton  id="editar" value="#{msg.tareaEditar}"
+							rendered="#{dtTask.finalizada(task)==false}"
+							action="#{dtTasks.seleccionarTarea(task)}"
+							 />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
 		</h:form>
-	
 	</ui:define>
-
-
 </ui:composition>

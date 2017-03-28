@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+import alb.util.date.DateUtil;
 import alb.util.log.Log;
 
 import com.sdi.business.Services;
@@ -27,7 +28,7 @@ public class BeanTasksController implements Serializable {
 
 	    public Task selectedTask;
 	    
-	    private boolean showFinished;
+	    private boolean showFinished=false;
 	    
 	    enum tiposTabla { week, today, inbox}
 	    private tiposTabla tipoTablaSeleccionado = tiposTabla.inbox;
@@ -58,13 +59,13 @@ public class BeanTasksController implements Serializable {
 			tasks = taskService.findInboxTasksByUserId(user.getUser().getId());
 			categories = Services.getTaskService().findCategoriesByUserId(
 								user.getUser().getId());
-			
+			actualizarTabla();
 			Log.debug("Cargando tareas y categorias para lista de tareas.");
 	    	} catch (BusinessException e) {
 	    		Log.error("No ha sido posible cargar tareas y categorias");
 						e.printStackTrace();
 					}
-	        
+	        actualizarTabla();
 	        cargarCategoriasStr();
 	      
 	    }
@@ -377,11 +378,11 @@ public class BeanTasksController implements Serializable {
 		}
 		
 		/**
-		 * Metodo actualizarTabla que actualizara la lista a mostrar
+		 * Metodo que actualizara la lista a mostrar
 		 * con las tareas correspondientes en funcion
 		 * de que informacion se desea mostrar
 		 */
-		private void actualizarTabla(){
+		public void actualizarTabla(){
 			if(tipoTablaSeleccionado.equals(tiposTabla.inbox))
 				cargarInbox();
 			if(tipoTablaSeleccionado.equals(tiposTabla.today))
@@ -389,6 +390,7 @@ public class BeanTasksController implements Serializable {
 			else 
 				cargarWeekTask();
 			 Log.debug("Tabla actualizada");
+			 
 		}
 		
 		/**
@@ -404,10 +406,10 @@ public class BeanTasksController implements Serializable {
 		}
 		
 		public void mostrarInbox(){
-			if(!tipoTablaSeleccionado.equals(tiposTabla.inbox)){
+			if(inboxSeleccionada()){
 				tipoTablaSeleccionado=tiposTabla.inbox;
 				showFinished=false;
-				cargarInbox();
+				actualizarTabla();
 			}
 			else  Log.debug("Inbox ya estan siendo mostrada");
 			 Log.debug("Mostrando tareas en Inbox");
@@ -415,7 +417,7 @@ public class BeanTasksController implements Serializable {
 		public void mostrarToday(){
 			if(!tipoTablaSeleccionado.equals(tiposTabla.today)){
 				tipoTablaSeleccionado=tiposTabla.today;
-				cargarTodayTask();
+				actualizarTabla();
 			}
 			else  Log.debug("Las tareas de hoy ya estan siendo mostrada");
 			 Log.debug("Mostrando tareas de hoy");
@@ -423,11 +425,87 @@ public class BeanTasksController implements Serializable {
 		public void mostrarWeek(){
 			if(!tipoTablaSeleccionado.equals(tiposTabla.week)){
 					tipoTablaSeleccionado=tiposTabla.week;
-					cargarTodayTask();
-					
+					actualizarTabla();
 				}
 			else  Log.debug("Las tareas de la semana ya estan siendo mostrada");
 			 Log.debug("Mostrando tareas de la semana");
 		}
+		
+		/**
+		 * Metodo que nos valdra para saber si estamos mostrando inbox
+		 * @return
+		 */
+		public boolean inboxSeleccionada(){
+			if(tipoTablaSeleccionado.equals(tiposTabla.inbox))
+				return true;
+			return false;
+		}
+		public boolean todaySeleccionada(){
+			if(tipoTablaSeleccionado.equals(tiposTabla.today))
+				return true;
+			return false;
+		}
+		
+		public boolean weekSeleccionada(){
+			if(tipoTablaSeleccionado.equals(tiposTabla.week))
+				return true;
+			return false;
+		}
+		
+		
+		/**
+		 * Metodo que indica si una tarea esta finalizada o no
+		 * @return
+		 */
+		public boolean finalizada(Task task){
+			if(finishedTask.contains(task)) return true;
+			else return false;
+		}
+		/**
+		 * 
+		 * @param task
+		 * @return
+		 */
+		public boolean retrasada(Task task) {
+			
+				if (DateUtil.isBefore(task.getPlanned(), DateUtil.today())) {
+					return true;
+				}
+			return false;
+		}
+		/**
+		 * Metodo que a partir de una id pasada como parametro 
+		 * obtiene el nombre de la categoria.
+		 * @param id
+		 * @return
+		 */
+		public String obtenerNombreCategoria(Long id){
+			if(id==null) return " ";
+			TaskService taskService;
+			taskService = Services.getTaskService();
+			try {
+				Category cat= taskService.findCategoryById(id);
+				
+				return cat.getName();
+			} catch (BusinessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return " ";
+			}
+			
+		}
+		public void cerrarTarea(Task tarea){
+			TaskService taskService;
+			taskService = Services.getTaskService();
+			try {
+				taskService.markTaskAsFinished(tarea.getId());
+				 Log.debug("Finalizando tarea");
+			} catch (BusinessException e) {
+				 Log.error("Error al finalizar tarea");
+				e.printStackTrace();
+				
+			}
+		}
 }
+
 

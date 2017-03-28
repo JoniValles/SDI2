@@ -1,19 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:f="http://java.sun.com/jsf/core"
-				xmlns:ui="http://java.sun.com/jsf/facelets"
-				xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title>#{msg.tituloRegistro}</title>
-</h:head>
-<h:body>
-	<ui:include src="/snippets/login_menu.xhtml" />
-	
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 
-	<h:form>
-	<p:messages id="messagess" showDetail="true" autoUpdate="true"/>
 	 #{msg.usuarioId}
   <h:panelGroup>
 			<p:inputText value="#{alumno.nombre}" required="true"
@@ -49,12 +39,5 @@
 							requiredMessage="#{msg.login_form_falta_pass}" />
 
 					</h:panelGroup>
-					<p:commandButton value="#{msg.tituloRegistro}" 
-	action="#{controller.}" />
-	</h:form>
-
-<p:commandButton value="#{msg.botonAtras}" 
-	action="#{controller.atras}" />
-</h:body>
-</html>
-
+		
+</ui:composition>

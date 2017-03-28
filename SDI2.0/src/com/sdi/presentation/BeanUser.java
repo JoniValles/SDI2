@@ -339,15 +339,7 @@ public class BeanUser implements Serializable {
 	public String irACasa(){
 		return "home";
 	}
-	
-	public String cerrarSesion() {
-		Map<String, Object> session = FacesContext.getCurrentInstance()
-				.getExternalContext().getSessionMap();
-		session.put("LOGGEDIN_USER", null);
-		Log.info("Sesion cerrada.");
 
-		return "true";
-	}
 	
 	public Date getHoy(){
 		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -362,7 +354,14 @@ public class BeanUser implements Serializable {
 		this.msg = msg;
 	}
 
+	public String cerrarSesion() {
+		Map<String, Object> session = FacesContext.getCurrentInstance()
+				.getExternalContext().getSessionMap();
+		session.put("LOGGEDIN_USER", null);
+		Log.info("Sesion cerrada.");
 
+		return "true";
+	}
 	public void mostrarError(String msg){
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		try{

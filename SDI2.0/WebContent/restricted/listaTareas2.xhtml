@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template-usuario.xhtml">
+	<ui:define name="titulo">
+	</ui:define>
+	<ui:define name="cuerpo">
+		<h:form id="form">
+			<p:tabView>
+				<p:tab title="inbox">
+					<ui:include src="/snippets/user_listaTareas_inbox.xhtml" />
+				</p:tab>
+		
+				<p:tab title="#{msg.titulo_tabla_hoy}">
+					<ui:include src="/snippets/user_listaTareas_hoy.xhtml" />
+				</p:tab>
+			
+	
+				<p:tab title="#{msg.titulo_tabla_semana}">
+			 		<ui:include src="/snippets/user_listaTareas_semana.xhtml" /> 
+				</p:tab>
+			
+			
+			<p:tab title="#{msg.titulo_tabla_todas}">
+			 		<ui:include src="/snippets/user_listaTareas_todas.xhtml" /> 
+				</p:tab>
+			</p:tabView>
+			
+ 			
+		</h:form>
+	
+	</ui:define>
+
+
+</ui:composition>

@@ -46,10 +46,9 @@
            <f:facet name="filter">
                 <p:selectOneMenu onchange="PF('tasksTable').filter()" style="width:100px;" >
                     <f:selectItem itemLabel="#{titulo_tabla_seleccionaUna}" itemValue="#{null}" noSelectionOption="true" />
-                    <f:selectItems value="#{dtTasks.categorys}" />
+                    <f:selectItems var="cat" itemLabel="#{cat.name}" itemValue="#{cat.id}"  />
                 </p:selectOneMenu>
             </f:facet>
-            <h:outputText value="#{task.id}" />
         </p:column> 
         <p:column headerText=" " >
               <p:commandLink value="#{msg.tareaEditar}" id="editar"
