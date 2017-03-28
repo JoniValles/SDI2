@@ -598,37 +598,131 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 			assertTrue(false);
 		}
 
+*/
 		//PR33: Salir de sesión desde cuenta de administrador.
 		@Test
 		public void prueba33() {
-			assertTrue(false);
+
+
+			//Login
+			testLoginParametros("form-login", "admin",
+					"admin");
+
+			//Se carga el form
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"listaUsuarios", 3);
+
+			//Esta dentro del menu admin
+			SeleniumUtils.textoPresentePagina(driver, "user1");
+			SeleniumUtils.textoPresentePagina(driver, "user1@mail.com");
+
+			//Se cierra la sesion
+			By enlace = By.xpath("/html/body/div[1]/button[@id='botonCerrarSesion']/span[@class='ui-button-text ui-c']");
+			driver.findElement(enlace).click();
+
+			//Se comprueba que esta en index
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"form-login", 3);
+		
 		}
 
 		//PR34: Salir de sesión desde cuenta de usuario normal.
 		@Test
 		public void prueba34() {
-			assertTrue(false);
+			//Login como usuario
+			testLoginParametros("form-login", "user1",
+					"user1");
+
+			//Esta dentro del menu Usuario
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"menuUsuario", 3);
+	
+
+			//Se cierra la sesion
+			By enlace = By
+					.xpath("//a[contains(@id, 'form-template:cerrarSesion')]");			
+			driver.findElement(enlace).click();
+
+			//Se comprueba que esta en index
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"form-login", 3);
 		}
 
 		//PR35: Cambio del idioma por defecto a un segundo idioma. (Probar algunas
 		//vistas)
 		@Test
 		public void prueba35() {
-			assertTrue(false);
+			
+			//Se cambia el idioma al segundo
+			By enlace = By
+					.xpath("//a[contains(@id, 'EN')]");			
+			driver.findElement(enlace).click();
+			
+			//Login
+			testLoginParametros("form-login", "admin",
+					"admin");
+
+			//Se carga el form
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"menuUsuario", 3);
+
+			//Se comprueba que sigue en ingles
+			SeleniumUtils.textoPresentePagina(driver, "user1");
+			SeleniumUtils.textoPresentePagina(driver, "Back");
+
+
 		}
 
 		//PR36: Cambio del idioma por defecto a un segundo idioma y vuelta al
 		//idioma por defecto. (Probar algunas vistas)
 		@Test
 		public void prueba36() {
-			assertTrue(false);
+			//Se cambia el idioma al segundo
+			By enlace = By
+					.xpath("//a[contains(@id, 'EN')]");			
+			driver.findElement(enlace).click();
+			
+			//Login
+			testLoginParametros("form-login", "admin",
+					"admin");
+
+			//Se carga el form
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"menuUsuario", 3);
+
+			//Se comprueba que sigue en ingles
+			SeleniumUtils.textoPresentePagina(driver, "user1");
+			SeleniumUtils.textoPresentePagina(driver, "Back");
+			
+			//Pulsamos atras
+			enlace = By.xpath("/html/body/button[@id='j_idt16']/span[@class='ui-button-text ui-c']");
+			driver.findElement(enlace).click();
+			
+			//Cambiamos al primer lenguaje otra vez 
+			enlace = By
+					.xpath("//a[contains(@id, 'ES')]");			
+			driver.findElement(enlace).click();
+			
+			//Se comprueba que se ha cambiado al primer lenguaje
+			SeleniumUtils.textoPresentePagina(driver, "Crear usuario");
+
+			
+			
+			
 		}
 
+		/*
 		//PR37: Intento de acceso a un URL privado de administrador con un usuario
 		//autenticado como usuario normal.
 		@Test
 		public void prueba37() {
-			assertTrue(false);
+			//Login como usuario
+			testLoginParametros("form-login", "user1",
+					"user1");
+
+			//Se carga el form
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"listaTareas", 3);
 		}
 
 		//PR38: Intento de acceso a un URL privado de usuario normal con un usuario
@@ -637,6 +731,6 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 		public void prueba38() {
 			assertTrue(false);
 		}
-
-	 */
+*/
+	 
 }

@@ -9,7 +9,7 @@
 	<title>#{msg.tituloRegistro}</title>
 </h:head>
 <h:body>
-	<ui:include src="/snippets/login_menu.xhtml" />
+	
 	
 
 	<h:form>
@@ -45,12 +45,13 @@
 				
 		#{msg.repitaContraseña}
 		<h:panelGroup>
-						<p:password id="pass2" value="#{login.password2}" required="true"
+						<p:password id="pass2" value="#{login.password}" required="true"
 							requiredMessage="#{msg.login_form_falta_pass}" />
 
 					</h:panelGroup>
+					
 					<p:commandButton value="#{msg.tituloRegistro}" 
-	action="#{controller.}" />
+	action="#{controller.registro}" />
 	</h:form>
 
 <p:commandButton value="#{msg.botonAtras}" 
