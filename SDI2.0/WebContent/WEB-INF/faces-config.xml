@@ -113,7 +113,7 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-action>#{controller.listadoTareas}</from-action>
+			<from-action>#{dtTasks.listadoTareas}</from-action>
 			<from-outcome>true</from-outcome>
 			<to-view-id>/restricted/listaTareas.xhtml</to-view-id>
 		</navigation-case>

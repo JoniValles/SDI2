@@ -74,6 +74,12 @@ public class BeanTasksController implements Serializable {
 	        return user.getCategories();
 	    }
 	     
+	    public String listadoTareas(){
+	    	
+	    	mostrarInbox();
+	    	actualizarTabla();
+	    	return "true";
+	    }
 	    
 	     public void cargarCategoriasStr(){
 	    	 
@@ -216,10 +222,11 @@ public class BeanTasksController implements Serializable {
 				
 				lista = taskService.findInboxTasksByUserId(user.getUser().getId());
 				if(showFinished) lista.addAll(obtenerTareasFinalizadas());
+				
 				tasks=lista;
 				inbox = lista;
 				
-				
+				System.err.print("TAMAÑO INBOX: " + inbox.size());
 			
 			} catch (BusinessException e) {
 				Log.error("Error al cargar tareas inbox");
@@ -240,7 +247,11 @@ public class BeanTasksController implements Serializable {
 			try {
 				
 				lista = taskService.findTodayTasksByUserId(user.getUser().getId());
-				 todayTask=lista;
+				
+				for(Task t : lista){
+					finalizada(t);
+				}
+				todayTask=lista;
 				 tasks= lista;
 				 
 				 Log.debug("Cargadas las tareas de hoy");
@@ -297,6 +308,7 @@ public class BeanTasksController implements Serializable {
 					lista = taskService.findWeekTasksByUserId(user.getUser().getId());
 					weekTask=lista;
 					 Log.debug("Cargando tareas de la semana ");
+					 
 				} catch (BusinessException e) {
 					 Log.error("No ha sido posible cargar las tareas de la semana");
 					e.printStackTrace();
@@ -310,7 +322,9 @@ public class BeanTasksController implements Serializable {
 			return showFinished;
 		}
 		public void setShowFinished(boolean showFinished) {
+			
 			this.showFinished = showFinished;
+			actualizarTabla();
 		}
 		public List<Task> getAll() {
 //			cargarAllTask();
@@ -339,11 +353,13 @@ public class BeanTasksController implements Serializable {
 			taskService = Services.getTaskService ();
 			try {
 				taskService.updateTask(task);
+				actualizarTabla();
+				task.iniciaTask(null);
 			} catch (BusinessException b) {
 				
 				return "error";
 			}
-			
+			Log.info("Tarea editada " + task.getId());
 			return "true";
 		}
 
@@ -407,13 +423,13 @@ public class BeanTasksController implements Serializable {
 		}
 		
 		public void mostrarInbox(){
-			if(inboxSeleccionada()){
+			if(!inboxSeleccionada()){
 				tipoTablaSeleccionado=tiposTabla.inbox;
 				showFinished=false;
 				actualizarTabla();
 			}
-			else  Log.debug("Inbox ya estan siendo mostrada");
-			 Log.debug("Mostrando tareas en Inbox");
+			else  Log.info("Inbox ya estan siendo mostrada");
+			 Log.info("Mostrando tareas en Inbox");
 		}
 		public void mostrarToday(){
 			if(!tipoTablaSeleccionado.equals(tiposTabla.today)){
@@ -472,10 +488,12 @@ public class BeanTasksController implements Serializable {
 		public boolean retrasada(Task task) {
 			if(task.getPlanned()!=null)
 				if (DateUtil.isBefore(task.getPlanned(), DateUtil.today())) {
+					task.setRetrasada(true);
 					return true;
 				}
 			return false;
 		}
+		
 		/**
 		 * Metodo que a partir de una id pasada como parametro 
 		 * obtiene el nombre de la categoria.
@@ -502,12 +520,17 @@ public class BeanTasksController implements Serializable {
 			taskService = Services.getTaskService();
 			try {
 				taskService.markTaskAsFinished(tarea.getId());
-				 Log.debug("Finalizando tarea");
+				actualizarTabla();
+				Log.debug("Finalizando tarea");
 			} catch (BusinessException e) {
 				 Log.error("Error al finalizar tarea");
 				e.printStackTrace();
 				
 			}
+		}
+		public void alternarShowFinished(){
+			showFinished=!showFinished;
+			actualizarTabla();
 		}
 }
 
