@@ -16,6 +16,7 @@ public class Task {
 	private Long categoryId;
 	private Long userId;
 	
+	private boolean retrasada;
 	public Task() {
 	}
 	
@@ -173,6 +174,14 @@ public class Task {
 		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
+	}
+
+	public boolean isRetrasada() {
+		return retrasada;
+	}
+
+	public void setRetrasada(boolean retrasada) {
+		this.retrasada = retrasada;
 	}
 
 }

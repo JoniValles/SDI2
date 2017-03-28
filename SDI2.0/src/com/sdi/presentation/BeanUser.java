@@ -231,22 +231,23 @@ public class BeanUser implements Serializable {
 		users =  Services.getAdminService().findAllUsers();
 	}
 
-	public String listadoTareas() throws BusinessException{
-//		
-//			tasks = new ArrayList<Task>();
-//			finishedTask=Services.getTaskService().findFinishedInboxTasksByUserId(user.getId());
-//			weekTask=Services.getTaskService().findWeekTasksByUserId(user.getId());
-//			todayTask=Services.getTaskService().findTodayTasksByUserId(user.getId());
-//		
-//			if(finishedTask!=null)
-//				tasks.addAll(finishedTask);
-//			if(todayTask!=null)
-//				tasks.addAll(todayTask);
-//			if(weekTask!=null)
-//				tasks.addAll(weekTask);
-		return "true";
-	}
-//	
+//	public String listadoTareas() throws BusinessException{
+////		
+////			tasks = new ArrayList<Task>();
+////			finishedTask=Services.getTaskService().findFinishedInboxTasksByUserId(user.getId());
+////			weekTask=Services.getTaskService().findWeekTasksByUserId(user.getId());
+////			todayTask=Services.getTaskService().findTodayTasksByUserId(user.getId());
+////		
+////			if(finishedTask!=null)
+////				tasks.addAll(finishedTask);
+////			if(todayTask!=null)
+////				tasks.addAll(todayTask);
+////			if(weekTask!=null)
+////				tasks.addAll(weekTask);
+//		task.mostrar
+//		return "true";
+//	}
+////	
 
 	
 	public String registro(){
@@ -307,6 +308,7 @@ public class BeanUser implements Serializable {
 	
 	public String irACrearTarea(){
 		task=null;
+		
 		return "crearTarea";
 	}
 	
