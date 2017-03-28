@@ -351,6 +351,7 @@ public class BeanTasksController implements Serializable {
 		 * Metodo que se encarga de crear las tareas
 		 * @return
 		 */
+		@SuppressWarnings("null")
 		public String crearTarea() {
 			TaskService taskService;
 			
