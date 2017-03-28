@@ -1,61 +1,70 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:f="http://java.sun.com/jsf/core"
-				xmlns:ui="http://java.sun.com/jsf/facelets"
-				xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>#{msg.tituloRegistro}</title>
 </h:head>
 <h:body>
-	
-	
-
 	<h:form>
-	<p:messages id="messagess" showDetail="true" autoUpdate="true"/>
-	 #{msg.usuarioId}
+			<ui:include src="/snippets/login_menu.xhtml" />
+		<p:panel>
+
+			<p:messages id="messagess" showDetail="true" autoUpdate="true" />
+			<h:panelGrid columns="2" id="Grid">
+
+
+				
+
+			
+	 #{msg.rellenaUsuario}
   <h:panelGroup>
-			<p:inputText value="#{alumno.nombre}" required="true"
-				requiredMessage="#{msgs.formAlta_nombre_requiredMessage}"
-				validatorMessage="#{msgs.formAlta_nombre_validatorMessage}"
-				id="nombre">
-				<f:validateLength maximum="20" />
-			</p:inputText>
-			<p:message for="nombre" />
-		</h:panelGroup>
+					<p:inputText value="#{controller.login}" required="true"
+						requiredMessage="#{msgs.formAlta_nombre_requiredMessage}"
+						validatorMessage="#{msgs.formAlta_nombre_validatorMessage}"
+						id="login">
+						<f:validateLength maximum="20" />
+					</p:inputText>
+					<p:message for="login" />
+				</h:panelGroup>
   
-  #{msg.correo}
+  #{msg.rellenaEmail}
   <h:panelGroup>
-			<p:inputText value=" " required="true"
-				requiredMessage="#{msgs.formAlta_correo_requiredMessage}"
-				validatorMessage="#{msgs.formAlta_correo_validatorMessage}"
-				id="correo">
-				<f:validateRegex pattern=".+@.+\.[a-z]+" />
-			</p:inputText>
-			<p:message for="correo" />
-		</h:panelGroup>
+					<p:inputText value="#{controller.email}" required="true"
+						requiredMessage="#{msgs.formAlta_correo_requiredMessage}"
+						validatorMessage="#{msgs.formAlta_correo_validatorMessage}"
+						id="correo">
+						<f:validateRegex pattern=".+@.+\.[a-z]+" />
+					</p:inputText>
+					<p:message for="correo" />
+				</h:panelGroup>
 		
 		#{msg.rellenaContraseña}
 		<h:panelGroup>
-						<p:password id="pass" value="#{login.password}" required="true"
-							requiredMessage="#{msg.login_form_falta_pass}" />
+					<p:password id="pass" value="#{controller.password}"
+						required="true" requiredMessage="#{msg.login_form_falta_pass}" />
 
-					</h:panelGroup>
+				</h:panelGroup>
 				
-		#{msg.repitaContraseña}
+		#{msg.repiteContraseña}
 		<h:panelGroup>
-						<p:password id="pass2" value="#{login.password}" required="true"
-							requiredMessage="#{msg.login_form_falta_pass}" />
+					<p:password id="pass2" value="#{controller.password2}"
+						required="true" requiredMessage="#{msg.login_form_falta_pass}" />
 
-					</h:panelGroup>
-					
-					<p:commandButton value="#{msg.tituloRegistro}" 
-	action="#{controller.registro}" />
+				</h:panelGroup>
+				<p:commandButton value="#{msg.tituloRegistro}"
+					action="#{controller.crearUsuario}" />
+
+
+				<p:commandButton value="#{msg.botonAtras}"
+					action="#{controller.atras}" immediate="true"/>
+
+
+			</h:panelGrid>
+		</p:panel>
 	</h:form>
-
-<p:commandButton value="#{msg.botonAtras}" 
-	action="#{controller.atras}" />
 </h:body>
 </html>
-
