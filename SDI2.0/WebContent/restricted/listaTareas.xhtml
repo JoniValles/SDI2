@@ -121,7 +121,8 @@
 					 rendered="#{dtTasks.weekSeleccionada()==true}">
 					<h:outputText id="tareaFinalizadaSemana" value="#{task.finished}" />
 					</p:column>
-					<p:column headerText="#{msg.tareaFinalizada}">
+					<p:column headerText="#{msg.tareaFinalizada}"  
+					rendered="#{dtTasks.weekSeleccionada()==false}">
 					<h:outputText id="tareaFinalizada" value="#{task.finished}" />
 					</p:column>
 
@@ -146,21 +147,16 @@
 							rendered="#{dtTaskss.retrasada(task)==false and dtTasks.weekSeleccionada()==true }" />
 						<h:outputText id="tareaCategoria" value="#{dtTasks.obtenerNombreCategoria(task.categoryId)}" 
 							rendered="#{dtTasks.weekSeleccionada()==false}" />
-				
-				
-			
+
 			</p:column>
 					
 				<!--  OPCIONES-->
 					<p:column headerText=" ">
 						<p:commandButton value="#{msg.botonFinalizar}" id="finalizar"
 							action="#{dtTasks.cerrarTarea(task)}" update="tabla" 
-							rendered="#{dtTask.finalizada(task) == false}"
 							inmediate="true" />
 						<p:commandButton  id="editar" value="#{msg.tareaEditar}"
-							rendered="#{dtTask.finalizada(task)==false}"
-							action="#{dtTasks.seleccionarTarea(task)}"
-							 />
+							action="#{dtTasks.seleccionarTarea(task)}" inmediate="true"	/>
 					</p:column>
 				</p:dataTable>
 			</p:panel>

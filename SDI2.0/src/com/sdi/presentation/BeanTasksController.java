@@ -458,8 +458,10 @@ public class BeanTasksController implements Serializable {
 		 * @return
 		 */
 		public boolean finalizada(Task task){
-			if(finishedTask.contains(task)) return true;
-			else return false;
+			if(task.getFinished()!=null)
+				if(DateUtil.isBefore(task.getFinished(), DateUtil.today()))
+					return true;
+			return false;
 		}
 		/**
 		 * 
@@ -467,7 +469,7 @@ public class BeanTasksController implements Serializable {
 		 * @return
 		 */
 		public boolean retrasada(Task task) {
-			
+			if(task.getPlanned()!=null)
 				if (DateUtil.isBefore(task.getPlanned(), DateUtil.today())) {
 					return true;
 				}
