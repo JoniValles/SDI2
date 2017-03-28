@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view locale="#{settings.locale}">
+	<h:head>
+		<title>#{msg.tituloHead}</title>
+	</h:head>
+	<h:body>
+		<h:form id="form-template">
+			<p:menubar>
+				<p:menuitem id="cerrarSesion" value="#{msgs.cerrarSesion}"
+					action="#{controller.cerrarSesion}" />
+				<p:submenu id="i" style="float:right" label="#{msg.textoIdioma}"
+					icon="ui-icon-document">
+					<p:menuitem value="#{msg.enlaceIdiomaES}" id="ES"
+						actionListener="#{settings.setSpanish}" update="@all" />
+					<p:menuitem value="#{msg.enlaceIdiomaEN}" id="EN"
+						actionListener="#{settings.setEnglish}" update="@all" />
+				</p:submenu>
+			</p:menubar>
+
+			<ui:insert name="body">
+			</ui:insert>
+		</h:form>
+	</h:body>
+</f:view>
+</html>

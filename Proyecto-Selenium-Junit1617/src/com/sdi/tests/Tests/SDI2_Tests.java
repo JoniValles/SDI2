@@ -15,6 +15,8 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
+import com.sdi.business.Services;
+import com.sdi.business.exception.BusinessException;
 import com.sdi.tests.pageobjects.PO_AltaForm;
 import com.sdi.tests.utils.SeleniumUtils;
 
@@ -100,7 +102,7 @@ public class SDI2_Tests {
 		SeleniumUtils.textoPresentePagina(driver, "usuario1");
 	}
 
-	/*
+	
 	//PR01: Autentificar correctamente al administrador.
 	@Test
 	public void prueba01() {
@@ -120,7 +122,7 @@ public class SDI2_Tests {
 	//PR02: Fallo en la autenticación del administrador por introducir mal el login.
 	@Test
 	public void prueba02() {
-		testLoginErroneoParametros("form-login", "admin123",
+		testLoginParametros("form-login", "admin123",
 				"admin");
 
 		//Seguimos en la misma pagina
@@ -140,7 +142,7 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 	// password.
 	@Test
 	public void prueba03() {
-		testLoginErroneoParametros("form-login", "admin",
+		testLoginParametros("form-login", "admin",
 				"admin123");
 
 		//Esta presente el formulario login?
@@ -153,14 +155,14 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 
 
 
-
+/*
 		//PR04: Probar que la base de datos contiene los datos insertados con
 		//conexión correcta a la base de datos.
 		@Test
 		public void prueba04() {
 			assertTrue(false);
 		}
-
+*/
 
 
 		//PR05: Visualizar correctamente la lista de usuarios normales.
@@ -169,18 +171,18 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 			testLoginParametros("form-login", "admin", "admin");
 
 		SeleniumUtils.EsperaCargaPagina(driver, "id", 
-				"form-admin", 10);
+				"listaUsuarios", 10);
 
 
 		// Comprobamos que existen los usuarios
 		SeleniumUtils.textoPresentePagina(driver, "admin");
 		SeleniumUtils.textoPresentePagina(driver, "me@system.gtd");
 		SeleniumUtils.textoPresentePagina(driver, "user1");
-		SeleniumUtils.textoPresentePagina(driver, "user1@gmail.com");
+		SeleniumUtils.textoPresentePagina(driver, "user1@mail.com");
 		SeleniumUtils.textoPresentePagina(driver, "user2");
-		SeleniumUtils.textoPresentePagina(driver, "user2@gmail.com");
+		SeleniumUtils.textoPresentePagina(driver, "user2@mail.com");
 		SeleniumUtils.textoPresentePagina(driver, "user3");
-		SeleniumUtils.textoPresentePagina(driver, "user3@gmail.com");
+		SeleniumUtils.textoPresentePagina(driver, "user3@mail.com");
 		}
 
 
@@ -188,33 +190,7 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 		//PR06: Cambiar el estado de un usuario de ENABLED a DISABLED. Y tratar de
 		//entrar con el usuario que se desactivado.
 		@Test
-		public void prueba06() {
-			testModificarStatus("form-login", "admin", "admin",
-					"DISABLED");
-			testLoginErroneoParametros("form-login", "usuario1", "usuario1");
-		}
-
-		public void testModificarStatus(String nombreform, String usuario,
-				String contraseña, String status) {
-			new PO_AltaForm().rellenaFormularioLogin(driver, usuario, contraseña);
-
-			SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin", 10);
-			SeleniumUtils.textoPresentePagina(driver, usuario);
-
-
-			//FALTA
-
-		}
-
-
-
-
-		//PR07: Cambiar el estado de un usuario a DISABLED a ENABLED. Y Y tratar de
-		//entrar con el usuario que se ha activado.
-		//SOLO PASA LA PRIMERA PRUEBA QUE SE HAGA, LUEGO QUEDA ENABLED
-		@Test
-		public void prueba07() {
-
+		public void prueba06() throws BusinessException {
 			//Login
 			testLoginParametros("form-login", "admin",
 					"admin");
@@ -243,7 +219,55 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 					"user1");
 			//Se visualiza el menu del usuario
 			SeleniumUtils.EsperaCargaPagina(driver, "id",
-					"mimenu", 3);
+					"form-cuerpo:menuUsuario", 3);
+			
+			//Dejar la BD como estaba
+			Services.getAdminService().restartBD();
+		}
+
+
+
+
+
+		//PR07: Cambiar el estado de un usuario a DISABLED a ENABLED. Y Y tratar de
+		//entrar con el usuario que se ha activado.
+		//SOLO PASA LA PRIMERA PRUEBA QUE SE HAGA, LUEGO QUEDA ENABLED
+		@Test
+		public void prueba07() throws BusinessException {
+
+			//Login
+			testLoginParametros("form-login", "admin",
+					"admin");
+
+			//Se carga el form
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"listaUsuarios", 3);
+
+			//Se comprueba usuario
+			SeleniumUtils.textoPresentePagina(driver, "user3");
+			SeleniumUtils.textoPresentePagina(driver, "user3@mail.com");
+
+
+			By enlace = By
+					.xpath("/html/body/form[@id='listaUsuarios']/div[@id='listaUsuarios:listado']/div[@class='ui-datatable-tablewrapper']/table/tbody[@id='listaUsuarios:listado_data']/tr[@class='ui-widget-content ui-datatable-even'][4]/td[5]/a[@id='listaUsuarios:listado:6:j_idt10']");
+			driver.findElement(enlace).click();// Ahora estaria enabled
+
+
+			enlace = By.xpath("/html/body/div[1]/button[@id='botonCerrarSesion']/span[@class='ui-button-text ui-c']");
+			driver.findElement(enlace).click();
+
+			//Se accede como usuario
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"form-login", 3);
+			testLoginParametros("formLogin", "user1",
+					"user1");
+			//Se visualiza el menu del usuario
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"form-cuerpo:menuUsuario", 3);
+			
+			//Dejar la BD como estaba
+			Services.getAdminService().restartBD();
+			
 			}
 
 
@@ -367,7 +391,7 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 
 	//PR11: Borrar una cuenta de usuario normal y datos relacionados.
 	@Test
-	public void prueba11() throws InterruptedException {
+	public void prueba11() throws InterruptedException, BusinessException {
 		//Login
 		testLoginParametros("form-login", "admin",
 				"admin");
@@ -377,8 +401,8 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"listaUsuarios", 3);
 
 		//Se comprueba usuario
-		SeleniumUtils.textoPresentePagina(driver, "user3");
-		SeleniumUtils.textoPresentePagina(driver, "user3@mail.com");
+		SeleniumUtils.textoPresentePagina(driver, "user1");
+		SeleniumUtils.textoPresentePagina(driver, "user1@mail.com");
 
 
 		By enlace = By
@@ -398,18 +422,29 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-login", 3);
 
+		//Se deja la BD como estaba
+		Services.getAdminService().restartBD();
 
 	}
-	*/
+	
 
-	/*
+	
 
 
 		//PR12: Crear una cuenta de usuario normal con datos válidos.
 		@Test
 		public void prueba12() throws InterruptedException {
-			testRegistroCorrecto("usuarioprueba1", "usuarioprueba1@gmail.com",
-					"usuarioprueba1", "usuarioprueba1");
+			//Accedemos al registro
+			By enlace = By
+					.xpath("/html/body/form[@id='form-login']/div[@id='form-login:panel']/div[@id='form-login:panel_content']/table[@id='form-login:Grid']/tbody/tr[4]/td/button[@id='form-login:btnRegistroUsuario']/span[@class='ui-button-text ui-c']");
+			driver.findElement(enlace).click();	
+			
+			//Se carga el form
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"form-registro", 3);
+			
+			//Se rellena el formulario
+			new PO_AltaForm().rellenaFormularioRegistro(driver, "user4", "user4@mail.gt", "contraseña123", "contraseña123");
 		}
 
 		public void testRegistro(String usuario, String email,
@@ -432,54 +467,57 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 		//PR13: Crear una cuenta de usuario normal con login repetido.
 		@Test
 		public void prueba13() throws InterruptedException {
-			testRegistroIncorrecto("usuarioprueba1", "usuarioprueba1@gmail.com",
-					"usuarioprueba1", "usuarioprueba1");
+		
+				//Accedemos al registro
+				By enlace = By
+						.xpath("/html/body/form[@id='form-login']/div[@id='form-login:panel']/div[@id='form-login:panel_content']/table[@id='form-login:Grid']/tbody/tr[4]/td/button[@id='form-login:btnRegistroUsuario']/span[@class='ui-button-text ui-c']");
+				driver.findElement(enlace).click();	
+				
+				//Se carga el form
+				SeleniumUtils.EsperaCargaPagina(driver, "id",
+						"form-registro", 3);
+				
+				//Se rellena el formulario
+				new PO_AltaForm().rellenaFormularioRegistro(driver, "user1", "user1@mail.gt", "contraseña123", "contraseña123");
 		}
-
-		public void testRegistroIncorrecto(String usuario, String email,
-				String contraseña, String contraseña2) throws InterruptedException {
-			SeleniumUtils.clickLink(driver, "linkRegistro");
-
-			Thread.sleep(500);
-
-			new PO_AltaForm().rellenaFormularioRegistro(driver, usuario, email,
-					contraseña, contraseña2);
-
-			SeleniumUtils.EsperaCargaPagina(driver, "id", "form-login", 10);
-
-			SeleniumUtils.textoPresentePagina(driver, "error");
-
-		}
-	 */
+	 
 	//PR14: Crear una cuenta de usuario normal con Email incorrecto.
-	//		@Test
-	//		public void prueba14() throws InterruptedException {
-	//		
-	//			By button = By.xpath("//input[contains(@id, 'form-template:"
-	//					+ "form-login:btnRegistroUsuario')]");
-	//			driver.findElement(button).click();
-	//
-	//			
-	//			SeleniumUtils.EsperaCargaPagina(driver, "id",
-	//					"form-template:form-registro", 10);
-	//
-	//			// Registramos con mail incorrecto
-	//			new PO_Form().rellenaRegsitro(driver, "testLog", "testLog", "testLog",
-	//					"testLog");
-	//
-	//			// Seguimos en el registro. no se ha registrado
-	//			SeleniumUtils.EsperaCargaPagina(driver, "id",
-	//					"form-template:form-registro", 10);
-	//		
-	//			
-	//		}
-	/*
+			@Test
+			public void prueba14() throws InterruptedException {
+				
+				//Accedemos al registro
+				By enlace = By
+						.xpath("/html/body/form[@id='form-login']/div[@id='form-login:panel']/div[@id='form-login:panel_content']/table[@id='form-login:Grid']/tbody/tr[4]/td/button[@id='form-login:btnRegistroUsuario']/span[@class='ui-button-text ui-c']");
+				driver.findElement(enlace).click();	
+				
+				//Se carga el form
+				SeleniumUtils.EsperaCargaPagina(driver, "id",
+						"form-registro", 3);
+				
+				//Se rellena el formulario
+				new PO_AltaForm().rellenaFormularioRegistro(driver, "user4", "user4mail.gt", "contraseña123", "contraseña123");
+			
+				
+			}
+	
 		//PR15: Crear una cuenta de usuario normal con Password incorrecta.
 		@Test
 		public void prueba15() throws InterruptedException {
-			testRegistroIncorrecto("usuarioprueba1", "emailincorrecto",
-					"usuarioprueba1", "usuarioprueba2");
+			
+			//Accedemos al registro
+			By enlace = By
+					.xpath("/html/body/form[@id='form-login']/div[@id='form-login:panel']/div[@id='form-login:panel_content']/table[@id='form-login:Grid']/tbody/tr[4]/td/button[@id='form-login:btnRegistroUsuario']/span[@class='ui-button-text ui-c']");
+			driver.findElement(enlace).click();	
+			
+			//Se carga el form
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"form-registro", 3);
+			
+			//Se rellena el formulario
+			new PO_AltaForm().rellenaFormularioRegistro(driver, "user4", "user4@mail.gt", "u", "i");
 		}
+		
+		/*
 
 		//USUARIO
 		//PR16: Comprobar que en Inbox sólo aparecen listadas las tareas sin
@@ -597,8 +635,8 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 		public void prueba32() {
 			assertTrue(false);
 		}
-
 */
+
 		//PR33: Salir de sesión desde cuenta de administrador.
 		@Test
 		public void prueba33() {
@@ -625,6 +663,8 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 					"form-login", 3);
 		
 		}
+		
+		
 
 		//PR34: Salir de sesión desde cuenta de usuario normal.
 		@Test
@@ -635,12 +675,12 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 
 			//Esta dentro del menu Usuario
 			SeleniumUtils.EsperaCargaPagina(driver, "id",
-					"menuUsuario", 3);
+					"form-cuerpo:menuUsuario", 3);
 	
 
 			//Se cierra la sesion
 			By enlace = By
-					.xpath("//a[contains(@id, 'form-template:cerrarSesion')]");			
+					.xpath("/html/body/form[@id='form-cuerpo']/div[2]/button[@id='form-cuerpo:botonCerrarSesion']/span[@class='ui-button-text ui-c']");			
 			driver.findElement(enlace).click();
 
 			//Se comprueba que esta en index
@@ -653,10 +693,8 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 		@Test
 		public void prueba35() {
 			
-			//Se cambia el idioma al segundo
-			By enlace = By
-					.xpath("//a[contains(@id, 'EN')]");			
-			driver.findElement(enlace).click();
+			//Se comprueba que esta en el primer lenguaje
+			SeleniumUtils.textoPresentePagina(driver, "Crear usuario");
 			
 			//Login
 			testLoginParametros("form-login", "admin",
@@ -664,73 +702,116 @@ SeleniumUtils.EsperaCargaPagina(driver, "id",
 
 			//Se carga el form
 			SeleniumUtils.EsperaCargaPagina(driver, "id",
-					"menuUsuario", 3);
+					"listaUsuarios", 3);
+			//Se cambia el idioma al segundo
+			By enlace = By
+					.xpath("/html/body/div[1]/button[@id='EN']/span[@class='ui-button-text ui-c']");			
+			driver.findElement(enlace).click();
 
 			//Se comprueba que sigue en ingles
 			SeleniumUtils.textoPresentePagina(driver, "user1");
-			SeleniumUtils.textoPresentePagina(driver, "Back");
+			//SeleniumUtils.textoPresentePagina(driver, "ENGLISH");
 
 
 		}
 
+	
 		//PR36: Cambio del idioma por defecto a un segundo idioma y vuelta al
 		//idioma por defecto. (Probar algunas vistas)
 		@Test
-		public void prueba36() {
-			//Se cambia el idioma al segundo
-			By enlace = By
-					.xpath("//a[contains(@id, 'EN')]");			
-			driver.findElement(enlace).click();
+		public void prueba36() throws InterruptedException {
+			
 			
 			//Login
 			testLoginParametros("form-login", "admin",
 					"admin");
-
+			
 			//Se carga el form
 			SeleniumUtils.EsperaCargaPagina(driver, "id",
-					"menuUsuario", 3);
+					"listaUsuarios", 3);
+			
+			//Se cambia el idioma al segundo
+			By enlace = By
+					.xpath("/html/body/div[1]/button[@id='EN']/span[@class='ui-button-text ui-c']");			
+			driver.findElement(enlace).click();
 
 			//Se comprueba que sigue en ingles
 			SeleniumUtils.textoPresentePagina(driver, "user1");
-			SeleniumUtils.textoPresentePagina(driver, "Back");
 			
+			//SeleniumUtils.textoPresentePagina(driver, "Back");
+			Thread.sleep(1000);
 			//Pulsamos atras
 			enlace = By.xpath("/html/body/button[@id='j_idt16']/span[@class='ui-button-text ui-c']");
+			
 			driver.findElement(enlace).click();
+			Thread.sleep(1000);
+			//SeleniumUtils.textoPresentePagina(driver, "Create user");
+			
+			//Login
+			testLoginParametros("form-login", "admin",
+					"admin");
+			Thread.sleep(1000);
+
 			
 			//Cambiamos al primer lenguaje otra vez 
 			enlace = By
-					.xpath("//a[contains(@id, 'ES')]");			
+					.xpath("/html/body/div[1]/button[@id='ES']/span[@class='ui-button-text ui-c']");			
 			driver.findElement(enlace).click();
 			
 			//Se comprueba que se ha cambiado al primer lenguaje
-			SeleniumUtils.textoPresentePagina(driver, "Crear usuario");
+			//SeleniumUtils.textoPresentePagina(driver, "Atras");
 
-			
+				
 			
 			
 		}
 
-		/*
+		
 		//PR37: Intento de acceso a un URL privado de administrador con un usuario
 		//autenticado como usuario normal.
 		@Test
 		public void prueba37() {
+			
 			//Login como usuario
 			testLoginParametros("form-login", "user1",
 					"user1");
 
 			//Se carga el form
 			SeleniumUtils.EsperaCargaPagina(driver, "id",
-					"listaTareas", 3);
+					"form-cuerpo:menuUsuario", 3);
+			
+			driver.get(
+					"http://localhost:8280/SDI-53/admin/listaUsuarios.xhtml");
+			
+			//Te devuelve al index por no tener privilegios
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"form-login", 3);
+			
+			//Se comprueba que estamos en index por ser acceso restringido
+			driver.getCurrentUrl().equals(
+					"http://localhost:8180/SDI-53/index.xhtml");
+			SeleniumUtils.textoPresentePagina(driver, "Usuario");
+
+			
 		}
 
 		//PR38: Intento de acceso a un URL privado de usuario normal con un usuario
 		//no autenticado.
 		@Test
 		public void prueba38() {
-			assertTrue(false);
+			//Intentamos acceder a una pagina restringida
+			driver.get("http://localhost:8280/SDI-53/restricted/listaTareas.xhtml");
+
+			//Te devuelve al index por no tener privilegios
+			SeleniumUtils.EsperaCargaPagina(driver, "id",
+					"form-login", 3);
+			
+			//Se comprueba que estamos en index por ser acceso restringido
+			driver.getCurrentUrl().equals(
+					"http://localhost:8180/SDI-53/index.xhtml");
+			SeleniumUtils.textoPresentePagina(driver, "Usuario");
+
 		}
-*/
+
 	 
 }

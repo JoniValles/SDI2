@@ -9,7 +9,7 @@
 	<title>#{msg.tituloRegistro}</title>
 </h:head>
 <h:body>
-	<h:form>
+	<h:form id="form-registro">
 			<ui:include src="/snippets/login_menu.xhtml" />
 		<p:panel>
 
@@ -25,10 +25,10 @@
 					<p:inputText value="#{controller.login}" required="true"
 						requiredMessage="#{msgs.formAlta_nombre_requiredMessage}"
 						validatorMessage="#{msgs.formAlta_nombre_validatorMessage}"
-						id="login">
+						id="nombre">
 						<f:validateLength maximum="20" />
 					</p:inputText>
-					<p:message for="login" />
+					<p:message for="nombre" />
 				</h:panelGroup>
   
   #{msg.rellenaEmail}
@@ -36,26 +36,26 @@
 					<p:inputText value="#{controller.email}" required="true"
 						requiredMessage="#{msgs.formAlta_correo_requiredMessage}"
 						validatorMessage="#{msgs.formAlta_correo_validatorMessage}"
-						id="correo">
+						id="email">
 						<f:validateRegex pattern=".+@.+\.[a-z]+" />
 					</p:inputText>
-					<p:message for="correo" />
+					<p:message for="email" />
 				</h:panelGroup>
 		
 		#{msg.rellenaContraseña}
 		<h:panelGroup>
-					<p:password id="pass" value="#{controller.password}"
+					<p:password id="passw" value="#{controller.password}"
 						required="true" requiredMessage="#{msg.login_form_falta_pass}" />
 
 				</h:panelGroup>
 				
 		#{msg.repiteContraseña}
 		<h:panelGroup>
-					<p:password id="pass2" value="#{controller.password2}"
+					<p:password id="passwConf" value="#{controller.password2}"
 						required="true" requiredMessage="#{msg.login_form_falta_pass}" />
 
 				</h:panelGroup>
-				<p:commandButton value="#{msg.tituloRegistro}"
+				<p:commandButton id="registrar" value="#{msg.tituloRegistro}"
 					action="#{controller.crearUsuario}" />
 
 

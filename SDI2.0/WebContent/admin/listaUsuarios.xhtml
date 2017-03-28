@@ -50,10 +50,17 @@
 	</h:form>
 
 
-	<div>
-		<p:commandButton id="botonCerrarSesion"
-			action="#{controller.cerrarSesion}" icon="ui-icon-power" />
-	</div>
+<div>
+			<p:commandButton id="botonCerrarSesion"
+				action="#{controller.cerrarSesion}" icon="ui-icon-power" />
+
+			<p:commandButton value="#{msg.enlaceIdiomaES}" id="ES"
+				actionListener="#{settings.setSpanish}" update="@all"
+				immediate="true" />
+			<p:commandButton value="#{msg.enlaceIdiomaEN}" id="EN"
+				actionListener="#{settings.setEnglish}" update="@all"
+				immediate="true" />
+		</div>
 
 
 

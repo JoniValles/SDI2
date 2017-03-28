@@ -26,6 +26,8 @@
 		<h:form id="form-cuerpo">
 			<ui:insert name="cuerpo">#{msg.tituloDefectoCuerpo}</ui:insert>
 		</h:form>
+		
+		<h:form id="form-menu">
 
 		<p:menuitem id="cerrarSesion" value="#{msg.cerrarSesion}"
 			action="#{controller.cerrarSesion}" />
@@ -35,6 +37,7 @@
 		<p:menuitem value="#{msg.enlaceIdiomaEN}" id="EN"
 			actionListener="#{settings.setEnglish}" update="@all"
 			immediate="true" />
+			</h:form>
 	</h:body>
 </f:view>
 </html>
