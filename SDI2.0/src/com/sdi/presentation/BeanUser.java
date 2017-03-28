@@ -32,15 +32,23 @@ public class BeanUser implements Serializable {
 	 */
 	private static final long serialVersionUID = 4346788724162425311L;
 	
+	//usuario de la aplicacion
 	private User user = new User();
+	
 	private List<User> users = null;
 	private List<Task> tasks = null;
+	
+	//informacion que usaremos para crear usuarios
+	private String login;
+	private String password;
+	private String password2;
+	private String email;
 	
 	@ManagedProperty(value = "#{task}")
 	private BeanTask task = null;
 
 	private String pass=" ";
-
+		
 	
 	@ManagedProperty("#{category}")
 	private BeanCategory category;
@@ -129,6 +137,29 @@ public class BeanUser implements Serializable {
 
 	public void setCategory(BeanCategory category) {
 		this.category = category;
+	}
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPassword2() {
+		return password2;
+	}
+
+	public void setPassword2(String password2) {
+		this.password2 = password2;
 	}
 
 	public String validar() {
@@ -332,6 +363,22 @@ public class BeanUser implements Serializable {
 		this.categoryName = categoryName;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
 	public String listadoCategorias(){
 		return "true";
 		
@@ -362,6 +409,39 @@ public class BeanUser implements Serializable {
 
 		return "true";
 	}
+	
+	public String crearUsuario(){
+		UserService uService;
+		uService = Services.getUserService();
+		try {
+		if(password.equals(password2)){
+			User newUser = new User();
+			newUser.setEmail(email);
+			newUser.setLogin(login);
+			newUser.setPassword(password);
+		
+			uService.registerUser(newUser);
+			Log.info("Creando Usuario" );
+			return "true";
+		}else{
+			Log.info("Las contraseñas han de coincidir" );
+			email="";
+			login="";
+			password="";
+			password2="";
+			mostrarError("form_contraseñasDiferentes");
+			return "";
+		}
+		
+		} catch (BusinessException e) {
+			mostrarError(e.getMessage());
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "err";
+		}
+		
+	}
+	
 	public void mostrarError(String msg){
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		try{
@@ -376,5 +456,8 @@ public class BeanUser implements Serializable {
 
 	}
 
+
+
+	
 
 }

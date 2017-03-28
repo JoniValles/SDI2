@@ -37,16 +37,17 @@
 			<to-view-id>/index.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	
+
 
 	<navigation-rule>
 		<from-view-id>/registroUsuario.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{controller.atras}</from-action>
-			<from-outcome>true</from-outcome>
 			<to-view-id>/index.html</to-view-id>
 		</navigation-case>
 		<navigation-case>
-			<from-action>#{controller.registro}</from-action>
+			<from-action>#{controller.crearUsuario}</from-action>
 			<from-outcome>true</from-outcome>
 			<to-view-id>/index.xhtml</to-view-id>
 		</navigation-case>
